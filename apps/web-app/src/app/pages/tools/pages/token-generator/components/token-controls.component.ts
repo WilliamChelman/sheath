@@ -29,8 +29,8 @@ import {
   ToggleComponent,
   type ButtonGroupOption,
   type SelectOption,
-} from '../../../../ui/forms';
-import { CardComponent } from '../../../../ui/card';
+} from '@/ui/forms';
+import { CardComponent } from '@/ui/card';
 
 const TOKEN_GENERATOR_EXPORT_FORMAT_STORAGE_KEY =
   'sheath.token-generator.v1.exportFormat';

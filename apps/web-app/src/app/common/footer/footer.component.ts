@@ -10,46 +10,52 @@ import { footerBundle } from './footer.i18n';
   viewProviders: [provideIcons({ simpleGithub })],
   selector: 'app-footer',
   template: `
-    <footer
-      class="footer footer-center bg-base-200 text-base-content p-10 border-t border-base-300"
-    >
-      <nav class="grid grid-flow-col gap-4">
-        <a routerLink="/about" class="link link-hover">{{
-          t('links.about')
-        }}</a>
-        <a routerLink="/features" class="link link-hover">{{
-          t('links.tools')
-        }}</a>
-        <a
-          href="https://www.mcdmproductions.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link link-hover"
-          >{{ t('links.mcdm') }}</a
-        >
-      </nav>
-      <nav>
-        <div class="grid grid-flow-col gap-4">
-          <a
-            class="cursor-pointer hover:text-error transition-colors"
-            href="https://github.com/WilliamChelman/sheath"
-          >
-            <ng-icon name="simpleGithub" class="text-2xl" />
-          </a>
-        </div>
-      </nav>
-      <aside>
-        <p>
-          {{ t('legal.prefix', { year: currentYear, appName: t('appName') }) }}
+    <footer class="bg-base-200 text-base-content p-10 border-t border-base-300">
+      <div class="mx-auto w-full max-w-5xl flex flex-col items-center gap-6">
+        <nav class="flex flex-wrap justify-center gap-x-4 gap-y-2">
+          <a routerLink="/about" class="link link-hover">{{
+            t('links.about')
+          }}</a>
+          <a routerLink="/tools" class="link link-hover">{{
+            t('links.tools')
+          }}</a>
           <a
             href="https://www.mcdmproductions.com/"
             target="_blank"
             rel="noopener noreferrer"
-            class="link link-error"
-            >{{ t('legal.mcdmProductions') }}</a
-          >{{ t('legal.suffix') }}
-        </p>
-      </aside>
+            class="link link-hover"
+            >{{ t('links.mcdm') }}</a
+          >
+        </nav>
+
+        <nav class="w-full">
+          <div class="flex justify-center">
+            <a
+              class="hover:text-primary transition-colors inline-flex items-center justify-center"
+              href="https://github.com/WilliamChelman/sheath"
+              aria-label="GitHub"
+            >
+              <span class="sr-only">GitHub</span>
+              <ng-icon name="simpleGithub" class="text-2xl" />
+            </a>
+          </div>
+        </nav>
+
+        <aside class="w-full">
+          <p class="mx-auto max-w-prose text-center">
+            {{
+              t('legal.prefix', { year: currentYear, appName: t('appName') })
+            }}
+            <a
+              href="https://www.mcdmproductions.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="link link-error"
+              >{{ t('legal.mcdmProductions') }}</a
+            >{{ t('legal.suffix') }}
+          </p>
+        </aside>
+      </div>
     </footer>
   `,
 })

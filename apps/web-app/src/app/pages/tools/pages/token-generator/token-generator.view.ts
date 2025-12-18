@@ -11,7 +11,7 @@ import { I18nService } from '@/i18n';
 import { TokenControlsComponent } from './components/token-controls.component';
 import { TokenPreviewComponent } from './components/token-preview.component';
 import { tokenGeneratorBundle } from './token-generator.i18n';
-import { CardComponent } from '../../../ui/card';
+import { CardComponent } from '@/ui/card';
 import {
   BackgroundImage,
   DEFAULT_TOKEN_CONFIG,

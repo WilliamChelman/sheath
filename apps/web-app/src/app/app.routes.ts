@@ -17,15 +17,29 @@ export const appRoutes: Route[] = [
           import('./pages/about/about.view').then((m) => m.AboutView),
       },
       {
-        path: 'features',
+        path: 'tools',
         loadComponent: () =>
-          import('./pages/features/features.view').then((m) => m.FeaturesView),
+          import('./pages/tools/tools.view').then((m) => m.ToolsView),
       },
       {
         path: 'tools/token-generator',
         loadComponent: () =>
-          import('./pages/tools/token-generator/token-generator.view').then(
-            (m) => m.TokenGeneratorView,
+          import(
+            './pages/tools/pages/token-generator/token-generator.view'
+          ).then((m) => m.TokenGeneratorView),
+      },
+      {
+        path: 'compendium',
+        loadChildren: () =>
+          import('./pages/compendium/compendium.routes').then(
+            (m) => m.compendiumRoutes
+          ),
+      },
+      {
+        path: '**',
+        loadComponent: () =>
+          import('./pages/not-found/not-found.view').then(
+            (m) => m.NotFoundView
           ),
       },
     ],

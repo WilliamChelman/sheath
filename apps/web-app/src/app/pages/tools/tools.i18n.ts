@@ -1,11 +1,6 @@
 import { defineI18nBundle } from '@/i18n';
 
-/**
- * Features view i18n bundle.
- *
- * This bundle demonstrates ICU message format with plurals.
- */
-export const featuresBundle = defineI18nBundle({
+export const toolsBundle = defineI18nBundle({
   namespace: 'features',
   schema: {
     header: {

@@ -1,6 +1,6 @@
 import { I18nService } from '@/i18n';
 import { Component, inject } from '@angular/core';
-import { CardComponent } from '../../ui/card';
+import { CardComponent } from '@/ui/card';
 import { aboutBundle } from './about.i18n';
 
 @Component({

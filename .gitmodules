@@ -1,0 +1,3 @@
+[submodule "external/data-md"]
+	path = external/data-md
+	url = https://github.com/SteelCompendium/data-md.git

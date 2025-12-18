@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { I18nService, type FlattenKeys } from '@/i18n';
-import { featuresBundle } from './features.i18n';
+import { toolsBundle } from './tools.i18n';
 
 // Type for keys in this bundle
-type FeatureKey = FlattenKeys<typeof featuresBundle.schema>;
+type FeatureKey = FlattenKeys<typeof toolsBundle.schema>;
 
 interface Feature {
   icon: string;
@@ -129,9 +129,9 @@ interface Feature {
     </div>
   `,
 })
-export class FeaturesView {
+export class ToolsView {
   private readonly i18n = inject(I18nService);
-  protected readonly t = this.i18n.useBundleT(featuresBundle);
+  protected readonly t = this.i18n.useBundleT(toolsBundle);
 
   availableFeatures: Feature[] = [
     {
