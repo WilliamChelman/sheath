@@ -10,6 +10,7 @@ alwaysApply: true
 - Angular 20+ with standalone components (default, no need to specify `standalone: true`)
 - Tailwind CSS 4 for styling
 - DaisyUI 5 for component library
+- ng-icons for iconography (`@ng-icons/core`, `@ng-icons/heroicons`, `@ng-icons/simple-icons`)
 - NX monorepo workspace
 - Vitest for unit testing
 
@@ -243,6 +244,75 @@ export class UserListView {
   <!-- Responsive grid -->
 </div>
 ```
+
+## Icons with ng-icons
+
+### Setup & Usage
+
+- Use `@ng-icons/core` as the base package
+- Use `@ng-icons/heroicons` for UI icons (outline and solid variants)
+- Use `@ng-icons/simple-icons` for brand/social media icons
+- Import `NgIcon` component and `provideIcons` function
+- Register icons in `viewProviders` for component-scoped icons
+
+```typescript
+import { Component } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { heroMagnifyingGlass, heroBars3, heroXMark } from '@ng-icons/heroicons/outline';
+import { heroCheckCircleSolid } from '@ng-icons/heroicons/solid';
+import { simpleGithub, simpleX, simpleYoutube } from '@ng-icons/simple-icons';
+
+@Component({
+  imports: [NgIcon],
+  viewProviders: [provideIcons({ heroMagnifyingGlass, heroBars3, heroXMark, heroCheckCircleSolid, simpleGithub, simpleX, simpleYoutube })],
+  template: `
+    <!-- UI Icons (Heroicons) -->
+    <button class="btn btn-ghost btn-circle">
+      <ng-icon name="heroMagnifyingGlass" class="text-xl" />
+    </button>
+
+    <!-- Solid variant -->
+    <ng-icon name="heroCheckCircleSolid" class="text-success text-2xl" />
+
+    <!-- Social/Brand Icons (Simple Icons) -->
+    <a href="https://github.com">
+      <ng-icon name="simpleGithub" class="text-2xl hover:text-primary transition-colors" />
+    </a>
+  `,
+})
+export class MyComponent {}
+```
+
+### Icon Naming Conventions
+
+- **Heroicons outline**: `hero{IconName}` (e.g., `heroMagnifyingGlass`, `heroBars3`)
+- **Heroicons solid**: `hero{IconName}Solid` (e.g., `heroCheckCircleSolid`)
+- **Simple Icons**: `simple{BrandName}` (e.g., `simpleGithub`, `simpleX`, `simpleYoutube`)
+
+### Sizing Icons
+
+- Use Tailwind text size classes: `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl`, etc.
+- Icons inherit `currentColor` by default, use text color classes to style them
+
+```html
+<!-- Small icon -->
+<ng-icon name="heroCheck" class="text-sm" />
+
+<!-- Medium icon (default) -->
+<ng-icon name="heroCheck" class="text-xl" />
+
+<!-- Large icon with color -->
+<ng-icon name="heroCheck" class="text-3xl text-success" />
+```
+
+### Best Practices
+
+- ✅ Import only the icons you need (tree-shaking friendly)
+- ✅ Use `viewProviders` for component-scoped icon registration
+- ✅ Prefer Heroicons outline for UI, solid for emphasis/status
+- ✅ Use Simple Icons for brand/social media icons
+- ❌ Avoid inline SVGs - use ng-icons instead
+- ❌ Don't register all icons globally - keep bundles small
 
 ## Services & State
 

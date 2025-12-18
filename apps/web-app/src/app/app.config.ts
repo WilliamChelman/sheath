@@ -1,5 +1,8 @@
+import { I18nService } from '@/i18n';
 import {
   ApplicationConfig,
+  inject,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -11,5 +14,9 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
+    provideAppInitializer(() => {
+      const i18n = inject(I18nService);
+      i18n.init({ defaultLocale: 'en', bundles: [] });
+    }),
   ],
 };
