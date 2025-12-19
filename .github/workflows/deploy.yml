@@ -34,6 +34,9 @@ jobs:
       - name: Build for GitHub Pages
         run: npx nx build web-app --configuration=production --base-href=/sheath/
 
+      - name: Build data-md-content.json
+        run: npm run generate:data-md-content
+
       - name: Add 404.html for SPA routing
         run: cp dist/apps/web-app/browser/index.html dist/apps/web-app/browser/404.html
 
