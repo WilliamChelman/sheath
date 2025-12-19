@@ -23,19 +23,7 @@ export const toolsBundle = defineI18nBundle({
         title: { message: '' },
         description: { message: '' },
       },
-      heroBuilder: {
-        title: { message: '' },
-        description: { message: '' },
-      },
-      rulesReference: {
-        title: { message: '' },
-        description: { message: '' },
-      },
-      combatTracker: {
-        title: { message: '' },
-        description: { message: '' },
-      },
-      npcManager: {
+      compendium: {
         title: { message: '' },
         description: { message: '' },
       },
@@ -43,15 +31,7 @@ export const toolsBundle = defineI18nBundle({
         title: { message: '' },
         description: { message: '' },
       },
-      diceRoller: {
-        title: { message: '' },
-        description: { message: '' },
-      },
-      sessionNotes: {
-        title: { message: '' },
-        description: { message: '' },
-      },
-      partyDashboard: {
+      otherTools: {
         title: { message: '' },
         description: { message: '' },
       },
@@ -86,45 +66,20 @@ export const toolsBundle = defineI18nBundle({
           description:
             'Create custom monster tokens for your TTRPG sessions. Customize colors, size, text, and export in multiple formats.',
         },
-        heroBuilder: {
-          title: 'Hero Builder',
-          description:
-            'Create and customize your Draw Steel heroes. Select ancestry, class, and abilities with guided character creation.',
-        },
-        rulesReference: {
-          title: 'Rules Reference',
+        compendium: {
+          title: 'Compendium',
           description:
             'Quick lookup for conditions, abilities, and core rules. Find what you need without flipping through the book.',
-        },
-        combatTracker: {
-          title: 'Combat Tracker',
-          description:
-            "Manage initiative with Draw Steel's unique turn-trading system. Track stamina, conditions, and villain actions.",
-        },
-        npcManager: {
-          title: 'NPC & Monster Manager',
-          description:
-            'Build encounters and manage adversaries. Quick stat blocks and ability references for Directors.',
         },
         encounterBuilder: {
           title: 'Encounter Builder',
           description:
             'Design balanced encounters using threat budgets. Drag and drop monsters and set up battlefields.',
         },
-        diceRoller: {
-          title: 'Dice Roller',
+        otherTools: {
+          title: 'Other Tools',
           description:
-            'Built-in dice roller with Draw Steel mechanics. Power roll calculations and result interpretation.',
-        },
-        sessionNotes: {
-          title: 'Session Notes',
-          description:
-            'Keep track of your campaign with integrated notes, NPC tracking, and story progression.',
-        },
-        partyDashboard: {
-          title: 'Party Dashboard',
-          description:
-            'Overview of your entire party. Track resources, conditions, and coordinate tactics.',
+            'Other tools might come up in the future depending on feedback and needs (dice rolls, hero builder, ...).',
         },
       },
       toolCount:

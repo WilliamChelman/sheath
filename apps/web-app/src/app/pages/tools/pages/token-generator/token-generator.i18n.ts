@@ -32,6 +32,10 @@ export const tokenGeneratorBundle = defineI18nBundle({
     },
     controls: {
       title: { message: '' },
+      reset: {
+        label: { message: '' },
+        title: { message: '' },
+      },
       name: { label: { message: '' }, placeholder: { message: '' } },
       initials: {
         label: { message: '' },
@@ -47,6 +51,7 @@ export const tokenGeneratorBundle = defineI18nBundle({
       toggles: {
         showInitials: { message: '' },
         showName: { message: '' },
+        showMinionIcon: { message: '' },
       },
       namePosition: { label: { message: '' } },
     },
@@ -113,6 +118,10 @@ export const tokenGeneratorBundle = defineI18nBundle({
       },
       controls: {
         title: 'Token Configuration',
+        reset: {
+          label: '↺ Reset',
+          title: 'Reset all options to defaults',
+        },
         name: { label: 'Token Name', placeholder: 'Enter name' },
         initials: {
           label: 'Initials',
@@ -128,6 +137,7 @@ export const tokenGeneratorBundle = defineI18nBundle({
         toggles: {
           showInitials: 'Show initials',
           showName: 'Show name on token',
+          showMinionIcon: 'Show minion icon',
         },
         namePosition: { label: 'Name Position' },
       },

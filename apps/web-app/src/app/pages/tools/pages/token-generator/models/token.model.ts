@@ -29,6 +29,7 @@ export interface TokenConfig {
   size: TokenSize;
   showName: boolean;
   showInitials: boolean;
+  showMinionIcon: boolean;
   namePosition: NamePosition;
   backgroundImage?: BackgroundImage;
 }
@@ -56,6 +57,7 @@ export const DEFAULT_TOKEN_CONFIG: TokenConfig = {
   size: 'large',
   showName: true,
   showInitials: true,
+  showMinionIcon: false,
   namePosition: 'bottom',
 };
 

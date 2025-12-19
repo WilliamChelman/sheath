@@ -21,6 +21,7 @@
     "@ng-icons/heroicons": "^32.0.0",
     "@ng-icons/simple-icons": "^32.0.0",
     "@tailwindcss/postcss": "^4.1.18",
+    "dexie": "^4.2.1",
     "flexsearch": "^0.8.212",
     "intl-messageformat": "^11.0.2",
     "postcss": "^8.5.6",

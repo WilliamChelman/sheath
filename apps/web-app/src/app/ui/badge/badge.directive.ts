@@ -1,21 +1,9 @@
-import { Component, input } from '@angular/core';
+import { Directive, input } from '@angular/core';
+import { BadgeColor, BadgeSize, BadgeVariant } from './badge.component';
 
-export type BadgeColor =
-  | 'neutral'
-  | 'primary'
-  | 'secondary'
-  | 'accent'
-  | 'info'
-  | 'success'
-  | 'warning'
-  | 'error';
-
-export type BadgeVariant = 'solid' | 'outline' | 'ghost';
-
-export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg';
-
-@Component({
-  selector: 'app-badge',
+@Directive({
+  selector: '[appBadge]',
+  standalone: true,
   host: {
     class: 'badge',
     '[class.badge-neutral]': 'color() === "neutral"',
@@ -33,19 +21,9 @@ export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg';
     '[class.badge-md]': 'size() === "md"',
     '[class.badge-lg]': 'size() === "lg"',
   },
-  template: `
-    @if (label() !== null) {
-      {{ label() }}
-    } @else {
-      <ng-content />
-    }
-  `,
 })
-export class BadgeComponent {
-  /** Optional label. If omitted, renders projected content. */
-  label = input<string | null>(null);
-
-  color = input<BadgeColor>('neutral');
-  variant = input<BadgeVariant>('solid');
-  size = input<BadgeSize>('md');
+export class BadgeDirective {
+  color = input<BadgeColor>('neutral', { alias: 'appBadge' });
+  variant = input<BadgeVariant>('solid', { alias: 'appBadgeVariant' });
+  size = input<BadgeSize>('md', { alias: 'appBadgeSize' });
 }

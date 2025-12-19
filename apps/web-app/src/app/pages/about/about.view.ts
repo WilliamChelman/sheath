@@ -1,12 +1,14 @@
 import { I18nService } from '@/i18n';
 import { Component, inject } from '@angular/core';
 import { CardComponent } from '@/ui/card';
+import { PageTitleDirective } from '@/common/page-title';
 import { aboutBundle } from './about.i18n';
 
 @Component({
   selector: 'app-about-view',
-  imports: [CardComponent],
+  imports: [CardComponent, PageTitleDirective],
   template: `
+    <span class="sr-only" appPageTitle>{{ t('pageTitle') }}</span>
     <div class="container mx-auto max-w-3xl px-4 py-16">
       <app-card
         class="bg-base-100 shadow-xl"

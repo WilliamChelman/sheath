@@ -5,6 +5,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroBars3, heroGlobeAlt } from '@ng-icons/heroicons/outline';
 import { navbarBundle } from './navbar.i18n';
 import { ThemeSwitchComponent } from '../theme-switch/theme-switch.component';
+import { ButtonDirective } from '@/ui/button';
 import {
   DropdownContainerDirective,
   MenuItemDirective,
@@ -22,6 +23,7 @@ import {
     MenuTriggerDirective,
     MenuPanelComponent,
     MenuItemDirective,
+    ButtonDirective,
   ],
   viewProviders: [provideIcons({ heroBars3, heroGlobeAlt })],
   selector: 'app-navbar',
@@ -35,7 +37,7 @@ import {
           <button
             appMenuTrigger
             [appMenuTriggerFor]="mobileMenu"
-            class="btn btn-ghost"
+            appButton="ghost"
           >
             <ng-icon name="heroBars3" class="text-xl" />
           </button>
@@ -58,11 +60,12 @@ import {
         </div>
         <a
           routerLink="/"
-          class="btn btn-ghost text-xl font-bold tracking-tight"
+          appButton="ghost"
+          class="text-xl font-bold tracking-tight"
         >
-          <span class="text-error">⚔️</span>
+          <span class="text-primary">⚔️</span>
           <span
-            class="bg-linear-to-r from-error to-warning bg-clip-text text-transparent"
+            class="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent"
           >
             {{ t('brand') }}
           </span>
@@ -74,9 +77,9 @@ import {
             <li>
               <a
                 [routerLink]="link.path"
-                routerLinkActive="bg-error/10 text-error"
+                routerLinkActive="bg-primary/10 text-primary"
                 [routerLinkActiveOptions]="{ exact: link.exact ?? false }"
-                class="rounded-lg font-medium transition-colors hover:bg-error/5"
+                class="rounded-lg font-medium transition-colors hover:bg-primary/5"
               >
                 {{ t(link.labelKey) }}
               </a>
@@ -91,7 +94,8 @@ import {
           <button
             appMenuTrigger
             [appMenuTriggerFor]="languageMenu"
-            class="btn btn-ghost btn-circle"
+            appButton="ghost"
+            appButtonShape="circle"
           >
             <ng-icon name="heroGlobeAlt" class="text-xl" />
           </button>

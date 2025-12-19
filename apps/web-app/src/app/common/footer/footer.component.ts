@@ -50,7 +50,7 @@ import { footerBundle } from './footer.i18n';
               href="https://www.mcdmproductions.com/"
               target="_blank"
               rel="noopener noreferrer"
-              class="link link-error"
+              class="link link-primary"
               >{{ t('legal.mcdmProductions') }}</a
             >{{ t('legal.suffix') }}
           </p>

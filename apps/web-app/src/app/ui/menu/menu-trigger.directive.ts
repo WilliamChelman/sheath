@@ -8,11 +8,11 @@ import { CdkMenuTrigger } from '@angular/cdk/menu';
  * @example
  * ```html
  * <div class="dropdown">
- *   <button [cdkMenuTriggerFor]="menu" class="btn">Open Menu</button>
+ *   <button [appMenuTriggerFor]="menu" appButton>Open Menu</button>
  *   <ng-template #menu>
- *     <ul cdkMenu class="menu dropdown-content">
- *       <li><button cdkMenuItem>Item 1</button></li>
- *     </ul>
+ *     <app-menu-panel>
+ *       <li><button appMenuItem>Item 1</button></li>
+ *     </app-menu-panel>
  *   </ng-template>
  * </div>
  * ```

@@ -8,6 +8,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { I18nService } from '@/i18n';
+import { PageTitleDirective } from '../../../../common/page-title/page-title.directive';
+import { BadgeComponent } from '@/ui/badge';
 import { TokenControlsComponent } from './components/token-controls.component';
 import { TokenPreviewComponent } from './components/token-preview.component';
 import { tokenGeneratorBundle } from './token-generator.i18n';
@@ -27,6 +29,7 @@ type PersistedTokenConfig = Pick<
   | 'borderWidth'
   | 'showInitials'
   | 'showName'
+  | 'showMinionIcon'
   | 'namePosition'
 >;
 
@@ -34,15 +37,21 @@ const TOKEN_GENERATOR_CONFIG_STORAGE_KEY = 'sheath.token-generator.v1.config';
 
 @Component({
   selector: 'app-token-generator-view',
-  imports: [TokenPreviewComponent, TokenControlsComponent, CardComponent],
+  imports: [
+    TokenPreviewComponent,
+    TokenControlsComponent,
+    CardComponent,
+    PageTitleDirective,
+    BadgeComponent,
+  ],
   template: `
     <div class="container mx-auto max-w-6xl px-4 py-8">
       <!-- Header -->
       <div class="text-center mb-8">
-        <div class="badge badge-primary badge-outline mb-4 gap-2">
+        <app-badge color="primary" variant="outline" class="mb-4 gap-2">
           <span>🎨</span> {{ t('header.badge') }}
-        </div>
-        <h1 class="text-3xl md:text-4xl font-bold mb-3">
+        </app-badge>
+        <h1 appPageTitle class="text-3xl md:text-4xl font-bold mb-3">
           {{ t('header.title') }}
         </h1>
         <p class="text-base-content/60 max-w-xl mx-auto">
@@ -162,6 +171,7 @@ export class TokenGeneratorView {
         borderWidth: cfg.borderWidth,
         showInitials: cfg.showInitials,
         showName: cfg.showName,
+        showMinionIcon: cfg.showMinionIcon,
         namePosition: cfg.namePosition,
       });
     });
@@ -224,6 +234,8 @@ export class TokenGeneratorView {
       if (typeof obj.showInitials === 'boolean')
         result.showInitials = obj.showInitials;
       if (typeof obj.showName === 'boolean') result.showName = obj.showName;
+      if (typeof obj.showMinionIcon === 'boolean')
+        result.showMinionIcon = obj.showMinionIcon;
 
       if (obj.namePosition === 'top' || obj.namePosition === 'bottom') {
         result.namePosition = obj.namePosition;

@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { I18nService, type FlattenKeys } from '@/i18n';
+import { PageTitleDirective } from '../../common/page-title/page-title.directive';
+import { BadgeComponent } from '@/ui/badge';
 import { toolsBundle } from './tools.i18n';
 
 // Type for keys in this bundle
@@ -15,14 +17,14 @@ interface Feature {
 
 @Component({
   selector: 'app-features-view',
-  imports: [RouterLink],
+  imports: [RouterLink, PageTitleDirective, BadgeComponent],
   template: `
     <div class="container mx-auto max-w-6xl px-4 py-16">
       <div class="text-center mb-16">
-        <div class="badge badge-error badge-outline mb-4 gap-2">
+        <app-badge color="primary" variant="outline" class="mb-4 gap-2">
           <span>⚔️</span> {{ t('header.badge') }}
-        </div>
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        </app-badge>
+        <h1 appPageTitle class="text-4xl md:text-5xl font-bold mb-4">
           {{ t('header.title') }}
         </h1>
         <p class="text-base-content/60 max-w-2xl mx-auto text-lg">
@@ -37,9 +39,9 @@ interface Feature {
       <!-- Available Now Section -->
       <div class="mb-16">
         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-          <span class="badge badge-success">{{
-            t('sections.available.badge')
-          }}</span>
+          <app-badge color="success">
+            {{ t('sections.available.badge') }}
+          </app-badge>
           {{ t('sections.available.title') }}
         </h2>
         <div class="grid md:grid-cols-2 gap-6">
@@ -52,7 +54,7 @@ interface Feature {
                 <div class="card-body">
                   <div class="flex items-start gap-4">
                     <div
-                      class="w-10 h-10 rounded-lg bg-error/10 flex items-center justify-center text-xl group-hover:bg-error group-hover:text-error-content transition-colors"
+                      class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-xl group-hover:bg-primary group-hover:text-primary-content transition-colors"
                     >
                       {{ feature.icon }}
                     </div>
@@ -72,7 +74,7 @@ interface Feature {
                 <div class="card-body">
                   <div class="flex items-start gap-4">
                     <div
-                      class="w-10 h-10 rounded-lg bg-error/10 flex items-center justify-center text-xl"
+                      class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-xl"
                     >
                       {{ feature.icon }}
                     </div>
@@ -95,9 +97,9 @@ interface Feature {
       <!-- Coming Soon Section -->
       <div>
         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-          <span class="badge badge-warning">{{
-            t('sections.comingSoon.badge')
-          }}</span>
+          <app-badge color="secondary">
+            {{ t('sections.comingSoon.badge') }}
+          </app-badge>
           {{ t('sections.comingSoon.title') }}
         </h2>
         <div class="grid md:grid-cols-2 gap-6">
@@ -108,7 +110,7 @@ interface Feature {
               <div class="card-body">
                 <div class="flex items-start gap-4">
                   <div
-                    class="w-10 h-10 rounded-lg bg-warning/10 flex items-center justify-center text-xl"
+                    class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-xl"
                   >
                     {{ feature.icon }}
                   </div>
@@ -141,32 +143,14 @@ export class ToolsView {
       link: '/tools/token-generator',
     },
     {
-      icon: '🛡️',
-      titleKey: 'tools.heroBuilder.title',
-      descriptionKey: 'tools.heroBuilder.description',
-      link: null,
-    },
-    {
       icon: '📖',
-      titleKey: 'tools.rulesReference.title',
-      descriptionKey: 'tools.rulesReference.description',
-      link: null,
+      titleKey: 'tools.compendium.title',
+      descriptionKey: 'tools.compendium.description',
+      link: '/compendium',
     },
   ];
 
   comingSoonFeatures: Feature[] = [
-    {
-      icon: '⚔️',
-      titleKey: 'tools.combatTracker.title',
-      descriptionKey: 'tools.combatTracker.description',
-      link: null,
-    },
-    {
-      icon: '🎭',
-      titleKey: 'tools.npcManager.title',
-      descriptionKey: 'tools.npcManager.description',
-      link: null,
-    },
     {
       icon: '🗺️',
       titleKey: 'tools.encounterBuilder.title',
@@ -174,21 +158,9 @@ export class ToolsView {
       link: null,
     },
     {
-      icon: '🎲',
-      titleKey: 'tools.diceRoller.title',
-      descriptionKey: 'tools.diceRoller.description',
-      link: null,
-    },
-    {
-      icon: '📝',
-      titleKey: 'tools.sessionNotes.title',
-      descriptionKey: 'tools.sessionNotes.description',
-      link: null,
-    },
-    {
-      icon: '👥',
-      titleKey: 'tools.partyDashboard.title',
-      descriptionKey: 'tools.partyDashboard.description',
+      icon: '➕',
+      titleKey: 'tools.otherTools.title',
+      descriptionKey: 'tools.otherTools.description',
       link: null,
     },
   ];

@@ -31,6 +31,7 @@ import {
   type SelectOption,
 } from '@/ui/forms';
 import { CardComponent } from '@/ui/card';
+import { ButtonDirective } from '@/ui/button';
 
 const TOKEN_GENERATOR_EXPORT_FORMAT_STORAGE_KEY =
   'sheath.token-generator.v1.exportFormat';
@@ -46,13 +47,24 @@ const TOKEN_GENERATOR_EXPORT_FORMAT_STORAGE_KEY =
     FileInputComponent,
     RangeInputComponent,
     CardComponent,
+    ButtonDirective,
   ],
   template: `
-    <app-card
-      [title]="t('controls.title')"
-      titleClass="text-lg"
-      bodyClass="gap-4"
-    >
+    <app-card bodyClass="gap-4">
+      <!-- Header with title and reset button -->
+      <div class="flex items-center justify-between">
+        <h3 class="card-title text-lg">{{ t('controls.title') }}</h3>
+        <button
+          appButton
+          appButtonSize="xs"
+          appButtonOutline
+          (click)="resetToDefaults()"
+          [title]="t('controls.reset.title')"
+        >
+          {{ t('controls.reset.label') }}
+        </button>
+      </div>
+
       <!-- Name Input -->
       <app-text-input
         [label]="t('controls.name.label')"
@@ -115,6 +127,12 @@ const TOKEN_GENERATOR_EXPORT_FORMAT_STORAGE_KEY =
         (checkedChange)="updateConfig({ showName: $event })"
       />
 
+      <app-toggle
+        [label]="t('controls.toggles.showMinionIcon')"
+        [checked]="config().showMinionIcon"
+        (checkedChange)="updateConfig({ showMinionIcon: $event })"
+      />
+
       @if (config().showName) {
         <app-button-group
           [label]="t('controls.namePosition.label')"
@@ -158,14 +176,20 @@ const TOKEN_GENERATOR_EXPORT_FORMAT_STORAGE_KEY =
           <!-- Image action buttons -->
           <div class="flex gap-2">
             <button
-              class="btn btn-sm btn-outline flex-1"
+              appButton
+              appButtonSize="sm"
+              appButtonOutline
+              class="flex-1"
               (click)="resetImagePosition()"
               [title]="t('backgroundImage.actions.resetTitle')"
             >
               {{ t('backgroundImage.actions.reset') }}
             </button>
             <button
-              class="btn btn-sm btn-error btn-outline flex-1"
+              appButton="error"
+              appButtonSize="sm"
+              appButtonOutline
+              class="flex-1"
               (click)="removeImage()"
               [title]="t('backgroundImage.actions.removeTitle')"
             >
@@ -190,7 +214,7 @@ const TOKEN_GENERATOR_EXPORT_FORMAT_STORAGE_KEY =
         [(value)]="exportFormat"
       />
 
-      <button class="btn btn-primary w-full" (click)="onExport()">
+      <button appButton="primary" class="w-full" (click)="onExport()">
         {{ t('export.download', { format: exportFormat().toUpperCase() }) }}
       </button>
     </app-card>
@@ -388,5 +412,14 @@ export class TokenControlsComponent {
 
   removeImage(): void {
     this.updateConfig({ backgroundImage: undefined });
+  }
+
+  resetToDefaults(): void {
+    // Reset to defaults but keep the background image if present
+    const currentBackgroundImage = this.config().backgroundImage;
+    this.config.set({
+      ...DEFAULT_TOKEN_CONFIG,
+      backgroundImage: currentBackgroundImage,
+    });
   }
 }
