@@ -175,7 +175,7 @@ export class CompendiumService {
 
     try {
       const data = await firstValueFrom(
-        this.http.get<CompendiumData>('/data-md-content.json'),
+        this.http.get<CompendiumData>('data-md-content.json'),
       );
       this._entries.set(data.files);
 
