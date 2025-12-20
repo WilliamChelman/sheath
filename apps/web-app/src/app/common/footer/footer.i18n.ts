@@ -20,6 +20,7 @@ export const footerBundle = defineI18nBundle({
       mcdmProductions: { message: '' },
       suffix: { message: '' },
     },
+    buildDate: { message: '', params: {} as { date: string } },
   } as const,
   locales: {
     en: {
@@ -35,6 +36,7 @@ export const footerBundle = defineI18nBundle({
         mcdmProductions: 'MCDM Productions',
         suffix: '.',
       },
+      buildDate: 'Built on {date}',
     },
   },
 });

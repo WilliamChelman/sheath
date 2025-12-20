@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, computed } from '@angular/core';
 import { Index as FlexSearchIndex } from 'flexsearch';
+import { firstValueFrom } from 'rxjs';
+import { ConfigService } from '../../../services/config.service';
 import type {
   ActiveFilters,
   CompendiumData,
@@ -34,17 +37,12 @@ const TYPE_TO_EXTRA_FACETS: Record<string, readonly FacetKey[]> = {
 };
 
 /**
- * Get the base type category for pattern-based types
- */
-function getBaseTypeCategory(type: string): string {
-  return type;
-}
-
-/**
  * Service for loading, indexing, and searching compendium content.
  */
 @Injectable({ providedIn: 'root' })
 export class CompendiumService {
+  private readonly http = inject(HttpClient);
+  private readonly configService = inject(ConfigService);
   private readonly cacheService = inject(CompendiumCacheService);
 
   private readonly _isLoading = signal(false);
@@ -143,7 +141,7 @@ export class CompendiumService {
 
     if (selectedTypes.length > 0) {
       for (const selectedType of selectedTypes) {
-        const baseCategory = getBaseTypeCategory(selectedType);
+        const baseCategory = selectedType;
         const extraFacets = TYPE_TO_EXTRA_FACETS[baseCategory];
         if (extraFacets) {
           for (const facetKey of extraFacets) {
@@ -176,16 +174,14 @@ export class CompendiumService {
     this._error.set(null);
 
     try {
-      const response = await fetch('/data-md-content.json');
-      if (!response.ok) {
-        throw new Error(`Failed to fetch compendium data: ${response.status}`);
-      }
-
-      const data: CompendiumData = await response.json();
+      const data = await firstValueFrom(
+        this.http.get<CompendiumData>('/data-md-content.json'),
+      );
       this._entries.set(data.files);
 
       // Build entry map and index (using cache if available)
-      await this.buildIndex(data.files, data.contentHash);
+      const contentHash = data.contentHash;
+      await this.buildIndex(data.files, contentHash);
 
       this._isLoaded.set(true);
     } catch (err) {

@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start:web-app": "npx nx serve web-app",
-    "generate:data-md-manifest": "node tools/generate-data-md-manifest.mjs",
-    "generate:data-md-content": "node tools/generate-data-md-content.mjs"
+    "generate:all": "npm run generate:data-md-content && npm run generate:config",
+    "generate:data-md-content": "node tools/generate-data-md-content.mjs",
+    "generate:config": "node tools/generate-config.mjs"
   },
   "private": true,
   "dependencies": {
@@ -16,6 +17,7 @@
     "@angular/forms": "~20.1.0",
     "@angular/platform-browser": "~20.1.0",
     "@angular/router": "~20.1.0",
+    "@angular/service-worker": "^20.1.7",
     "@ng-icons/core": "^32.0.0",
     "@ng-icons/game-icons": "^32.0.0",
     "@ng-icons/heroicons": "^32.0.0",

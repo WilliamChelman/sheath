@@ -32,7 +32,8 @@
             "output": "data-md"
           }
         ],
-        "styles": ["apps/web-app/src/styles.css"]
+        "styles": ["apps/web-app/src/styles.css"],
+        "serviceWorker": "apps/web-app/ngsw-config.json"
       },
       "configurations": {
         "production": {

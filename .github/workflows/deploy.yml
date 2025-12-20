@@ -31,8 +31,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Build data-md-content.json
-        run: npm run generate:data-md-content
+      - name: Generate all
+        run: npm run generate:all
 
       - name: Build for GitHub Pages
         run: npx nx build web-app --configuration=production --base-href=/sheath/

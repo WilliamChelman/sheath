@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { simpleGithub } from '@ng-icons/simple-icons';
 import { I18nService } from '@/i18n';
+import { ConfigService } from '../../services/config.service';
 import { footerBundle } from './footer.i18n';
 
 @Component({
@@ -54,6 +55,11 @@ import { footerBundle } from './footer.i18n';
               >{{ t('legal.mcdmProductions') }}</a
             >{{ t('legal.suffix') }}
           </p>
+          @if (formattedBuildDate) {
+            <p class="mt-2 text-center text-sm opacity-60">
+              {{ t('buildDate', { date: formattedBuildDate }) }}
+            </p>
+          }
         </aside>
       </div>
     </footer>
@@ -61,8 +67,18 @@ import { footerBundle } from './footer.i18n';
 })
 export class FooterComponent {
   private readonly i18n = inject(I18nService);
+  private readonly configService = inject(ConfigService);
 
   protected readonly t = this.i18n.useBundleT(footerBundle);
 
   protected readonly currentYear = new Date().getFullYear();
+
+  protected get formattedBuildDate(): string {
+    const buildDate = this.configService.config?.buildDate;
+    if (!buildDate) return '';
+    return new Date(buildDate).toLocaleString(undefined, {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    });
+  }
 }
