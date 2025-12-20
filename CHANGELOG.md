@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/WilliamChelman/sheath/compare/v1.0.0...v1.0.1) (2025-12-20)
+
+
+### Bug Fixes
+
+* remove .md files from assets ([35bd2c8](https://github.com/WilliamChelman/sheath/commit/35bd2c81bcbd438fd55fd94573c4d8ea5095a407))
+
 # 1.0.0 (2025-12-20)
 
 
