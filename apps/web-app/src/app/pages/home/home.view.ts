@@ -54,7 +54,7 @@ import { homeBundle } from './home.i18n';
               style="animation-delay: 0.4s"
             >
               <a
-                routerLink="/features"
+                routerLink="/tools"
                 appButton="primary"
                 appButtonSize="lg"
                 class="shadow-lg shadow-primary/25"
@@ -82,7 +82,6 @@ import { homeBundle } from './home.i18n';
           </div>
         </div>
       </section>
-
     </div>
   `,
   styles: `
