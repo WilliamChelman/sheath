@@ -46,9 +46,9 @@ export const toolsBundle = defineI18nBundle({
     en: {
       header: {
         badge: 'Draw Steel Tools',
-        title: 'Your Arsenal',
+        title: 'Tools',
         subtitle:
-          "Everything you need to run epic Draw Steel sessions. From character management to combat tracking—we've got you covered.",
+          'Helpful utilities for running Draw Steel sessions.',
       },
       sections: {
         available: {
@@ -64,22 +64,22 @@ export const toolsBundle = defineI18nBundle({
         tokenGenerator: {
           title: 'Token Generator',
           description:
-            'Create custom monster tokens for your TTRPG sessions. Customize colors, size, text, and export in multiple formats.',
+            'Create custom monster tokens with configurable colors, size, and text.',
         },
         compendium: {
           title: 'Compendium',
           description:
-            'Quick lookup for conditions, abilities, and core rules. Find what you need without flipping through the book.',
+            'Quick lookup for conditions, abilities, and core rules.',
         },
         encounterBuilder: {
           title: 'Encounter Builder',
           description:
-            'Design balanced encounters using threat budgets. Drag and drop monsters and set up battlefields.',
+            'Design balanced encounters using threat budgets.',
         },
         otherTools: {
-          title: 'Other Tools',
+          title: 'More Tools',
           description:
-            'Other tools might come up in the future depending on feedback and needs (dice rolls, hero builder, ...).',
+            'Additional tools based on community feedback.',
         },
       },
       toolCount:
