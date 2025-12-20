@@ -41,6 +41,9 @@ jobs:
       - name: Add 404.html for SPA routing
         run: cp dist/apps/web-app/browser/index.html dist/apps/web-app/browser/404.html
 
+      - name: Trigger release
+        run: npm run release
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

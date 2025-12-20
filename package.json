@@ -6,7 +6,8 @@
     "start:web-app": "npx nx serve web-app",
     "generate:all": "npm run generate:data-md-content && npm run generate:config",
     "generate:data-md-content": "node tools/generate-data-md-content.mjs",
-    "generate:config": "node tools/generate-config.mjs"
+    "generate:config": "node tools/generate-config.mjs",
+    "release": "npx --package semantic-release@25 --package @semantic-release/exec@7 --package @semantic-release/commit-analyzer@13 --package @semantic-release/changelog@6 --package @semantic-release/git@10 semantic-release"
   },
   "private": true,
   "dependencies": {

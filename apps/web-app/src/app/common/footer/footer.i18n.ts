@@ -21,6 +21,7 @@ export const footerBundle = defineI18nBundle({
       suffix: { message: '' },
     },
     buildDate: { message: '', params: {} as { date: string } },
+    version: { message: '', params: {} as { version: string } },
   } as const,
   locales: {
     en: {
@@ -37,6 +38,7 @@ export const footerBundle = defineI18nBundle({
         suffix: '.',
       },
       buildDate: 'Built on {date}',
+      version: 'Version {version}',
     },
   },
 });

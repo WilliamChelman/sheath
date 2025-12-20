@@ -5,14 +5,9 @@ import { mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const repoRoot = path.resolve(process.cwd());
+const target = process.env.TARGET ?? 'apps/web-app/public';
 const inputDir = path.join(repoRoot, 'external', 'data-md');
-const outputFile = path.join(
-  repoRoot,
-  'apps',
-  'web-app',
-  'public',
-  'data-md-content.json',
-);
+const outputFile = path.join(repoRoot, target, 'data-md-content.json');
 
 const ignoredFiles = [
   'README.md',

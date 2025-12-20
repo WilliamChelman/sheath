@@ -1,20 +1,17 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const repoRoot = path.resolve(process.cwd());
 
-const outputFile = path.join(
-  repoRoot,
-  'apps',
-  'web-app',
-  'public',
-  'config.json',
-);
+const version = process.env.VERSION ?? 'SNAPSHOT';
+const target = process.env.TARGET ?? 'apps/web-app/public';
+
+const outputFile = path.join(repoRoot, target, 'config.json');
 
 async function main() {
   const config = {
     buildDate: new Date().toISOString(),
-    version: '1.0.0',
+    version,
   };
 
   await mkdir(path.dirname(outputFile), { recursive: true });

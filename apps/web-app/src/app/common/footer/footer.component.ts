@@ -55,11 +55,14 @@ import { footerBundle } from './footer.i18n';
               >{{ t('legal.mcdmProductions') }}</a
             >{{ t('legal.suffix') }}
           </p>
-          @if (formattedBuildDate) {
-            <p class="mt-2 text-center text-sm opacity-60">
+          <p class="mt-2 text-center text-sm opacity-60">
+            @if (version) {
+              {{ t('version', { version }) }} -
+            }
+            @if (formattedBuildDate) {
               {{ t('buildDate', { date: formattedBuildDate }) }}
-            </p>
-          }
+            }
+          </p>
         </aside>
       </div>
     </footer>
@@ -80,5 +83,9 @@ export class FooterComponent {
       dateStyle: 'medium',
       timeStyle: 'short',
     });
+  }
+
+  protected get version(): string {
+    return this.configService.config?.version ?? 'SNAPSHOT';
   }
 }
