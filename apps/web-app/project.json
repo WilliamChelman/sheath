@@ -25,11 +25,6 @@
           {
             "glob": "**/*",
             "input": "apps/web-app/public"
-          },
-          {
-            "glob": "**/*.md",
-            "input": "external/data-md",
-            "output": "data-md"
           }
         ],
         "styles": ["apps/web-app/src/styles.css"],
