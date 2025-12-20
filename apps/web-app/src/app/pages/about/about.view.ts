@@ -1,7 +1,7 @@
 import { I18nService } from '@/i18n';
 import { Component, inject } from '@angular/core';
 import { CardComponent } from '@/ui/card';
-import { PageTitleDirective } from '@/common/page-title';
+import { PageTitleDirective } from '../../common/page-title/page-title.directive';
 import { aboutBundle } from './about.i18n';
 
 @Component({
@@ -17,7 +17,7 @@ import { aboutBundle } from './about.i18n';
       >
         <div class="rounded-xl in-data-[theme=dark]:bg-white p-3">
           <img
-            src="/powered-by-draw-steel.webp"
+            src="powered-by-draw-steel.webp"
             alt="Powered by DRAW STEEL"
             class="w-full max-w-sm"
             loading="lazy"
