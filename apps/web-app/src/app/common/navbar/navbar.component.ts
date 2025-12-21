@@ -2,7 +2,10 @@ import { FlattenKeys, I18nService } from '@/i18n';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroBars3, heroChevronDown } from '@ng-icons/heroicons/outline';
+import {
+  phosphorList,
+  phosphorCaretDown,
+} from '@ng-icons/phosphor-icons/regular';
 import { navbarBundle } from './navbar.i18n';
 import { ThemeSwitchComponent } from '../theme-switch/theme-switch.component';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
@@ -13,6 +16,7 @@ import {
   MenuPanelComponent,
   MenuTriggerDirective,
 } from '@/ui/menu';
+import { CommandPaletteComponent } from '@/command-palette';
 
 @Component({
   imports: [
@@ -26,8 +30,9 @@ import {
     MenuPanelComponent,
     MenuItemDirective,
     ButtonDirective,
+    CommandPaletteComponent,
   ],
-  viewProviders: [provideIcons({ heroBars3, heroChevronDown })],
+  viewProviders: [provideIcons({ phosphorList, phosphorCaretDown })],
   selector: 'app-navbar',
   template: `
     <div
@@ -41,7 +46,7 @@ import {
             [appMenuTriggerFor]="mobileMenu"
             appButton="ghost"
           >
-            <ng-icon name="heroBars3" class="text-xl" />
+            <ng-icon name="phosphorList" class="text-xl" />
           </button>
           <ng-template #mobileMenu>
             <app-menu-panel>
@@ -110,7 +115,7 @@ import {
                   class="rounded-lg font-medium transition-colors hover:bg-primary/5"
                 >
                   {{ t(link.labelKey) }}
-                  <ng-icon name="heroChevronDown" class="text-sm" />
+                  <ng-icon name="phosphorCaretDown" class="text-sm" />
                 </button>
                 <ng-template #toolsMenu>
                   <app-menu-panel>
@@ -133,6 +138,7 @@ import {
         </ul>
       </div>
       <div class="navbar-end gap-2">
+        <app-command-palette />
         <app-theme-switch />
         <app-language-switcher />
       </div>

@@ -18,10 +18,12 @@
 **Standalone components only** (Angular 20+ default, no need for `standalone: true`).
 
 **Naming conventions:**
+
 - Regular components: `feature-name.component.ts` → `FeatureNameComponent`
 - Routed views: `feature-name.view.ts` → `FeatureNameView`
 
 **Template preferences:**
+
 - Inline templates for small/medium components (< 50 lines)
 - Separate template files only for large components
 - Always use Tailwind classes, avoid separate CSS files
@@ -171,7 +173,9 @@ export class LoginFormComponent {
 
 <!-- Form Inputs -->
 <input type="text" class="input input-bordered w-full" />
-<select class="select select-bordered">...</select>
+<select class="select select-bordered">
+  ...
+</select>
 
 <!-- Feedback -->
 <div class="alert alert-info">Info message</div>
@@ -184,7 +188,7 @@ export class LoginFormComponent {
 Mobile-first with Tailwind responsive prefixes:
 
 ```html
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 ```
 
 ---
@@ -265,6 +269,7 @@ export class ExampleComponent {
 ```
 
 Template:
+
 ```html
 <h1>{{ t('title') }}</h1>
 <p>{{ t('welcome', { name: 'Will' }) }}</p>
@@ -279,10 +284,6 @@ protected readonly ts = this.i18n.useBundleTSignal(exampleBundle);
 title = this.ts('title');
 // template: {{ title() }}
 ```
-
-### App Registration
-
-Register all bundles in `apps/web-app/src/app/app.config.ts` in the `i18n.init({ bundles: [...] })` call.
 
 ### Avoid
 
@@ -302,12 +303,7 @@ Always import from barrel exports:
 import { BadgeComponent } from '@/ui/badge';
 import { CardComponent } from '@/ui/card';
 import { TextInputComponent, SelectComponent, type SelectOption } from '@/ui/forms';
-import {
-  DropdownContainerDirective,
-  MenuTriggerDirective,
-  MenuPanelComponent,
-  MenuItemDirective,
-} from '@/ui/menu';
+import { DropdownContainerDirective, MenuTriggerDirective, MenuPanelComponent, MenuItemDirective } from '@/ui/menu';
 ```
 
 **Do not deep-import** from `apps/web-app/src/app/ui/**`.
@@ -315,8 +311,7 @@ import {
 ### Badge (`app-badge`)
 
 ```html
-<app-badge color="success" variant="outline" size="sm" label="Available" />
-<app-badge color="warning" variant="solid">Coming Soon</app-badge>
+<app-badge color="success" variant="outline" size="sm" label="Available" /> <app-badge color="warning" variant="solid">Coming Soon</app-badge>
 ```
 
 ### Card (`app-card`)
@@ -332,12 +327,7 @@ import {
 ### Forms
 
 ```html
-<app-text-input
-  label="Name"
-  placeholder="e.g. Goblin Boss"
-  [maxLength]="32"
-  [(value)]="name"
-/>
+<app-text-input label="Name" placeholder="e.g. Goblin Boss" [maxLength]="32" [(value)]="name" />
 
 <app-select label="Size" [options]="options" [(value)]="size" />
 ```
@@ -346,9 +336,7 @@ import {
 
 ```html
 <div appDropdownContainer align="end">
-  <button appMenuTrigger [appMenuTriggerFor]="menu" class="btn btn-ghost btn-circle">
-    Menu
-  </button>
+  <button appMenuTrigger [appMenuTriggerFor]="menu" class="btn btn-ghost btn-circle">Menu</button>
 
   <ng-template #menu>
     <app-menu-panel width="12rem">
@@ -381,18 +369,18 @@ src/app/
 
 ## File Naming
 
-| Type         | Suffix                        | Example                    |
-|--------------|-------------------------------|----------------------------|
-| Component    | `.component.ts` / `Component` | `user-card.component.ts`   |
-| View         | `.view.ts` / `View`           | `dashboard.view.ts`        |
-| Service      | `.service.ts`                 | `auth.service.ts`          |
-| Pipe         | `.pipe.ts`                    | `format-date.pipe.ts`      |
-| Directive    | `.directive.ts`               | `highlight.directive.ts`   |
-| Guard        | `.guard.ts`                   | `auth.guard.ts`            |
-| Interceptor  | `.interceptor.ts`             | `error.interceptor.ts`     |
-| Model/Types  | `.model.ts` / `.types.ts`     | `user.model.ts`            |
-| Routes       | `.routes.ts`                  | `admin.routes.ts`          |
-| i18n Bundle  | `.i18n.ts`                    | `dashboard.i18n.ts`        |
+| Type        | Suffix                        | Example                  |
+| ----------- | ----------------------------- | ------------------------ |
+| Component   | `.component.ts` / `Component` | `user-card.component.ts` |
+| View        | `.view.ts` / `View`           | `dashboard.view.ts`      |
+| Service     | `.service.ts`                 | `auth.service.ts`        |
+| Pipe        | `.pipe.ts`                    | `format-date.pipe.ts`    |
+| Directive   | `.directive.ts`               | `highlight.directive.ts` |
+| Guard       | `.guard.ts`                   | `auth.guard.ts`          |
+| Interceptor | `.interceptor.ts`             | `error.interceptor.ts`   |
+| Model/Types | `.model.ts` / `.types.ts`     | `user.model.ts`          |
+| Routes      | `.routes.ts`                  | `admin.routes.ts`        |
+| i18n Bundle | `.i18n.ts`                    | `dashboard.i18n.ts`      |
 
 ---
 

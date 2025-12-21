@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { I18nService, type FlattenKeys } from '@/i18n';
-import { PageTitleDirective } from '../../common/page-title/page-title.directive';
+import { PageTitleDirective } from '@/ui/page-title';
 import { BadgeComponent } from '@/ui/badge';
 import { toolsBundle } from './tools.i18n';
 
@@ -94,7 +94,7 @@ interface Feature {
         </div>
       </div>
 
-      <!-- Coming Soon Section -->
+      <!-- Ideas Section -->
       <div>
         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
           <app-badge color="secondary">
@@ -102,31 +102,9 @@ interface Feature {
           </app-badge>
           {{ t('sections.comingSoon.title') }}
         </h2>
-        <div class="grid md:grid-cols-2 gap-6">
-          @for (feature of comingSoonFeatures; track feature.titleKey) {
-            <div
-              class="card bg-base-200/50 border border-dashed border-base-300 opacity-75"
-            >
-              <div class="card-body">
-                <div class="flex items-start gap-4">
-                  <div
-                    class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-xl"
-                  >
-                    {{ feature.icon }}
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="font-semibold text-lg mb-2">
-                      {{ t(feature.titleKey) }}
-                    </h3>
-                    <p class="text-base-content/60 text-sm">
-                      {{ t(feature.descriptionKey) }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          }
-        </div>
+        <p class="text-base-content/60 italic">
+          {{ t('sections.comingSoon.placeholder') }}
+        </p>
       </div>
     </div>
   `,
@@ -150,30 +128,4 @@ export class ToolsView {
     },
   ];
 
-  comingSoonFeatures: Feature[] = [
-    {
-      icon: '📖',
-      titleKey: 'tools.compendiumV2.title',
-      descriptionKey: 'tools.compendiumV2.description',
-      link: null,
-    },
-    {
-      icon: '🎛️',
-      titleKey: 'tools.customBoard.title',
-      descriptionKey: 'tools.customBoard.description',
-      link: null,
-    },
-    {
-      icon: '🗺️',
-      titleKey: 'tools.encounterBuilder.title',
-      descriptionKey: 'tools.encounterBuilder.description',
-      link: null,
-    },
-    {
-      icon: '➕',
-      titleKey: 'tools.otherTools.title',
-      descriptionKey: 'tools.otherTools.description',
-      link: null,
-    },
-  ];
 }

@@ -1,7 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroMoon, heroSun } from '@ng-icons/heroicons/outline';
+import { phosphorMoon, phosphorSun } from '@ng-icons/phosphor-icons/regular';
+import { I18nService } from '@/i18n';
+import { themeSwitchBundle } from './theme-switch.i18n';
 
 type Theme = 'light' | 'dark';
 
@@ -30,24 +32,26 @@ function readStoredTheme(): Theme | null {
 
 @Component({
   imports: [NgIcon],
-  viewProviders: [provideIcons({ heroSun, heroMoon })],
+  viewProviders: [provideIcons({ phosphorSun, phosphorMoon })],
   selector: 'app-theme-switch',
   template: `
-    <label class="swap swap-rotate btn btn-ghost btn-circle" title="Theme">
+    <label class="swap swap-rotate btn btn-ghost btn-circle" [title]="t('theme')">
       <input
         type="checkbox"
         class="theme-controller"
         [checked]="isDark()"
         (change)="toggle()"
-        aria-label="Toggle theme"
+        [attr.aria-label]="t('toggleTheme')"
       />
-      <ng-icon name="heroSun" class="swap-off text-xl" />
-      <ng-icon name="heroMoon" class="swap-on text-xl" />
+      <ng-icon name="phosphorSun" class="swap-off text-xl" />
+      <ng-icon name="phosphorMoon" class="swap-on text-xl" />
     </label>
   `,
 })
 export class ThemeSwitchComponent {
   private readonly document = inject(DOCUMENT);
+  private readonly i18n = inject(I18nService);
+  protected readonly t = this.i18n.useBundleT(themeSwitchBundle);
 
   private readonly _theme = signal<Theme>(
     readStoredTheme() ?? getSystemTheme(),

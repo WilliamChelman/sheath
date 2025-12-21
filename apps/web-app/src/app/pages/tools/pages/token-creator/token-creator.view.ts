@@ -12,8 +12,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroQuestionMarkCircle } from '@ng-icons/heroicons/outline';
-import { PageTitleDirective } from '../../../../common/page-title/page-title.directive';
+import { phosphorInfo } from '@ng-icons/phosphor-icons/regular';
+import { PageTitleDirective } from '@/ui/page-title';
 import { TokenAppearanceControlsComponent } from './components/token-appearance-controls.component';
 import { TokenBackgroundControlsComponent } from './components/token-background-controls.component';
 import { TokenContentControlsComponent } from './components/token-content-controls.component';
@@ -64,7 +64,7 @@ const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
     BadgeComponent,
     NgIcon,
   ],
-  viewProviders: [provideIcons({ heroQuestionMarkCircle })],
+  viewProviders: [provideIcons({ phosphorInfo })],
   template: `
     <div class="container mx-auto max-w-6xl px-4 py-8">
       <!-- Header -->
@@ -78,7 +78,7 @@ const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
             (click)="startTour()"
             [title]="t('header.helpTitle')"
           >
-            <ng-icon name="heroQuestionMarkCircle" class="text-xl" />
+            <ng-icon name="phosphorInfo" class="text-xl" />
           </button>
         </div>
         <h1 appPageTitle class="text-3xl md:text-4xl font-bold mb-3">
@@ -251,7 +251,10 @@ export class TokenCreatorView {
   // Batch mode: detect comma-separated or newline-separated values in the name field
   isBatchMode = computed(() => {
     const name = this.tokenConfig().name;
-    return /[,\n]/.test(name) && name.split(/[,\n]/).filter((s) => s.trim()).length > 1;
+    return (
+      /[,\n]/.test(name) &&
+      name.split(/[,\n]/).filter((s) => s.trim()).length > 1
+    );
   });
 
   batchTokens = computed<BatchToken[]>(() => {
@@ -269,7 +272,10 @@ export class TokenCreatorView {
         let customInitials: string | null = null;
         const atIndex = token.lastIndexOf('@');
         if (atIndex > 0) {
-          customInitials = token.slice(atIndex + 1).trim().toUpperCase();
+          customInitials = token
+            .slice(atIndex + 1)
+            .trim()
+            .toUpperCase();
           token = token.slice(0, atIndex).trim();
         }
 

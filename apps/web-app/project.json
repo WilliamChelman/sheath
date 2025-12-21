@@ -25,18 +25,23 @@
           {
             "glob": "**/*",
             "input": "apps/web-app/public"
+          },
+          {
+            "glob": "data-md.json",
+            "input": "dist/data",
+            "output": "/data/"
           }
         ],
-        "styles": ["apps/web-app/src/styles.css"],
-        "serviceWorker": "apps/web-app/ngsw-config.json"
+        "styles": ["apps/web-app/src/styles.css", "libs/ui/src/tailwind.css"]
       },
       "configurations": {
         "production": {
+          "serviceWorker": "apps/web-app/ngsw-config.json",
           "budgets": [
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "2mb"
             },
             {
               "type": "anyComponentStyle",

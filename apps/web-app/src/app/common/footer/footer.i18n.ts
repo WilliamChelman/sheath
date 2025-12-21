@@ -12,6 +12,9 @@ export const footerBundle = defineI18nBundle({
       tools: { message: '' },
       mcdm: { message: '' },
     },
+    social: {
+      github: { message: '' },
+    },
     legal: {
       prefix: {
         message: '',
@@ -30,6 +33,9 @@ export const footerBundle = defineI18nBundle({
         about: 'About',
         tools: 'Tools',
         mcdm: 'MCDM',
+      },
+      social: {
+        github: 'GitHub',
       },
       legal: {
         prefix:

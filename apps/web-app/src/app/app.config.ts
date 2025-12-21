@@ -1,3 +1,10 @@
+import { provideBoardConfig, provideBoardEntityRenderer } from '@/board';
+import { provideDrawSteelConfig } from '@/draw-steel';
+import {
+  EntityService,
+  IndexedDbEntityService,
+  provideEntityConfig,
+} from '@/entity';
 import { I18nService } from '@/i18n';
 import { provideHttpClient } from '@angular/common/http';
 import {
@@ -6,7 +13,7 @@ import {
   isDevMode,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
@@ -15,9 +22,10 @@ import { ConfigService } from './services/config.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    // provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZonelessChangeDetection(),
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       appRoutes,
       withInMemoryScrolling({
@@ -40,5 +48,13 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    {
+      provide: EntityService,
+      useExisting: IndexedDbEntityService,
+    },
+    provideBoardConfig(),
+    provideBoardEntityRenderer(),
+    provideDrawSteelConfig(),
+    provideEntityConfig(),
   ],
 };
