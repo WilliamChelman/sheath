@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/WilliamChelman/sheath/compare/v1.2.0...v1.2.1) (2025-12-21)
+
+
+### Bug Fixes
+
+* **token-creator:** add a tour guide ([ec57fe6](https://github.com/WilliamChelman/sheath/commit/ec57fe6739fc5b203eaa5dbfca88aa365cb1ab54))
+
 # [1.2.0](https://github.com/WilliamChelman/sheath/compare/v1.1.2...v1.2.0) (2025-12-21)
 
 
