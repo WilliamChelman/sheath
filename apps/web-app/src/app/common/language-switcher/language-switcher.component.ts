@@ -1,0 +1,76 @@
+import { I18nService, type SupportedLocale } from '@/i18n';
+import { Component, inject } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { heroGlobeAlt } from '@ng-icons/heroicons/outline';
+import { ButtonDirective } from '@/ui/button';
+import {
+  DropdownContainerDirective,
+  MenuItemDirective,
+  MenuPanelComponent,
+  MenuTriggerDirective,
+} from '@/ui/menu';
+import { languageSwitcherBundle } from './language-switcher.i18n';
+
+@Component({
+  selector: 'app-language-switcher',
+  imports: [
+    NgIcon,
+    DropdownContainerDirective,
+    MenuTriggerDirective,
+    MenuPanelComponent,
+    MenuItemDirective,
+    ButtonDirective,
+  ],
+  viewProviders: [provideIcons({ heroGlobeAlt })],
+  template: `
+    @if (availableLocales().length > 1) {
+      <div appDropdownContainer align="end">
+        <button
+          appMenuTrigger
+          [appMenuTriggerFor]="languageMenu"
+          appButton="ghost"
+          appButtonShape="circle"
+        >
+          <ng-icon name="heroGlobeAlt" class="text-xl" />
+        </button>
+        <ng-template #languageMenu>
+          <app-menu-panel width="10rem">
+            <li class="menu-title">{{ t('label') }}</li>
+            @for (locale of availableLocales(); track locale) {
+              <li>
+                <button
+                  appMenuItem
+                  [active]="currentLocale() === locale"
+                  (click)="switchLocale(locale)"
+                >
+                  {{ getLocaleName(locale) }}
+                </button>
+              </li>
+            }
+          </app-menu-panel>
+        </ng-template>
+      </div>
+    }
+  `,
+})
+export class LanguageSwitcherComponent {
+  private readonly i18n = inject(I18nService);
+
+  protected readonly t = this.i18n.useBundleT(languageSwitcherBundle);
+
+  protected readonly currentLocale = this.i18n.locale;
+  protected readonly availableLocales = this.i18n.availableLocales;
+
+  protected switchLocale(locale: string): void {
+    this.i18n.setLocale(locale as SupportedLocale);
+  }
+
+  protected getLocaleName(locale: string): string {
+    switch (locale) {
+      case 'en':
+        return this.t('en');
+      default:
+        return locale.toUpperCase();
+    }
+  }
+}

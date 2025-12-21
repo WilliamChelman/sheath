@@ -152,6 +152,18 @@ export class ToolsView {
 
   comingSoonFeatures: Feature[] = [
     {
+      icon: '📖',
+      titleKey: 'tools.compendiumV2.title',
+      descriptionKey: 'tools.compendiumV2.description',
+      link: null,
+    },
+    {
+      icon: '🎛️',
+      titleKey: 'tools.customBoard.title',
+      descriptionKey: 'tools.customBoard.description',
+      link: null,
+    },
+    {
       icon: '🗺️',
       titleKey: 'tools.encounterBuilder.title',
       descriptionKey: 'tools.encounterBuilder.description',

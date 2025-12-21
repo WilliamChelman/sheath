@@ -17,10 +17,6 @@ export const navbarBundle = defineI18nBundle({
       tokenCreator: { message: '' },
       compendium: { message: '' },
     },
-    language: {
-      label: { message: '' },
-      en: { message: '' },
-    },
   } as const,
   locales: {
     en: {
@@ -32,10 +28,6 @@ export const navbarBundle = defineI18nBundle({
         allTools: 'All Tools',
         tokenCreator: 'Token Creator',
         compendium: 'Compendium',
-      },
-      language: {
-        label: 'Language',
-        en: 'English',
       },
     },
   },

@@ -1,14 +1,11 @@
-import { FlattenKeys, I18nService, type SupportedLocale } from '@/i18n';
+import { FlattenKeys, I18nService } from '@/i18n';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  heroBars3,
-  heroChevronDown,
-  heroGlobeAlt,
-} from '@ng-icons/heroicons/outline';
+import { heroBars3, heroChevronDown } from '@ng-icons/heroicons/outline';
 import { navbarBundle } from './navbar.i18n';
 import { ThemeSwitchComponent } from '../theme-switch/theme-switch.component';
+import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 import { ButtonDirective } from '@/ui/button';
 import {
   DropdownContainerDirective,
@@ -23,13 +20,14 @@ import {
     RouterLinkActive,
     NgIcon,
     ThemeSwitchComponent,
+    LanguageSwitcherComponent,
     DropdownContainerDirective,
     MenuTriggerDirective,
     MenuPanelComponent,
     MenuItemDirective,
     ButtonDirective,
   ],
-  viewProviders: [provideIcons({ heroBars3, heroChevronDown, heroGlobeAlt })],
+  viewProviders: [provideIcons({ heroBars3, heroChevronDown })],
   selector: 'app-navbar',
   template: `
     <div
@@ -136,33 +134,7 @@ import {
       </div>
       <div class="navbar-end gap-2">
         <app-theme-switch />
-        <!-- Language Switcher Dropdown -->
-        <div appDropdownContainer align="end">
-          <button
-            appMenuTrigger
-            [appMenuTriggerFor]="languageMenu"
-            appButton="ghost"
-            appButtonShape="circle"
-          >
-            <ng-icon name="heroGlobeAlt" class="text-xl" />
-          </button>
-          <ng-template #languageMenu>
-            <app-menu-panel width="10rem">
-              <li class="menu-title">{{ t('language.label') }}</li>
-              @for (locale of availableLocales(); track locale) {
-                <li>
-                  <button
-                    appMenuItem
-                    [active]="currentLocale() === locale"
-                    (click)="switchLocale(locale)"
-                  >
-                    {{ getLocaleName(locale) }}
-                  </button>
-                </li>
-              }
-            </app-menu-panel>
-          </ng-template>
-        </div>
+        <app-language-switcher />
       </div>
     </div>
   `,
@@ -185,22 +157,6 @@ export class NavbarComponent {
       ],
     },
   ];
-
-  protected readonly currentLocale = this.i18n.locale;
-  protected readonly availableLocales = this.i18n.availableLocales;
-
-  protected switchLocale(locale: string): void {
-    this.i18n.setLocale(locale as SupportedLocale);
-  }
-
-  protected getLocaleName(locale: string): string {
-    switch (locale) {
-      case 'en':
-        return this.t('language.en');
-      default:
-        return locale.toUpperCase();
-    }
-  }
 }
 
 type SingleLink = {

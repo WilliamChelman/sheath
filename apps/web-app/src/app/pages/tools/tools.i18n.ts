@@ -1,7 +1,7 @@
 import { defineI18nBundle } from '@/i18n';
 
 export const toolsBundle = defineI18nBundle({
-  namespace: 'features',
+  namespace: 'tools',
   schema: {
     header: {
       badge: { message: '' },
@@ -24,6 +24,14 @@ export const toolsBundle = defineI18nBundle({
         description: { message: '' },
       },
       compendium: {
+        title: { message: '' },
+        description: { message: '' },
+      },
+      compendiumV2: {
+        title: { message: '' },
+        description: { message: '' },
+      },
+      customBoard: {
         title: { message: '' },
         description: { message: '' },
       },
@@ -69,6 +77,16 @@ export const toolsBundle = defineI18nBundle({
           title: 'Compendium',
           description:
             'Quick lookup for conditions, abilities, and core rules.',
+        },
+        compendiumV2: {
+          title: 'Compendium V2',
+          description:
+            'A new and improved version of the compendium, with the possibility to import/edit any compendium entry.',
+        },
+        customBoard: {
+          title: 'Custom Board',
+          description:
+            'Create a custom board for your TTRPG sessions, with cheat sheets, notes, interactive widgets, and more.',
         },
         encounterBuilder: {
           title: 'Encounter Builder',
