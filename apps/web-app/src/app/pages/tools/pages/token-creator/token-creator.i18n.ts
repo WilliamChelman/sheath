@@ -40,10 +40,16 @@ export const tokenCreatorBundle = defineI18nBundle({
         label: { message: '' },
         title: { message: '' },
       },
-      name: { label: { message: '' }, placeholder: { message: '' } },
+      name: {
+        label: { message: '' },
+        placeholder: { message: '' },
+        hint: { message: '' },
+        batchHint: { message: '' },
+      },
       initials: {
         label: { message: '' },
         helperText: { message: '' },
+        batchHelperText: { message: '' },
         placeholder: { message: '' },
       },
       colors: {
@@ -163,10 +169,16 @@ export const tokenCreatorBundle = defineI18nBundle({
           label: '↺ Reset',
           title: 'Reset all options to defaults',
         },
-        name: { label: 'Token Name', placeholder: 'Enter name' },
+        name: {
+          label: 'Token Name',
+          placeholder: 'Goblin or Goblin, Orc, Dragon!',
+          hint: 'Tip: Use commas to create multiple tokens at once',
+          batchHint: 'Batch mode: Add ! after a name for minions (e.g. Goblin!)',
+        },
         initials: {
           label: 'Initials',
           helperText: 'Auto-generated from name',
+          batchHelperText: 'Auto-generated per token in batch mode',
           placeholder: 'GB',
         },
         colors: {

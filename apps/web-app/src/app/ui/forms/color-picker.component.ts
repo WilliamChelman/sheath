@@ -6,9 +6,9 @@ import { FormIdService } from './form-id.service';
   selector: 'app-color-picker',
   imports: [FormsModule],
   template: `
-    <div class="form-control">
-      <label class="label" [attr.for]="inputId()">
-        <span class="label-text font-medium">{{ label() }}</span>
+    <fieldset class="fieldset">
+      <label class="fieldset-legend" [attr.for]="inputId()">
+        {{ label() }}
       </label>
       <input
         [id]="inputId()"
@@ -17,7 +17,7 @@ import { FormIdService } from './form-id.service';
         [ngModel]="value()"
         (ngModelChange)="value.set($event)"
       />
-    </div>
+    </fieldset>
   `,
 })
 export class ColorPickerComponent {

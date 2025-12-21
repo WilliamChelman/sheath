@@ -6,36 +6,37 @@ import { FormIdService } from './form-id.service';
   selector: 'app-text-input',
   imports: [FormsModule],
   template: `
-    <div class="form-control">
-      <label class="label" [attr.for]="inputId()">
-        <span class="label-text font-medium">{{ label() }}</span>
-        @if (helperText()) {
-          <span
-            class="label-text-alt text-base-content/50"
-            [id]="helperTextId()"
-          >
-            {{ helperText() }}
-          </span>
-        }
+    <fieldset class="fieldset">
+      <label class="fieldset-legend" [attr.for]="inputId()">
+        {{ label() }}
       </label>
       <input
         [id]="inputId()"
         type="text"
         class="input input-bordered w-full"
+        [class.input-disabled]="disabled()"
         [ngModel]="value()"
         (ngModelChange)="value.set($event)"
         [placeholder]="placeholder()"
         [maxlength]="maxLength()"
+        [disabled]="disabled()"
         [attr.aria-describedby]="helperText() ? helperTextId() : null"
       />
-    </div>
+      @if (helperText()) {
+        <p class="label whitespace-normal" [id]="helperTextId()">
+          {{ helperText() }}
+        </p>
+      }
+    </fieldset>
   `,
-  styles: [`
-    input::placeholder {
-      opacity: 0.5;
-      color: inherit;
-    }
-  `],
+  styles: [
+    `
+      input::placeholder {
+        opacity: 0.5;
+        color: inherit;
+      }
+    `,
+  ],
 })
 export class TextInputComponent {
   private formId = inject(FormIdService);
@@ -45,6 +46,7 @@ export class TextInputComponent {
   placeholder = input('');
   maxLength = input<number | null>(null);
   helperText = input<string | null>(null);
+  disabled = input(false);
 
   value = model('');
 

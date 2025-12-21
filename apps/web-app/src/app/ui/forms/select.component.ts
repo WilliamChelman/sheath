@@ -11,9 +11,9 @@ export interface SelectOption<T = string> {
   selector: 'app-select',
   imports: [FormsModule],
   template: `
-    <div class="form-control">
-      <label class="label" [attr.for]="inputId()">
-        <span class="label-text font-medium">{{ label() }}</span>
+    <fieldset class="fieldset">
+      <label class="fieldset-legend" [attr.for]="inputId()">
+        {{ label() }}
       </label>
       <select
         [id]="inputId()"
@@ -25,7 +25,7 @@ export interface SelectOption<T = string> {
           <option [value]="option.value">{{ option.label }}</option>
         }
       </select>
-    </div>
+    </fieldset>
   `,
 })
 export class SelectComponent<T = string> {

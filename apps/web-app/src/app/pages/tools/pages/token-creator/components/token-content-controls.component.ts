@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, model } from '@angular/core';
+import { Component, computed, effect, inject, input, model } from '@angular/core';
 import { I18nService } from '@/i18n';
 import { tokenCreatorBundle } from '../token-creator.i18n';
 import {
@@ -43,16 +43,24 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
         [value]="config().name"
         (valueChange)="updateConfig({ name: $event })"
         [placeholder]="t('controls.name.placeholder')"
+        [helperText]="
+          isBatchMode() ? t('controls.name.batchHint') : t('controls.name.hint')
+        "
       />
 
       <!-- Initials Input -->
       <app-text-input
         [label]="t('controls.initials.label')"
-        [helperText]="t('controls.initials.helperText')"
+        [helperText]="
+          isBatchMode()
+            ? t('controls.initials.batchHelperText')
+            : t('controls.initials.helperText')
+        "
         [value]="config().initials"
         (valueChange)="updateConfig({ initials: $event })"
         [maxLength]="3"
         [placeholder]="t('controls.initials.placeholder')"
+        [disabled]="isBatchMode()"
       />
 
       <!-- Toggle Options -->
@@ -101,6 +109,7 @@ export class TokenContentControlsComponent {
   protected t = this.i18n.useBundleT(tokenCreatorBundle);
 
   config = model<TokenConfig>(DEFAULT_TOKEN_CONFIG);
+  isBatchMode = input(false);
 
   namePositions = computed<ButtonGroupOption<NamePosition>[]>(() => {
     this.i18n.locale();

@@ -1,11 +1,7 @@
-import { Component, computed, effect, inject, model, signal } from '@angular/core';
+import { Component, effect, inject, input, model, signal } from '@angular/core';
 import { I18nService } from '@/i18n';
 import { tokenCreatorBundle } from '../token-creator.i18n';
-import {
-  SelectComponent,
-  TextInputComponent,
-  type SelectOption,
-} from '@/ui/forms';
+import { SelectComponent, type SelectOption } from '@/ui/forms';
 import { CardComponent } from '@/ui/card';
 import { ButtonDirective } from '@/ui/button';
 import {
@@ -21,7 +17,7 @@ const TOKEN_CREATOR_EXPORT_FORMAT_STORAGE_KEY =
 
 @Component({
   selector: 'app-token-export-controls',
-  imports: [SelectComponent, TextInputComponent, CardComponent, ButtonDirective],
+  imports: [SelectComponent, CardComponent, ButtonDirective],
   template: `
     <app-card bodyClass="gap-4">
       <h3 class="card-title text-sm">{{ t('export.title') }}</h3>
@@ -33,37 +29,31 @@ const TOKEN_CREATOR_EXPORT_FORMAT_STORAGE_KEY =
         size="sm"
       />
 
-      <button appButton="primary" class="w-full" appButtonSize="sm" (click)="onExport()">
-        {{ t('export.download', { format: exportFormat().toUpperCase() }) }}
-      </button>
-
-      <div class="divider my-0"></div>
-
-      <h3 class="card-title text-sm">{{ t('batch.title') }}</h3>
-
-      <app-text-input
-        [label]="t('batch.inputLabel')"
-        [placeholder]="t('batch.placeholder')"
-        [(value)]="batchInput"
-        size="sm"
-      />
-
-      <p class="text-xs text-base-content/50">{{ t('batch.hint') }}</p>
-
-      <button
-        appButton="secondary"
-        class="w-full"
-        appButtonSize="sm"
-        [disabled]="!parsedBatchTokens().length || isExportingBatch()"
-        (click)="onBatchExport()"
-      >
-        @if (isExportingBatch()) {
-          <span class="loading loading-spinner loading-sm"></span>
-          {{ t('batch.exporting') }}
-        } @else {
-          {{ t('batch.exportButton', { count: parsedBatchTokens().length }) }}
-        }
-      </button>
+      @if (isBatchMode()) {
+        <button
+          appButton="primary"
+          class="w-full"
+          appButtonSize="sm"
+          [disabled]="isExportingBatch()"
+          (click)="onBatchExport()"
+        >
+          @if (isExportingBatch()) {
+            <span class="loading loading-spinner loading-sm"></span>
+            {{ t('batch.exporting') }}
+          } @else {
+            {{ t('batch.exportButton', { count: batchTokens().length }) }}
+          }
+        </button>
+      } @else {
+        <button
+          appButton="primary"
+          class="w-full"
+          appButtonSize="sm"
+          (click)="onExport()"
+        >
+          {{ t('export.download', { format: exportFormat().toUpperCase() }) }}
+        </button>
+      }
     </app-card>
   `,
 })
@@ -75,26 +65,14 @@ export class TokenExportControlsComponent {
   exportFormat = signal<ExportFormat>('png');
   onExportRequest = model<{ format: ExportFormat } | null>(null);
 
-  // Batch export
-  batchInput = signal('');
+  // Batch export (tokens parsed from name field in parent)
+  batchTokens = input<BatchToken[]>([]);
+  isBatchMode = input(false);
   isExportingBatch = model(false);
   batchExportRequest = model<{
     format: ExportFormat;
     tokens: BatchToken[];
   } | null>(null);
-
-  parsedBatchTokens = computed<BatchToken[]>(() => {
-    return this.batchInput()
-      .split(',')
-      .map((s) => s.trim())
-      .filter((s) => s.length > 0)
-      .map((s) => {
-        const isMinion = s.endsWith('!');
-        const name = isMinion ? s.slice(0, -1).trim() : s;
-        const initials = this.generateInitials(name);
-        return { name, initials, isMinion };
-      });
-  });
 
   exportFormatOptions: SelectOption<ExportFormat>[] = EXPORT_FORMATS;
 
@@ -116,7 +94,7 @@ export class TokenExportControlsComponent {
   }
 
   onBatchExport() {
-    const tokens = this.parsedBatchTokens();
+    const tokens = this.batchTokens();
     if (tokens.length > 0) {
       this.batchExportRequest.set({
         format: this.exportFormat(),
@@ -156,18 +134,5 @@ export class TokenExportControlsComponent {
     } catch {
       return false;
     }
-  }
-
-  private generateInitials(name: string): string {
-    if (!name) return '';
-    const words = name.trim().split(/\s+/);
-    if (words.length === 1) {
-      return words[0].substring(0, 2).toUpperCase();
-    }
-    return words
-      .slice(0, 2)
-      .map((w) => w[0])
-      .join('')
-      .toUpperCase();
   }
 }

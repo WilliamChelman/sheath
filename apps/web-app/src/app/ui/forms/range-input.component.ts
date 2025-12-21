@@ -8,9 +8,9 @@ type RangeInputSize = 'sm' | 'md' | 'lg';
   selector: 'app-range-input',
   imports: [FormsModule],
   template: `
-    <div class="form-control">
-      <label class="label" [attr.for]="inputId()">
-        <span class="label-text font-medium">{{ label() }}</span>
+    <fieldset class="fieldset">
+      <label class="fieldset-legend" [attr.for]="inputId()">
+        {{ label() }}
 
         @if (showValue()) {
           <span class="label-text-alt text-base-content/50">
@@ -18,12 +18,6 @@ type RangeInputSize = 'sm' | 'md' | 'lg';
           </span>
         }
       </label>
-
-      @if (helperText()) {
-        <div class="text-xs text-base-content/50" [id]="helperTextId()">
-          {{ helperText() }}
-        </div>
-      }
 
       <input
         [id]="inputId()"
@@ -40,7 +34,12 @@ type RangeInputSize = 'sm' | 'md' | 'lg';
         (ngModelChange)="value.set($event)"
         [attr.aria-describedby]="helperText() ? helperTextId() : null"
       />
-    </div>
+      @if (helperText()) {
+        <p class="label whitespace-normal" [id]="helperTextId()">
+          {{ helperText() }}
+        </p>
+      }
+    </fieldset>
   `,
 })
 export class RangeInputComponent {

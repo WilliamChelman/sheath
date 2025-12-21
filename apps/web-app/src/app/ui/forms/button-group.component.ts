@@ -11,11 +11,9 @@ export interface ButtonGroupOption<T = string> {
   selector: 'app-button-group',
   imports: [ButtonDirective],
   template: `
-    <div class="form-control">
-      <label class="label">
-        <span class="label-text font-medium" [id]="labelId()">{{
-          label()
-        }}</span>
+    <fieldset class="fieldset">
+      <label class="fieldset-legend" [attr.for]="labelId()">
+        {{ label() }}
       </label>
       <div
         class="flex gap-2"
@@ -39,7 +37,7 @@ export interface ButtonGroupOption<T = string> {
           </button>
         }
       </div>
-    </div>
+    </fieldset>
   `,
 })
 export class ButtonGroupComponent<T = string> {

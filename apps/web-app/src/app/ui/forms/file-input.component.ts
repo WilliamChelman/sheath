@@ -6,17 +6,9 @@ type FileInputSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'app-file-input',
   template: `
-    <div class="form-control">
-      <label class="label" [attr.for]="inputId()">
-        <span class="label-text font-medium">{{ label() }}</span>
-        @if (helperText()) {
-          <span
-            class="label-text-alt text-base-content/50"
-            [id]="helperTextId()"
-          >
-            {{ helperText() }}
-          </span>
-        }
+    <fieldset class="fieldset">
+      <label class="fieldset-legend" [attr.for]="inputId()">
+        {{ label() }}
       </label>
 
       <input
@@ -31,7 +23,12 @@ type FileInputSize = 'sm' | 'md' | 'lg';
         [attr.aria-describedby]="helperText() ? helperTextId() : null"
         (change)="onChange($event)"
       />
-    </div>
+      @if (helperText()) {
+        <p class="label whitespace-normal" [id]="helperTextId()">
+          {{ helperText() }}
+        </p>
+      }
+    </fieldset>
   `,
 })
 export class FileInputComponent {

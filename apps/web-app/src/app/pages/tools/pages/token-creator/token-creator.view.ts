@@ -91,7 +91,7 @@ const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
             >
               <div #previewContainer>
                 <app-token-preview
-                  [config]="tokenConfig()"
+                  [config]="previewConfig()"
                   (backgroundImageChange)="onBackgroundImageChange($event)"
                 />
               </div>
@@ -112,7 +112,10 @@ const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
         <!-- Controls Panels (2x2 Grid) -->
         <div class="lg:col-span-3 grid grid-cols-2 gap-4">
           <!-- Panel 1: Token Content -->
-          <app-token-content-controls [(config)]="tokenConfig" />
+          <app-token-content-controls
+            [(config)]="tokenConfig"
+            [isBatchMode]="isBatchMode()"
+          />
 
           <!-- Panel 2: Appearance -->
           <app-token-appearance-controls [(config)]="tokenConfig" />
@@ -129,6 +132,8 @@ const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
             [(onExportRequest)]="exportRequest"
             [(batchExportRequest)]="batchExportRequest"
             [(isExportingBatch)]="isExportingBatch"
+            [isBatchMode]="isBatchMode()"
+            [batchTokens]="batchTokens()"
           />
         </div>
       </div>
@@ -217,6 +222,42 @@ export class TokenCreatorView {
     return this.t(`options.sizes.${size}` as const);
   });
 
+  // Batch mode: detect comma-separated values in the name field
+  isBatchMode = computed(() => {
+    const name = this.tokenConfig().name;
+    return name.includes(',') && name.split(',').filter((s) => s.trim()).length > 1;
+  });
+
+  batchTokens = computed<BatchToken[]>(() => {
+    if (!this.isBatchMode()) return [];
+    return this.tokenConfig()
+      .name.split(',')
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0)
+      .map((s) => {
+        const isMinion = s.endsWith('!');
+        const name = isMinion ? s.slice(0, -1).trim() : s;
+        const initials = this.generateInitials(name);
+        return { name, initials, isMinion };
+      });
+  });
+
+  // In batch mode, use the first token for preview
+  previewConfig = computed<TokenConfig>(() => {
+    const config = this.tokenConfig();
+    const tokens = this.batchTokens();
+    if (tokens.length > 0) {
+      const first = tokens[0];
+      return {
+        ...config,
+        name: first.name,
+        initials: first.initials,
+        showMinionIcon: first.isMinion || config.showMinionIcon,
+      };
+    }
+    return config;
+  });
+
   private sizePxMap: Record<string, number> = {
     small: 50,
     medium: 100,
@@ -271,6 +312,19 @@ export class TokenCreatorView {
 
   getSizePx(size: string): number {
     return this.sizePxMap[size] || 100;
+  }
+
+  private generateInitials(name: string): string {
+    if (!name) return '';
+    const words = name.trim().split(/\s+/);
+    if (words.length === 1) {
+      return words[0].substring(0, 2).toUpperCase();
+    }
+    return words
+      .slice(0, 2)
+      .map((w) => w[0])
+      .join('')
+      .toUpperCase();
   }
 
   onBackgroundImageChange(backgroundImage: BackgroundImage): void {

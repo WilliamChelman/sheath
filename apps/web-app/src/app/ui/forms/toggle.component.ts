@@ -6,21 +6,16 @@ import { FormIdService } from './form-id.service';
   selector: 'app-toggle',
   imports: [FormsModule],
   template: `
-    <div class="form-control">
-      <label
-        class="label cursor-pointer justify-start gap-3"
-        [attr.for]="inputId()"
-      >
-        <input
-          [id]="inputId()"
-          type="checkbox"
-          class="toggle toggle-primary"
-          [ngModel]="checked()"
-          (ngModelChange)="checked.set($event)"
-        />
-        <span class="label-text">{{ label() }}</span>
-      </label>
-    </div>
+    <label class="label" [attr.for]="inputId()">
+      <input
+        [id]="inputId()"
+        type="checkbox"
+        class="toggle toggle-primary"
+        [ngModel]="checked()"
+        (ngModelChange)="checked.set($event)"
+      />
+      {{ label() }}
+    </label>
   `,
 })
 export class ToggleComponent {
