@@ -1,3 +1,6 @@
+import { provideBoardConfig, provideBoardEntityRenderer } from '@/board';
+import { provideDrawSteelConfig } from '@/draw-steel';
+import { EntityService, IndexedDbEntityService } from '@/entity';
 import { I18nService } from '@/i18n';
 import { provideHttpClient } from '@angular/common/http';
 import {
@@ -40,5 +43,12 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    {
+      provide: EntityService,
+      useExisting: IndexedDbEntityService,
+    },
+    provideBoardConfig(),
+    provideBoardEntityRenderer(),
+    provideDrawSteelConfig(),
   ],
 };

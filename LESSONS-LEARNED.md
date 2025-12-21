@@ -1,0 +1,6 @@
+- Even with rules/skills, tend to hallucinate tailwind classes
+- claude vs. cursor: even with the same model (mostly Opus 4.5), cursor seem to forget less things
+- for web dev, the fact that cursor can use a browser itneracticely makes it super smart
+- mix and match of models depending on tasks can be good:
+  - Light model with big-ish context good for planning
+  - Then bigger models for implementation

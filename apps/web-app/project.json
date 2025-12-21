@@ -25,9 +25,14 @@
           {
             "glob": "**/*",
             "input": "apps/web-app/public"
+          },
+          {
+            "glob": "data-md.json",
+            "input": "dist/data",
+            "output": "/data/"
           }
         ],
-        "styles": ["apps/web-app/src/styles.css"],
+        "styles": ["apps/web-app/src/styles.css", "libs/ui/src/tailwind.css"],
         "serviceWorker": "apps/web-app/ngsw-config.json"
       },
       "configurations": {

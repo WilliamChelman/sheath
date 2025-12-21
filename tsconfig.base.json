@@ -15,9 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@/board": ["libs/board/src/index.ts"],
+      "@/common/*": ["apps/web-app/src/app/common/*"],
+      "@/entity": ["libs/entity/src/index.ts"],
       "@/i18n": ["libs/i18n/src/index.ts"],
-      "@/ui/*": ["apps/web-app/src/app/ui/*"],
-      "@/common/*": ["apps/web-app/src/app/common/*"]
+      "@/ui/*": ["libs/ui/src/*"],
+      "@/draw-steel": ["libs/draw-steel/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

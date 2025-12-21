@@ -1,8 +1,26 @@
-import matter from 'gray-matter';
+import { load as parseYaml } from 'js-yaml';
 import { marked } from 'marked';
 import { createHash } from 'node:crypto';
 import { mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+
+/**
+ * @template T
+ * @param {string} raw
+ * @returns {{ data: T, content: string }}
+ */
+function parseFrontmatter(raw) {
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+
+  if (!match) {
+    return { data: /** @type {T} */ ({}), content: raw };
+  }
+
+  const [, frontmatter, content] = match;
+  const data = /** @type {T} */ (parseYaml(frontmatter) ?? {});
+
+  return { data, content };
+}
 
 const repoRoot = path.resolve(process.cwd());
 const target = process.env.TARGET ?? 'apps/web-app/public';
@@ -69,14 +87,8 @@ async function main() {
       mdAbsPaths.map(async (abs) => {
         const relFromInput = path.relative(inputDir, abs);
         const raw = await readFile(abs, 'utf8');
-
-        // gray-matter expects YAML frontmatter delimited by `---`
-        // If there is no frontmatter, `data` will be {} and `content` is the whole file.
-        const parsed = matter(raw);
-        const markdown = parsed.content;
+        const { data: rawData, content: markdown } = parseFrontmatter(raw);
         const html = await marked.parse(markdown);
-
-        const rawData = parsed.data ?? {};
         if (
           ignoredTypes.some((type) => (rawData.type ?? '').startsWith(type))
         ) {

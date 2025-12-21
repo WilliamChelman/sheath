@@ -24,22 +24,22 @@ export const appRoutes: Route[] = [
       {
         path: 'tools/token-creator',
         loadComponent: () =>
-          import(
-            './pages/tools/pages/token-creator/token-creator.view'
-          ).then((m) => m.TokenCreatorView),
+          import('./pages/tools/pages/token-creator/token-creator.view').then(
+            (m) => m.TokenCreatorView,
+          ),
       },
       {
         path: 'compendium',
         loadChildren: () =>
           import('./pages/compendium/compendium.routes').then(
-            (m) => m.compendiumRoutes
+            (m) => m.compendiumV2Routes,
           ),
       },
       {
         path: '**',
         loadComponent: () =>
           import('./pages/not-found/not-found.view').then(
-            (m) => m.NotFoundView
+            (m) => m.NotFoundView,
           ),
       },
     ],
