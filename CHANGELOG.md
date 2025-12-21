@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/WilliamChelman/sheath/compare/v1.1.2...v1.2.0) (2025-12-21)
+
+
+### Features
+
+* **token-creator:** better batch ([9d70134](https://github.com/WilliamChelman/sheath/commit/9d7013498d7e40bbf66901e7d5670975cf15b03e))
+
 ## [1.1.2](https://github.com/WilliamChelman/sheath/compare/v1.1.1...v1.1.2) (2025-12-21)
 
 
