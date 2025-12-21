@@ -151,7 +151,7 @@ export const tokenCreatorBundle = defineI18nBundle({
           resolution:
             'Tokens export at 2x resolution for crisp display on high-DPI screens',
           inspiration:
-            'A good use case is to load existing tokens, for examples the ones from Max_HammGet, remove the border and the initials, and set the token name, and maybe the minion icon.',
+            'A good use case is to load an existing token, for examples one from Max_HammGet, remove the border and the initials, set the token name, and maybe add the minion icon.',
         },
       },
       appearance: {
