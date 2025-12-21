@@ -1,6 +1,13 @@
 export type TokenSize = 'small' | 'medium' | 'large' | 'huge';
 export type BorderWidth = 'none' | 'thin' | 'medium' | 'thick';
-export type NamePosition = 'top' | 'bottom';
+export type NamePosition = 'top' | 'bottom' | 'bottom-flat';
+export type MinionIconPosition =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right';
+export type ShadowIntensity = 'none' | 'subtle' | 'medium' | 'strong' | 'dramatic';
+export type BorderStyle = 'solid' | 'metallic';
 
 export interface BackgroundImage {
   dataUrl: string;
@@ -30,7 +37,10 @@ export interface TokenConfig {
   showName: boolean;
   showInitials: boolean;
   showMinionIcon: boolean;
+  minionIconPosition: MinionIconPosition;
   namePosition: NamePosition;
+  shadowIntensity: ShadowIntensity;
+  borderStyle: BorderStyle;
   backgroundImage?: BackgroundImage;
 }
 
@@ -48,20 +58,37 @@ export const BORDER_WIDTH_PX: Record<BorderWidth, number> = {
   thick: 8,
 };
 
+export const SHADOW_INTENSITY_VALUES: Record<ShadowIntensity, { stdDeviation: number; opacity: number } | null> = {
+  none: null,
+  subtle: { stdDeviation: 1.5, opacity: 0.15 },
+  medium: { stdDeviation: 3, opacity: 0.3 },
+  strong: { stdDeviation: 5, opacity: 0.45 },
+  dramatic: { stdDeviation: 8, opacity: 0.65 },
+};
+
 export const DEFAULT_TOKEN_CONFIG: TokenConfig = {
   name: 'Goblin',
   initials: 'GB',
-  backgroundColor: '#4a5568',
-  borderColor: '#e53e3e',
+  backgroundColor: '#78350f',
+  borderColor: '#d97706',
   borderWidth: 'medium',
   size: 'large',
   showName: true,
   showInitials: true,
   showMinionIcon: false,
+  minionIconPosition: 'bottom-left',
   namePosition: 'bottom',
+  shadowIntensity: 'medium',
+  borderStyle: 'solid',
 };
 
 export type ExportFormat = 'svg' | 'png' | 'jpg' | 'webp';
+
+export interface BatchToken {
+  name: string;
+  initials: string;
+  isMinion: boolean;
+}
 
 export const EXPORT_FORMATS: {
   value: ExportFormat;

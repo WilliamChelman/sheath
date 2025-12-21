@@ -1,12 +1,12 @@
 import { defineI18nBundle } from '@/i18n';
 
 /**
- * Token Generator i18n bundle.
+ * Token Creator i18n bundle.
  *
- * Covers the token generator view + its controls.
+ * Covers the token creator view + its controls.
  */
-export const tokenGeneratorBundle = defineI18nBundle({
-  namespace: 'tokenGenerator',
+export const tokenCreatorBundle = defineI18nBundle({
+  namespace: 'tokenCreator',
   schema: {
     header: {
       badge: { message: '' },
@@ -28,7 +28,11 @@ export const tokenGeneratorBundle = defineI18nBundle({
         svg: { message: '' },
         webp: { message: '' },
         resolution: { message: '' },
+        inspiration: { message: '' },
       },
+    },
+    appearance: {
+      title: { message: '' },
     },
     controls: {
       title: { message: '' },
@@ -48,12 +52,15 @@ export const tokenGeneratorBundle = defineI18nBundle({
       },
       size: { label: { message: '' } },
       borderWidth: { label: { message: '' } },
+      shadowIntensity: { label: { message: '' } },
+      borderStyle: { label: { message: '' } },
       toggles: {
         showInitials: { message: '' },
         showName: { message: '' },
         showMinionIcon: { message: '' },
       },
       namePosition: { label: { message: '' } },
+      minionIconPosition: { label: { message: '' } },
     },
     backgroundImage: {
       title: { message: '' },
@@ -75,6 +82,17 @@ export const tokenGeneratorBundle = defineI18nBundle({
         params: {} as { format: string },
       },
     },
+    batch: {
+      title: { message: '' },
+      inputLabel: { message: '' },
+      placeholder: { message: '' },
+      hint: { message: '' },
+      exportButton: {
+        message: '',
+        params: {} as { count: number },
+      },
+      exporting: { message: '' },
+    },
     options: {
       sizes: {
         small: { message: '' },
@@ -91,13 +109,31 @@ export const tokenGeneratorBundle = defineI18nBundle({
       namePositions: {
         top: { message: '' },
         bottom: { message: '' },
+        bottomFlat: { message: '' },
+      },
+      minionIconPositions: {
+        topLeft: { message: '' },
+        topRight: { message: '' },
+        bottomLeft: { message: '' },
+        bottomRight: { message: '' },
+      },
+      shadowIntensities: {
+        none: { message: '' },
+        subtle: { message: '' },
+        medium: { message: '' },
+        strong: { message: '' },
+        dramatic: { message: '' },
+      },
+      borderStyles: {
+        solid: { message: '' },
+        metallic: { message: '' },
       },
     },
   } as const,
   locales: {
     en: {
       header: {
-        badge: 'Token Generator',
+        badge: 'Token Creator',
         title: 'Token Creator',
         subtitle:
           'Design custom tokens for your TTRPG sessions. Customize colors, size, and text, then export in your preferred format.',
@@ -114,7 +150,12 @@ export const tokenGeneratorBundle = defineI18nBundle({
           webp: 'Use WebP for smaller file sizes with good quality',
           resolution:
             'Tokens export at 2x resolution for crisp display on high-DPI screens',
+          inspiration:
+            'A good use case is to load existing tokens, for examples the ones from Max_HammGet, remove the border and the initials, and set the token name, and maybe the minion icon.',
         },
+      },
+      appearance: {
+        title: 'Appearance',
       },
       controls: {
         title: 'Token Configuration',
@@ -134,12 +175,15 @@ export const tokenGeneratorBundle = defineI18nBundle({
         },
         size: { label: 'Token Size' },
         borderWidth: { label: 'Border Width' },
+        shadowIntensity: { label: 'Shadow Intensity' },
+        borderStyle: { label: 'Border Style' },
         toggles: {
           showInitials: 'Show initials',
           showName: 'Show name on token',
           showMinionIcon: 'Show minion icon',
         },
         namePosition: { label: 'Name Position' },
+        minionIconPosition: { label: 'Icon Position' },
       },
       backgroundImage: {
         title: 'Background Image',
@@ -158,6 +202,14 @@ export const tokenGeneratorBundle = defineI18nBundle({
         format: { label: 'Format' },
         download: '📥 Download {format}',
       },
+      batch: {
+        title: 'Batch Export',
+        inputLabel: 'Token Names',
+        placeholder: 'Goblin, Orc, Dragon!, Zombie!',
+        hint: 'Comma-separated names. Add ! for minions.',
+        exportButton: '📦 Download {count} Tokens (ZIP)',
+        exporting: 'Exporting...',
+      },
       options: {
         sizes: {
           small: 'Small',
@@ -174,6 +226,24 @@ export const tokenGeneratorBundle = defineI18nBundle({
         namePositions: {
           top: 'Top',
           bottom: 'Bottom',
+          bottomFlat: 'Bottom Flat',
+        },
+        minionIconPositions: {
+          topLeft: '↖',
+          topRight: '↗',
+          bottomLeft: '↙',
+          bottomRight: '↘',
+        },
+        shadowIntensities: {
+          none: 'None',
+          subtle: 'Subtle',
+          medium: 'Medium',
+          strong: 'Strong',
+          dramatic: 'Dramatic',
+        },
+        borderStyles: {
+          solid: 'Solid',
+          metallic: 'Metallic',
         },
       },
     },

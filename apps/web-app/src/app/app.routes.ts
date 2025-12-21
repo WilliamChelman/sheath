@@ -22,11 +22,11 @@ export const appRoutes: Route[] = [
           import('./pages/tools/tools.view').then((m) => m.ToolsView),
       },
       {
-        path: 'tools/token-generator',
+        path: 'tools/token-creator',
         loadComponent: () =>
           import(
-            './pages/tools/pages/token-generator/token-generator.view'
-          ).then((m) => m.TokenGeneratorView),
+            './pages/tools/pages/token-creator/token-creator.view'
+          ).then((m) => m.TokenCreatorView),
       },
       {
         path: 'compendium',

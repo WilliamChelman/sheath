@@ -19,7 +19,7 @@ export const toolsBundle = defineI18nBundle({
       },
     },
     tools: {
-      tokenGenerator: {
+      tokenCreator: {
         title: { message: '' },
         description: { message: '' },
       },
@@ -47,8 +47,7 @@ export const toolsBundle = defineI18nBundle({
       header: {
         badge: 'Draw Steel Tools',
         title: 'Tools',
-        subtitle:
-          'Helpful utilities for running Draw Steel sessions.',
+        subtitle: 'Helpful utilities for running Draw Steel sessions.',
       },
       sections: {
         available: {
@@ -61,8 +60,8 @@ export const toolsBundle = defineI18nBundle({
         },
       },
       tools: {
-        tokenGenerator: {
-          title: 'Token Generator',
+        tokenCreator: {
+          title: 'Token Creator',
           description:
             'Create custom monster tokens with configurable colors, size, and text.',
         },
@@ -73,13 +72,11 @@ export const toolsBundle = defineI18nBundle({
         },
         encounterBuilder: {
           title: 'Encounter Builder',
-          description:
-            'Design balanced encounters using threat budgets.',
+          description: 'Design balanced encounters using threat budgets.',
         },
         otherTools: {
           title: 'More Tools',
-          description:
-            'Additional tools based on community feedback.',
+          description: 'Additional tools based on community feedback.',
         },
       },
       toolCount:

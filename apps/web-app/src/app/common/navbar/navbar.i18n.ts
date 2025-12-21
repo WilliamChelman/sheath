@@ -14,7 +14,7 @@ export const navbarBundle = defineI18nBundle({
       about: { message: '' },
       tools: { message: '' },
       allTools: { message: '' },
-      tokenGenerator: { message: '' },
+      tokenCreator: { message: '' },
       compendium: { message: '' },
     },
     language: {
@@ -30,7 +30,7 @@ export const navbarBundle = defineI18nBundle({
         about: 'About',
         tools: 'Tools',
         allTools: 'All Tools',
-        tokenGenerator: 'Token Generator',
+        tokenCreator: 'Token Creator',
         compendium: 'Compendium',
       },
       language: {

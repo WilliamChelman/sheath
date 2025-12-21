@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  BatchToken,
   EXPORT_FORMATS,
   ExportFormat,
   TOKEN_SIZE_PX,
@@ -21,6 +22,111 @@ export class TokenExportService {
     }
 
     await this.downloadRaster(svgElement, config, format, filename);
+  }
+
+  async exportBatch(
+    getSvgElement: () => SVGSVGElement | null,
+    baseConfig: TokenConfig,
+    tokens: BatchToken[],
+    format: ExportFormat,
+    updateConfigFn: (config: TokenConfig) => void,
+    waitForRenderFn: () => Promise<void>,
+  ): Promise<void> {
+    const JSZip = (await import('jszip')).default;
+    const zip = new JSZip();
+
+    const originalConfig = { ...baseConfig };
+
+    for (const token of tokens) {
+      // Update config for this token
+      updateConfigFn({
+        ...baseConfig,
+        name: token.name,
+        initials: token.initials,
+        showMinionIcon: token.isMinion,
+      });
+
+      // Wait for Angular to re-render
+      await waitForRenderFn();
+
+      // Get the updated SVG element
+      const svgElement = getSvgElement();
+      if (!svgElement) continue;
+
+      // Get blob and add to zip
+      const blob = await this.getBlob(svgElement, baseConfig, format);
+      const filename = this.generateFilename(token.name, format);
+      zip.file(filename, blob);
+    }
+
+    // Restore original config
+    updateConfigFn(originalConfig);
+
+    // Generate and download ZIP
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const timestamp = new Date().toISOString().slice(0, 10);
+    this.triggerDownload(zipBlob, `tokens-${timestamp}.zip`);
+  }
+
+  private async getBlob(
+    svgElement: SVGSVGElement,
+    config: TokenConfig,
+    format: ExportFormat,
+  ): Promise<Blob> {
+    if (format === 'svg') {
+      const serializer = new XMLSerializer();
+      const svgString = serializer.serializeToString(svgElement);
+      return new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    }
+
+    return this.generateRasterBlob(svgElement, config, format);
+  }
+
+  private async generateRasterBlob(
+    svgElement: SVGSVGElement,
+    config: TokenConfig,
+    format: ExportFormat,
+  ): Promise<Blob> {
+    const size = TOKEN_SIZE_PX[config.size];
+    const scale = 2;
+    const exportSize = size * scale;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = exportSize;
+    canvas.height = exportSize;
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+      throw new Error('Could not get canvas context');
+    }
+
+    if (format === 'jpg') {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, exportSize, exportSize);
+    }
+
+    const svgData = this.prepareSvgForExport(svgElement, exportSize);
+    const img = await this.loadImage(svgData);
+
+    ctx.drawImage(img, 0, 0, exportSize, exportSize);
+
+    const mimeType =
+      EXPORT_FORMATS.find((f) => f.value === format)?.mimeType || 'image/png';
+    const quality = format === 'jpg' ? 0.92 : undefined;
+
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error('Failed to create blob'));
+          }
+        },
+        mimeType,
+        quality,
+      );
+    });
   }
 
   private generateFilename(name: string, format: ExportFormat): string {

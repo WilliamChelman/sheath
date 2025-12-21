@@ -2,6 +2,7 @@ import { Component, computed, input, output } from '@angular/core';
 import {
   BackgroundImage,
   BORDER_WIDTH_PX,
+  SHADOW_INTENSITY_VALUES,
   TOKEN_SIZE_PX,
   TokenConfig,
 } from '../models/token.model';
@@ -37,16 +38,23 @@ import {
           <stop offset="100%" [attr.stop-color]="config().backgroundColor" />
         </radialGradient>
 
-        <!-- Drop shadow filter -->
-        <filter
-          [attr.id]="'dropShadow-' + uniqueId"
-          x="-20%"
-          y="-20%"
-          width="140%"
-          height="140%"
-        >
-          <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3" />
-        </filter>
+        <!-- Drop shadow filter (only if not 'none') -->
+        @if (shadowValues(); as shadow) {
+          <filter
+            [attr.id]="'dropShadow-' + uniqueId"
+            x="-20%"
+            y="-20%"
+            width="140%"
+            height="140%"
+          >
+            <feDropShadow
+              dx="0"
+              dy="2"
+              [attr.stdDeviation]="shadow.stdDeviation"
+              [attr.flood-opacity]="shadow.opacity"
+            />
+          </filter>
+        }
 
         <!-- Text shadow filter (for legibility on any background) -->
         <filter
@@ -72,6 +80,38 @@ import {
           />
         </filter>
 
+        <!-- Metallic border gradient (shimmer effect) -->
+        @if (config().borderStyle === 'metallic') {
+          <linearGradient
+            [attr.id]="'metallicBorder-' + uniqueId"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
+            <stop
+              offset="0%"
+              [attr.stop-color]="darkenColor(config().borderColor, 30)"
+            />
+            <stop
+              offset="25%"
+              [attr.stop-color]="lightenColor(config().borderColor, 20)"
+            />
+            <stop
+              offset="50%"
+              [attr.stop-color]="lightenColor(config().borderColor, 40)"
+            />
+            <stop
+              offset="75%"
+              [attr.stop-color]="lightenColor(config().borderColor, 20)"
+            />
+            <stop
+              offset="100%"
+              [attr.stop-color]="darkenColor(config().borderColor, 30)"
+            />
+          </linearGradient>
+        }
+
         <!-- Clip path for circular token -->
         <clipPath [attr.id]="'tokenClip-' + uniqueId">
           <circle
@@ -91,6 +131,12 @@ import {
         <path
           [attr.id]="'namePathTop-' + uniqueId"
           [attr.d]="nameTopCurvePath()"
+          fill="none"
+        />
+        <!-- Flat text path for name (bottom-flat) -->
+        <path
+          [attr.id]="'namePathBottomFlat-' + uniqueId"
+          [attr.d]="nameBottomFlatPath()"
           fill="none"
         />
       </defs>
@@ -125,9 +171,11 @@ import {
         [attr.cy]="center()"
         [attr.r]="innerRadius()"
         fill="none"
-        [attr.stroke]="config().borderColor"
+        [attr.stroke]="borderStroke()"
         [attr.stroke-width]="borderWidthPx()"
-        [attr.filter]="'url(#dropShadow-' + uniqueId + ')'"
+        [attr.filter]="
+          shadowValues() ? 'url(#dropShadow-' + uniqueId + ')' : ''
+        "
       />
 
       <!-- Initials in center -->
@@ -169,7 +217,9 @@ import {
       @if (config().showMinionIcon) {
         <g
           [attr.transform]="minionIconTransform()"
-          [attr.filter]="'url(#dropShadow-' + uniqueId + ')'"
+          [attr.filter]="
+            shadowValues() ? 'url(#dropShadow-' + uniqueId + ')' : ''
+          "
         >
           <circle
             [attr.cx]="minionIconSize() / 2"
@@ -213,6 +263,20 @@ export class TokenPreviewComponent {
   innerRadius = computed(() => (this.sizePx() - this.borderWidthPx()) / 2 - 1);
   viewBox = computed(() => `0 0 ${this.sizePx()} ${this.sizePx()}`);
 
+  // Shadow computed properties
+  shadowValues = computed(() => {
+    const intensity = this.config().shadowIntensity;
+    return SHADOW_INTENSITY_VALUES[intensity];
+  });
+
+  // Border style computed properties
+  borderStroke = computed(() => {
+    const style = this.config().borderStyle;
+    return style === 'metallic'
+      ? `url(#metallicBorder-${this.uniqueId})`
+      : this.config().borderColor;
+  });
+
   // Background image computed properties
   imageSize = computed(() => {
     const bg = this.config().backgroundImage;
@@ -250,12 +314,28 @@ export class TokenPreviewComponent {
   minionIconSize = computed(() => this.sizePx() * 0.25);
   minionIconTransform = computed(() => {
     const size = this.minionIconSize();
-    const tokenSize = this.sizePx();
-    const borderWidth = this.borderWidthPx();
-    // Position in bottom-left corner, with some padding from the edge
-    const padding = tokenSize * 0.08;
-    const x = padding + borderWidth / 2;
-    const y = tokenSize - size - padding - borderWidth / 2;
+    const center = this.center();
+    const radius = this.innerRadius();
+    const position = this.config().minionIconPosition;
+
+    // Calculate angle based on corner position (in radians)
+    // SVG coordinate system: 0° = right, 90° = down, 180° = left, 270° = up
+    const angleMap: Record<string, number> = {
+      'top-left': (225 * Math.PI) / 180,
+      'top-right': (315 * Math.PI) / 180,
+      'bottom-left': (135 * Math.PI) / 180,
+      'bottom-right': (45 * Math.PI) / 180,
+    };
+    const angle = angleMap[position] ?? angleMap['bottom-left'];
+
+    // Position icon center on the circle edge
+    const iconCenterX = center + radius * Math.cos(angle);
+    const iconCenterY = center + radius * Math.sin(angle);
+
+    // Translate so that the icon's top-left corner places its center at the calculated point
+    const x = iconCenterX - size / 2;
+    const y = iconCenterY - size / 2;
+
     return `translate(${x}, ${y})`;
   });
 
@@ -266,11 +346,12 @@ export class TokenPreviewComponent {
 
   nameBottomCurvePath = computed(() => {
     const center = this.center();
-    const radius = this.innerRadius() * 0.75;
-    // Arc across the bottom: from lower-left (150°) to lower-right (30°)
+    const radius = this.innerRadius() * 0.85;
+    // Arc across the bottom: from lower-left (165°) to lower-right (15°)
     // sin > 0 for these angles = below center in SVG
-    const startAngle = 150;
-    const endAngle = 30;
+    // Increased from 120° to 150° arc to accommodate longer text
+    const startAngle = 165;
+    const endAngle = 15;
 
     const startRad = (startAngle * Math.PI) / 180;
     const endRad = (endAngle * Math.PI) / 180;
@@ -287,10 +368,11 @@ export class TokenPreviewComponent {
   nameTopCurvePath = computed(() => {
     const center = this.center();
     const radius = this.innerRadius() * 0.75;
-    // Arc across the top: from upper-left (210°) to upper-right (330°)
+    // Arc across the top: from upper-left (195°) to upper-right (345°)
     // sin < 0 for these angles = above center in SVG
-    const startAngle = 210;
-    const endAngle = 330;
+    // Increased from 120° to 150° arc to accommodate longer text
+    const startAngle = 195;
+    const endAngle = 345;
 
     const startRad = (startAngle * Math.PI) / 180;
     const endRad = (endAngle * Math.PI) / 180;
@@ -304,11 +386,25 @@ export class TokenPreviewComponent {
     return `M ${x1} ${y1} A ${radius} ${radius} 0 0 1 ${x2} ${y2}`;
   });
 
+  nameBottomFlatPath = computed(() => {
+    const center = this.center();
+    const radius = this.innerRadius();
+    // Position at the bottom of the circle with more vertical clearance
+    const bottomY = center + radius - 18;
+    const horizontalPadding = this.sizePx() * 0.05;
+    // Horizontal line at the bottom of the token spanning most of the width
+    const x1 = horizontalPadding;
+    const x2 = this.sizePx() - horizontalPadding;
+    return `M ${x1} ${bottomY} L ${x2} ${bottomY}`;
+  });
+
   namePathHref = computed(() => {
     const position = this.config().namePosition;
     return position === 'top'
       ? `#namePathTop-${this.uniqueId}`
-      : `#namePathBottom-${this.uniqueId}`;
+      : position === 'bottom-flat'
+        ? `#namePathBottomFlat-${this.uniqueId}`
+        : `#namePathBottom-${this.uniqueId}`;
   });
 
   lightenColor(hex: string, percent: number): string {
@@ -317,6 +413,15 @@ export class TokenPreviewComponent {
     const R = Math.min(255, (num >> 16) + amt);
     const G = Math.min(255, ((num >> 8) & 0x00ff) + amt);
     const B = Math.min(255, (num & 0x0000ff) + amt);
+    return `#${((1 << 24) | (R << 16) | (G << 8) | B).toString(16).slice(1)}`;
+  }
+
+  darkenColor(hex: string, percent: number): string {
+    const num = parseInt(hex.replace('#', ''), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = Math.max(0, (num >> 16) - amt);
+    const G = Math.max(0, ((num >> 8) & 0x00ff) - amt);
+    const B = Math.max(0, (num & 0x0000ff) - amt);
     return `#${((1 << 24) | (R << 16) | (G << 8) | B).toString(16).slice(1)}`;
   }
 

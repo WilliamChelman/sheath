@@ -1,3 +1,6 @@
+import { I18nService } from '@/i18n';
+import { BadgeComponent } from '@/ui/badge';
+import { CardComponent } from '@/ui/card';
 import {
   Component,
   computed,
@@ -7,19 +10,21 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { I18nService } from '@/i18n';
 import { PageTitleDirective } from '../../../../common/page-title/page-title.directive';
-import { BadgeComponent } from '@/ui/badge';
-import { TokenControlsComponent } from './components/token-controls.component';
+import { TokenAppearanceControlsComponent } from './components/token-appearance-controls.component';
+import { TokenBackgroundControlsComponent } from './components/token-background-controls.component';
+import { TokenContentControlsComponent } from './components/token-content-controls.component';
+import { TokenExportControlsComponent } from './components/token-export-controls.component';
 import { TokenPreviewComponent } from './components/token-preview.component';
-import { tokenGeneratorBundle } from './token-generator.i18n';
-import { CardComponent } from '@/ui/card';
 import {
   BackgroundImage,
+  BatchToken,
   DEFAULT_TOKEN_CONFIG,
+  ExportFormat,
   TokenConfig,
 } from './models/token.model';
 import { TokenExportService } from './services/token-export.service';
+import { tokenCreatorBundle } from './token-creator.i18n';
 
 type PersistedTokenConfig = Pick<
   TokenConfig,
@@ -27,19 +32,25 @@ type PersistedTokenConfig = Pick<
   | 'borderColor'
   | 'size'
   | 'borderWidth'
+  | 'shadowIntensity'
+  | 'borderStyle'
   | 'showInitials'
   | 'showName'
   | 'showMinionIcon'
+  | 'minionIconPosition'
   | 'namePosition'
 >;
 
-const TOKEN_GENERATOR_CONFIG_STORAGE_KEY = 'sheath.token-generator.v1.config';
+const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
 
 @Component({
-  selector: 'app-token-generator-view',
+  selector: 'app-token-creator-view',
   imports: [
     TokenPreviewComponent,
-    TokenControlsComponent,
+    TokenContentControlsComponent,
+    TokenAppearanceControlsComponent,
+    TokenBackgroundControlsComponent,
+    TokenExportControlsComponent,
     CardComponent,
     PageTitleDirective,
     BadgeComponent,
@@ -60,13 +71,10 @@ const TOKEN_GENERATOR_CONFIG_STORAGE_KEY = 'sheath.token-generator.v1.config';
       </div>
 
       <!-- Main Content -->
-      <div class="grid lg:grid-cols-5 gap-8">
+      <div class="grid lg:grid-cols-5 gap-4">
         <!-- Preview Panel -->
-        <div class="lg:col-span-3">
-          <app-card
-            [fullHeight]="true"
-            bodyClass="items-center justify-center min-h-[400px]"
-          >
+        <div class="lg:col-span-2">
+          <app-card bodyClass="items-center justify-center">
             <div class="mb-4 text-sm text-base-content/50">
               {{ t('preview.livePreview') }}
             </div>
@@ -101,11 +109,26 @@ const TOKEN_GENERATOR_CONFIG_STORAGE_KEY = 'sheath.token-generator.v1.config';
           </app-card>
         </div>
 
-        <!-- Controls Panel -->
-        <div class="lg:col-span-2">
-          <app-token-controls
+        <!-- Controls Panels (2x2 Grid) -->
+        <div class="lg:col-span-3 grid grid-cols-2 gap-4">
+          <!-- Panel 1: Token Content -->
+          <app-token-content-controls [(config)]="tokenConfig" />
+
+          <!-- Panel 2: Appearance -->
+          <app-token-appearance-controls [(config)]="tokenConfig" />
+
+          <!-- Panel 3: Background Image -->
+          <app-token-background-controls
+            [(config)]="tokenConfig"
+            (backgroundImageChange)="onBackgroundImageChange($event)"
+          />
+
+          <!-- Panel 4: Export -->
+          <app-token-export-controls
             [(config)]="tokenConfig"
             [(onExportRequest)]="exportRequest"
+            [(batchExportRequest)]="batchExportRequest"
+            [(isExportingBatch)]="isExportingBatch"
           />
         </div>
       </div>
@@ -120,20 +143,70 @@ const TOKEN_GENERATOR_CONFIG_STORAGE_KEY = 'sheath.token-generator.v1.config';
           <li>• {{ t('tips.items.svg') }}</li>
           <li>• {{ t('tips.items.webp') }}</li>
           <li>• {{ t('tips.items.resolution') }}</li>
+          <li>
+            • {{ t('tips.items.inspiration') }}
+            <div class="mt-2 ml-4 text-xs space-y-1">
+              <div>
+                <a
+                  href="https://www.reddit.com/user/Max_Hamm/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="link link-primary"
+                >
+                  Max_Hamm's Profile
+                </a>
+              </div>
+              <div>
+                <a
+                  href="https://www.reddit.com/r/drawsteel/comments/1oty323/drawing_draw_steel_tokens_weeks_1_and_2/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="link link-primary"
+                >
+                  Weeks 1-2 Tokens
+                </a>
+              </div>
+              <div>
+                <a
+                  href="https://www.reddit.com/r/drawsteel/comments/1p5vew9/drawing_steel_weeks_3_and_4/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="link link-primary"
+                >
+                  Weeks 3-4 Tokens
+                </a>
+              </div>
+              <div>
+                <a
+                  href="https://www.reddit.com/r/drawsteel/comments/1phtf1y/drawing_steel_weeks_5_and_6/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="link link-primary"
+                >
+                  Weeks 5-6 Tokens
+                </a>
+              </div>
+            </div>
+          </li>
         </ul>
       </app-card>
     </div>
   `,
 })
-export class TokenGeneratorView {
+export class TokenCreatorView {
   private exportService = inject(TokenExportService);
   private i18n = inject(I18nService);
-  protected t = this.i18n.useBundleT(tokenGeneratorBundle);
+  protected t = this.i18n.useBundleT(tokenCreatorBundle);
 
   tokenConfig = signal<TokenConfig>(DEFAULT_TOKEN_CONFIG);
   exportRequest = signal<{ format: 'svg' | 'png' | 'jpg' | 'webp' } | null>(
     null,
   );
+  batchExportRequest = signal<{
+    format: ExportFormat;
+    tokens: BatchToken[];
+  } | null>(null);
+  isExportingBatch = signal(false);
 
   previewContainer = viewChild<ElementRef<HTMLDivElement>>('previewContainer');
 
@@ -169,9 +242,12 @@ export class TokenGeneratorView {
         borderColor: cfg.borderColor,
         size: cfg.size,
         borderWidth: cfg.borderWidth,
+        shadowIntensity: cfg.shadowIntensity,
+        borderStyle: cfg.borderStyle,
         showInitials: cfg.showInitials,
         showName: cfg.showName,
         showMinionIcon: cfg.showMinionIcon,
+        minionIconPosition: cfg.minionIconPosition,
         namePosition: cfg.namePosition,
       });
     });
@@ -181,6 +257,14 @@ export class TokenGeneratorView {
       if (request) {
         this.handleExport(request.format);
         this.exportRequest.set(null);
+      }
+    });
+
+    effect(() => {
+      const request = this.batchExportRequest();
+      if (request && !this.isExportingBatch()) {
+        this.handleBatchExport(request);
+        this.batchExportRequest.set(null);
       }
     });
   }
@@ -200,7 +284,7 @@ export class TokenGeneratorView {
     if (!this.isStorageAvailable()) return null;
 
     try {
-      const raw = localStorage.getItem(TOKEN_GENERATOR_CONFIG_STORAGE_KEY);
+      const raw = localStorage.getItem(TOKEN_CREATOR_CONFIG_STORAGE_KEY);
       if (!raw) return null;
       const parsed: unknown = JSON.parse(raw);
       if (!parsed || typeof parsed !== 'object') return null;
@@ -237,8 +321,35 @@ export class TokenGeneratorView {
       if (typeof obj.showMinionIcon === 'boolean')
         result.showMinionIcon = obj.showMinionIcon;
 
-      if (obj.namePosition === 'top' || obj.namePosition === 'bottom') {
+      if (
+        obj.minionIconPosition === 'top-left' ||
+        obj.minionIconPosition === 'top-right' ||
+        obj.minionIconPosition === 'bottom-left' ||
+        obj.minionIconPosition === 'bottom-right'
+      ) {
+        result.minionIconPosition = obj.minionIconPosition;
+      }
+
+      if (
+        obj.namePosition === 'top' ||
+        obj.namePosition === 'bottom' ||
+        obj.namePosition === 'bottom-flat'
+      ) {
         result.namePosition = obj.namePosition;
+      }
+
+      if (
+        obj.shadowIntensity === 'none' ||
+        obj.shadowIntensity === 'subtle' ||
+        obj.shadowIntensity === 'medium' ||
+        obj.shadowIntensity === 'strong' ||
+        obj.shadowIntensity === 'dramatic'
+      ) {
+        result.shadowIntensity = obj.shadowIntensity;
+      }
+
+      if (obj.borderStyle === 'solid' || obj.borderStyle === 'metallic') {
+        result.borderStyle = obj.borderStyle;
       }
 
       return Object.keys(result).length
@@ -254,7 +365,7 @@ export class TokenGeneratorView {
 
     try {
       localStorage.setItem(
-        TOKEN_GENERATOR_CONFIG_STORAGE_KEY,
+        TOKEN_CREATOR_CONFIG_STORAGE_KEY,
         JSON.stringify(value),
       );
     } catch {
@@ -287,6 +398,33 @@ export class TokenGeneratorView {
       );
     } catch (error) {
       console.error('Export failed:', error);
+    }
+  }
+
+  private async handleBatchExport(request: {
+    format: ExportFormat;
+    tokens: BatchToken[];
+  }): Promise<void> {
+    const container = this.previewContainer();
+    if (!container) return;
+
+    this.isExportingBatch.set(true);
+    const originalConfig = this.tokenConfig();
+
+    try {
+      await this.exportService.exportBatch(
+        () => container.nativeElement.querySelector('svg'),
+        originalConfig,
+        request.tokens,
+        request.format,
+        (config) => this.tokenConfig.set(config),
+        () => new Promise((resolve) => setTimeout(resolve, 100)),
+      );
+    } catch (error) {
+      console.error('Batch export failed:', error);
+    } finally {
+      this.tokenConfig.set(originalConfig);
+      this.isExportingBatch.set(false);
     }
   }
 }

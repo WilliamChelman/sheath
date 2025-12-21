@@ -138,9 +138,9 @@ export class ToolsView {
   availableFeatures: Feature[] = [
     {
       icon: '🎨',
-      titleKey: 'tools.tokenGenerator.title',
-      descriptionKey: 'tools.tokenGenerator.description',
-      link: '/tools/token-generator',
+      titleKey: 'tools.tokenCreator.title',
+      descriptionKey: 'tools.tokenCreator.description',
+      link: '/tools/token-creator',
     },
     {
       icon: '📖',

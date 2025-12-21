@@ -30,6 +30,12 @@ import { FormIdService } from './form-id.service';
       />
     </div>
   `,
+  styles: [`
+    input::placeholder {
+      opacity: 0.5;
+      color: inherit;
+    }
+  `],
 })
 export class TextInputComponent {
   private formId = inject(FormIdService);
