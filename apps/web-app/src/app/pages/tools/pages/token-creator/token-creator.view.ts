@@ -1,6 +1,7 @@
 import { I18nService } from '@/i18n';
 import { BadgeComponent } from '@/ui/badge';
 import { CardComponent } from '@/ui/card';
+import { TourService } from '@/ui/tour';
 import {
   Component,
   computed,
@@ -10,6 +11,8 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { heroQuestionMarkCircle } from '@ng-icons/heroicons/outline';
 import { PageTitleDirective } from '../../../../common/page-title/page-title.directive';
 import { TokenAppearanceControlsComponent } from './components/token-appearance-controls.component';
 import { TokenBackgroundControlsComponent } from './components/token-background-controls.component';
@@ -25,6 +28,7 @@ import {
 } from './models/token.model';
 import { TokenExportService } from './services/token-export.service';
 import { tokenCreatorBundle } from './token-creator.i18n';
+import { TOKEN_CREATOR_TOUR_CONFIG } from './tour/token-creator-tour.config';
 
 type PersistedTokenConfig = Pick<
   TokenConfig,
@@ -58,14 +62,25 @@ const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
     CardComponent,
     PageTitleDirective,
     BadgeComponent,
+    NgIcon,
   ],
+  viewProviders: [provideIcons({ heroQuestionMarkCircle })],
   template: `
     <div class="container mx-auto max-w-6xl px-4 py-8">
       <!-- Header -->
       <div class="text-center mb-8">
-        <app-badge color="primary" variant="outline" class="mb-4 gap-2">
-          <span>🎨</span> {{ t('header.badge') }}
-        </app-badge>
+        <div class="flex justify-center items-center gap-3 mb-4">
+          <app-badge color="primary" variant="outline" class="gap-2">
+            <span>🎨</span> {{ t('header.badge') }}
+          </app-badge>
+          <button
+            class="btn btn-ghost btn-circle btn-sm"
+            (click)="startTour()"
+            [title]="t('header.helpTitle')"
+          >
+            <ng-icon name="heroQuestionMarkCircle" class="text-xl" />
+          </button>
+        </div>
         <h1 appPageTitle class="text-3xl md:text-4xl font-bold mb-3">
           {{ t('header.title') }}
         </h1>
@@ -77,7 +92,7 @@ const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
       <!-- Main Content -->
       <div class="grid lg:grid-cols-5 gap-4">
         <!-- Preview Panel -->
-        <div class="lg:col-span-2">
+        <div class="lg:col-span-2" data-tour="token-preview">
           <app-card bodyClass="items-center justify-center">
             <div class="mb-4 text-sm text-base-content/50">
               {{ t('preview.livePreview') }}
@@ -117,21 +132,27 @@ const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
         <div class="lg:col-span-3 grid grid-cols-2 gap-4">
           <!-- Panel 1: Token Content -->
           <app-token-content-controls
+            data-tour="token-content"
             [(config)]="tokenConfig"
             [isBatchMode]="isBatchMode()"
           />
 
           <!-- Panel 2: Appearance -->
-          <app-token-appearance-controls [(config)]="tokenConfig" />
+          <app-token-appearance-controls
+            data-tour="token-appearance"
+            [(config)]="tokenConfig"
+          />
 
           <!-- Panel 3: Background Image -->
           <app-token-background-controls
+            data-tour="token-background"
             [(config)]="tokenConfig"
             (backgroundImageChange)="onBackgroundImageChange($event)"
           />
 
           <!-- Panel 4: Export -->
           <app-token-export-controls
+            data-tour="token-export"
             [(config)]="tokenConfig"
             [(onExportRequest)]="exportRequest"
             [(batchExportRequest)]="batchExportRequest"
@@ -204,6 +225,7 @@ const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
 })
 export class TokenCreatorView {
   private exportService = inject(TokenExportService);
+  private tourService = inject(TourService);
   private i18n = inject(I18nService);
   protected t = this.i18n.useBundleT(tokenCreatorBundle);
 
@@ -351,6 +373,10 @@ export class TokenCreatorView {
       ...current,
       backgroundImage,
     }));
+  }
+
+  startTour(): void {
+    this.tourService.start(TOKEN_CREATOR_TOUR_CONFIG);
   }
 
   private readPersistedTokenConfig(): PersistedTokenConfig | null {

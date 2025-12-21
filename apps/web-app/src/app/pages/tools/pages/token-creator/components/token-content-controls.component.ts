@@ -41,6 +41,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 
       <!-- Name Input -->
       <app-textarea
+        data-tour="token-name-input"
         [label]="t('controls.name.label')"
         [value]="config().name"
         (valueChange)="updateConfig({ name: $event })"

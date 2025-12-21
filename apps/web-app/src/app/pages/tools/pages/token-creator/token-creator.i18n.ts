@@ -12,6 +12,7 @@ export const tokenCreatorBundle = defineI18nBundle({
       badge: { message: '' },
       title: { message: '' },
       subtitle: { message: '' },
+      helpTitle: { message: '' },
     },
     preview: {
       livePreview: { message: '' },
@@ -160,6 +161,7 @@ export const tokenCreatorBundle = defineI18nBundle({
         title: 'Token Creator',
         subtitle:
           'Design custom tokens for your TTRPG sessions. Customize colors, size, and text, then export in your preferred format.',
+        helpTitle: 'Take a tour of the Token Creator',
       },
       preview: {
         livePreview: 'Live Preview',
@@ -189,8 +191,9 @@ export const tokenCreatorBundle = defineI18nBundle({
         name: {
           label: 'Token Name',
           placeholder: 'Goblin or Goblin, Orc@OR, Dragon!',
-          hint: 'Tip: Use commas to create multiple tokens at once',
-          batchHint: 'Batch mode: Use @XX for custom initials, ! for minions (e.g. Orc@OR!)',
+          hint: 'Tip: Use commas or new lines to create multiple tokens at once',
+          batchHint:
+            'Batch mode: Use @XX for custom initials, ! for minions (e.g. Orc@OR!)',
         },
         initials: {
           label: 'Initials',

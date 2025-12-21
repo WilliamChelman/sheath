@@ -1,4 +1,5 @@
 import { I18nService } from '@/i18n';
+import { provideHttpClient } from '@angular/common/http';
 import {
   ApplicationConfig,
   inject,
@@ -11,7 +12,6 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { appRoutes } from './app.routes';
 import { ConfigService } from './services/config.service';
-import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,7 +31,10 @@ export const appConfig: ApplicationConfig = {
     }),
     provideAppInitializer(() => {
       const i18n = inject(I18nService);
-      i18n.init({ defaultLocale: 'en', bundles: [] });
+      i18n.init({
+        defaultLocale: 'en',
+        bundles: [],
+      });
     }),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
