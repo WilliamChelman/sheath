@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/WilliamChelman/sheath/compare/v1.1.1...v1.1.2) (2025-12-21)
+
+
+### Bug Fixes
+
+* **token-creator:** blend batch creation with the rest of the controls ([fedfa8f](https://github.com/WilliamChelman/sheath/commit/fedfa8fe89c1c21e8ae325414926bb0e58caaff2))
+
 ## [1.1.1](https://github.com/WilliamChelman/sheath/compare/v1.1.0...v1.1.1) (2025-12-21)
 
 
