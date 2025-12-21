@@ -1,4 +1,5 @@
 export { TextInputComponent } from './text-input.component';
+export { TextareaComponent } from './textarea.component';
 export { SelectComponent, type SelectOption } from './select.component';
 export { ColorPickerComponent } from './color-picker.component';
 export { ToggleComponent } from './toggle.component';

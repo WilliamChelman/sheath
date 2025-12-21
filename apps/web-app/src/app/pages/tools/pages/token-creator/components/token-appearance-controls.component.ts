@@ -11,6 +11,8 @@ import {
   BorderStyle,
   BorderWidth,
   ShadowIntensity,
+  TextShadowIntensity,
+  TextSize,
   TokenConfig,
   TokenSize,
 } from '../models/token.model';
@@ -24,7 +26,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
       <h3 class="card-title text-sm">{{ t('appearance.title') }}</h3>
 
       <!-- Colors -->
-      <div class="grid grid-cols-2 gap-2">
+      <div class="grid grid-cols-3 gap-2">
         <app-color-picker
           [label]="t('controls.colors.background')"
           [value]="config().backgroundColor"
@@ -34,6 +36,11 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
           [label]="t('controls.colors.border')"
           [value]="config().borderColor"
           (valueChange)="updateConfig({ borderColor: $event })"
+        />
+        <app-color-picker
+          [label]="t('controls.colors.text')"
+          [value]="config().textColor"
+          (valueChange)="updateConfig({ textColor: $event })"
         />
       </div>
 
@@ -69,6 +76,35 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
         [value]="config().borderStyle"
         (valueChange)="updateConfig({ borderStyle: $event })"
         [fullWidth]="true"
+      />
+
+      <!-- Text Settings Section -->
+      <div class="divider text-xs text-base-content/50 my-1">
+        {{ t('controls.textSettings.label') }}
+      </div>
+
+      <!-- Initials Size -->
+      <app-button-group
+        [label]="t('controls.initialsSize.label')"
+        [options]="textSizes()"
+        [value]="config().initialsSize"
+        (valueChange)="updateConfig({ initialsSize: $event })"
+      />
+
+      <!-- Name Size -->
+      <app-button-group
+        [label]="t('controls.nameSize.label')"
+        [options]="textSizes()"
+        [value]="config().nameSize"
+        (valueChange)="updateConfig({ nameSize: $event })"
+      />
+
+      <!-- Text Shadow Intensity -->
+      <app-button-group
+        [label]="t('controls.textShadowIntensity.label')"
+        [options]="textShadowIntensities()"
+        [value]="config().textShadowIntensity"
+        (valueChange)="updateConfig({ textShadowIntensity: $event })"
       />
     </app-card>
   `,
@@ -159,6 +195,50 @@ export class TokenAppearanceControlsComponent {
       {
         value: 'metallic',
         label: this.t('options.borderStyles.metallic'),
+      },
+    ];
+  });
+
+  textSizes = computed<ButtonGroupOption<TextSize>[]>(() => {
+    this.i18n.locale();
+    return [
+      {
+        value: 'small',
+        label: this.t('options.textSizes.small'),
+      },
+      {
+        value: 'medium',
+        label: this.t('options.textSizes.medium'),
+      },
+      {
+        value: 'large',
+        label: this.t('options.textSizes.large'),
+      },
+      {
+        value: 'extra-large',
+        label: this.t('options.textSizes.extraLarge'),
+      },
+    ];
+  });
+
+  textShadowIntensities = computed<ButtonGroupOption<TextShadowIntensity>[]>(() => {
+    this.i18n.locale();
+    return [
+      {
+        value: 'none',
+        label: this.t('options.textShadowIntensities.none'),
+      },
+      {
+        value: 'subtle',
+        label: this.t('options.textShadowIntensities.subtle'),
+      },
+      {
+        value: 'medium',
+        label: this.t('options.textShadowIntensities.medium'),
+      },
+      {
+        value: 'strong',
+        label: this.t('options.textShadowIntensities.strong'),
       },
     ];
   });

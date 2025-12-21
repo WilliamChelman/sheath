@@ -8,6 +8,8 @@ export type MinionIconPosition =
   | 'bottom-right';
 export type ShadowIntensity = 'none' | 'subtle' | 'medium' | 'strong' | 'dramatic';
 export type BorderStyle = 'solid' | 'metallic';
+export type TextSize = 'small' | 'medium' | 'large' | 'extra-large';
+export type TextShadowIntensity = 'none' | 'subtle' | 'medium' | 'strong';
 
 export interface BackgroundImage {
   dataUrl: string;
@@ -42,6 +44,10 @@ export interface TokenConfig {
   shadowIntensity: ShadowIntensity;
   borderStyle: BorderStyle;
   backgroundImage?: BackgroundImage;
+  textColor: string;
+  initialsSize: TextSize;
+  nameSize: TextSize;
+  textShadowIntensity: TextShadowIntensity;
 }
 
 export const TOKEN_SIZE_PX: Record<TokenSize, number> = {
@@ -66,6 +72,29 @@ export const SHADOW_INTENSITY_VALUES: Record<ShadowIntensity, { stdDeviation: nu
   dramatic: { stdDeviation: 8, opacity: 0.65 },
 };
 
+// Text size multipliers (relative to token size)
+export const INITIALS_SIZE_MULTIPLIER: Record<TextSize, number> = {
+  small: 0.25,
+  medium: 0.35,
+  large: 0.45,
+  'extra-large': 0.55,
+};
+
+export const NAME_SIZE_MULTIPLIER: Record<TextSize, number> = {
+  small: 0.08,
+  medium: 0.1,
+  large: 0.12,
+  'extra-large': 0.14,
+};
+
+// Text shadow filter values
+export const TEXT_SHADOW_VALUES: Record<TextShadowIntensity, { stdDeviation1: number; opacity1: number; stdDeviation2: number; opacity2: number } | null> = {
+  none: null,
+  subtle: { stdDeviation1: 0.4, opacity1: 0.5, stdDeviation2: 1.2, opacity2: 0.3 },
+  medium: { stdDeviation1: 0.6, opacity1: 0.75, stdDeviation2: 2.2, opacity2: 0.45 },
+  strong: { stdDeviation1: 1.0, opacity1: 0.9, stdDeviation2: 3.5, opacity2: 0.6 },
+};
+
 export const DEFAULT_TOKEN_CONFIG: TokenConfig = {
   name: 'Goblin',
   initials: 'GB',
@@ -80,6 +109,10 @@ export const DEFAULT_TOKEN_CONFIG: TokenConfig = {
   namePosition: 'bottom',
   shadowIntensity: 'medium',
   borderStyle: 'solid',
+  textColor: '#ffffff',
+  initialsSize: 'medium',
+  nameSize: 'medium',
+  textShadowIntensity: 'medium',
 };
 
 export type ExportFormat = 'svg' | 'png' | 'jpg' | 'webp';

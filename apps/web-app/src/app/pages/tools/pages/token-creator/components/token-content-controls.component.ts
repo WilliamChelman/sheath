@@ -3,6 +3,7 @@ import { I18nService } from '@/i18n';
 import { tokenCreatorBundle } from '../token-creator.i18n';
 import {
   ButtonGroupComponent,
+  TextareaComponent,
   TextInputComponent,
   ToggleComponent,
   type ButtonGroupOption,
@@ -15,6 +16,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 @Component({
   selector: 'app-token-content-controls',
   imports: [
+    TextareaComponent,
     TextInputComponent,
     ToggleComponent,
     ButtonGroupComponent,
@@ -38,7 +40,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
       </div>
 
       <!-- Name Input -->
-      <app-text-input
+      <app-textarea
         [label]="t('controls.name.label')"
         [value]="config().name"
         (valueChange)="updateConfig({ name: $event })"
@@ -46,6 +48,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
         [helperText]="
           isBatchMode() ? t('controls.name.batchHint') : t('controls.name.hint')
         "
+        [rows]="2"
       />
 
       <!-- Initials Input -->

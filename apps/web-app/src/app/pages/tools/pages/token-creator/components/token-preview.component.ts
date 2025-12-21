@@ -2,7 +2,10 @@ import { Component, computed, input, output } from '@angular/core';
 import {
   BackgroundImage,
   BORDER_WIDTH_PX,
+  INITIALS_SIZE_MULTIPLIER,
+  NAME_SIZE_MULTIPLIER,
   SHADOW_INTENSITY_VALUES,
+  TEXT_SHADOW_VALUES,
   TOKEN_SIZE_PX,
   TokenConfig,
 } from '../models/token.model';
@@ -57,28 +60,30 @@ import {
         }
 
         <!-- Text shadow filter (for legibility on any background) -->
-        <filter
-          [attr.id]="'textShadow-' + uniqueId"
-          x="-50%"
-          y="-50%"
-          width="200%"
-          height="200%"
-        >
-          <!-- Tight shadow for crisp edge contrast -->
-          <feDropShadow
-            dx="0"
-            dy="0.6"
-            stdDeviation="0.6"
-            flood-opacity="0.75"
-          />
-          <!-- Softer glow to improve legibility on busy images -->
-          <feDropShadow
-            dx="0"
-            dy="1.4"
-            stdDeviation="2.2"
-            flood-opacity="0.45"
-          />
-        </filter>
+        @if (textShadowValues(); as shadow) {
+          <filter
+            [attr.id]="'textShadow-' + uniqueId"
+            x="-50%"
+            y="-50%"
+            width="200%"
+            height="200%"
+          >
+            <!-- Tight shadow for crisp edge contrast -->
+            <feDropShadow
+              dx="0"
+              dy="0.6"
+              [attr.stdDeviation]="shadow.stdDeviation1"
+              [attr.flood-opacity]="shadow.opacity1"
+            />
+            <!-- Softer glow to improve legibility on busy images -->
+            <feDropShadow
+              dx="0"
+              dy="1.4"
+              [attr.stdDeviation]="shadow.stdDeviation2"
+              [attr.flood-opacity]="shadow.opacity2"
+            />
+          </filter>
+        }
 
         <!-- Metallic border gradient (shimmer effect) -->
         @if (config().borderStyle === 'metallic') {
@@ -185,11 +190,11 @@ import {
           [attr.y]="initialsY()"
           text-anchor="middle"
           dominant-baseline="middle"
-          fill="white"
+          [attr.fill]="config().textColor"
           [attr.font-size]="initialsFontSize()"
           font-weight="bold"
           font-family="system-ui, -apple-system, sans-serif"
-          [attr.filter]="'url(#textShadow-' + uniqueId + ')'"
+          [attr.filter]="textShadowValues() ? 'url(#textShadow-' + uniqueId + ')' : ''"
         >
           {{ config().initials }}
         </text>
@@ -198,10 +203,10 @@ import {
       <!-- Name curved along top or bottom -->
       @if (config().showName && config().name) {
         <text
-          fill="white"
+          [attr.fill]="config().textColor"
           [attr.font-size]="nameFontSize()"
           font-family="system-ui, -apple-system, sans-serif"
-          [attr.filter]="'url(#textShadow-' + uniqueId + ')'"
+          [attr.filter]="textShadowValues() ? 'url(#textShadow-' + uniqueId + ')' : ''"
         >
           <textPath
             [attr.href]="namePathHref()"
@@ -307,8 +312,14 @@ export class TokenPreviewComponent {
     return baseY + panOffset;
   });
 
-  initialsFontSize = computed(() => this.sizePx() * 0.35);
-  nameFontSize = computed(() => this.sizePx() * 0.1);
+  initialsFontSize = computed(() => this.sizePx() * INITIALS_SIZE_MULTIPLIER[this.config().initialsSize]);
+  nameFontSize = computed(() => this.sizePx() * NAME_SIZE_MULTIPLIER[this.config().nameSize]);
+
+  // Text shadow computed properties
+  textShadowValues = computed(() => {
+    const intensity = this.config().textShadowIntensity;
+    return TEXT_SHADOW_VALUES[intensity];
+  });
 
   // Minion icon computed properties
   minionIconSize = computed(() => this.sizePx() * 0.25);

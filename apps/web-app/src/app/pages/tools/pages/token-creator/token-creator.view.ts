@@ -39,6 +39,10 @@ type PersistedTokenConfig = Pick<
   | 'showMinionIcon'
   | 'minionIconPosition'
   | 'namePosition'
+  | 'textColor'
+  | 'initialsSize'
+  | 'nameSize'
+  | 'textShadowIntensity'
 >;
 
 const TOKEN_CREATOR_CONFIG_STORAGE_KEY = 'sheath.token-creator.v1.config';
@@ -222,22 +226,33 @@ export class TokenCreatorView {
     return this.t(`options.sizes.${size}` as const);
   });
 
-  // Batch mode: detect comma-separated values in the name field
+  // Batch mode: detect comma-separated or newline-separated values in the name field
   isBatchMode = computed(() => {
     const name = this.tokenConfig().name;
-    return name.includes(',') && name.split(',').filter((s) => s.trim()).length > 1;
+    return /[,\n]/.test(name) && name.split(/[,\n]/).filter((s) => s.trim()).length > 1;
   });
 
   batchTokens = computed<BatchToken[]>(() => {
     if (!this.isBatchMode()) return [];
     return this.tokenConfig()
-      .name.split(',')
+      .name.split(/[,\n]/)
       .map((s) => s.trim())
       .filter((s) => s.length > 0)
       .map((s) => {
+        // Check for minion suffix (!)
         const isMinion = s.endsWith('!');
-        const name = isMinion ? s.slice(0, -1).trim() : s;
-        const initials = this.generateInitials(name);
+        let token = isMinion ? s.slice(0, -1).trim() : s;
+
+        // Check for custom initials suffix (@XX)
+        let customInitials: string | null = null;
+        const atIndex = token.lastIndexOf('@');
+        if (atIndex > 0) {
+          customInitials = token.slice(atIndex + 1).trim().toUpperCase();
+          token = token.slice(0, atIndex).trim();
+        }
+
+        const name = token;
+        const initials = customInitials || this.generateInitials(name);
         return { name, initials, isMinion };
       });
   });
@@ -290,6 +305,10 @@ export class TokenCreatorView {
         showMinionIcon: cfg.showMinionIcon,
         minionIconPosition: cfg.minionIconPosition,
         namePosition: cfg.namePosition,
+        textColor: cfg.textColor,
+        initialsSize: cfg.initialsSize,
+        nameSize: cfg.nameSize,
+        textShadowIntensity: cfg.textShadowIntensity,
       });
     });
 
@@ -404,6 +423,37 @@ export class TokenCreatorView {
 
       if (obj.borderStyle === 'solid' || obj.borderStyle === 'metallic') {
         result.borderStyle = obj.borderStyle;
+      }
+
+      if (typeof obj.textColor === 'string') {
+        result.textColor = obj.textColor;
+      }
+
+      if (
+        obj.initialsSize === 'small' ||
+        obj.initialsSize === 'medium' ||
+        obj.initialsSize === 'large' ||
+        obj.initialsSize === 'extra-large'
+      ) {
+        result.initialsSize = obj.initialsSize;
+      }
+
+      if (
+        obj.nameSize === 'small' ||
+        obj.nameSize === 'medium' ||
+        obj.nameSize === 'large' ||
+        obj.nameSize === 'extra-large'
+      ) {
+        result.nameSize = obj.nameSize;
+      }
+
+      if (
+        obj.textShadowIntensity === 'none' ||
+        obj.textShadowIntensity === 'subtle' ||
+        obj.textShadowIntensity === 'medium' ||
+        obj.textShadowIntensity === 'strong'
+      ) {
+        result.textShadowIntensity = obj.textShadowIntensity;
       }
 
       return Object.keys(result).length
