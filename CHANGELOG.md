@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/WilliamChelman/sheath/compare/v1.1.0...v1.1.1) (2025-12-21)
+
+
+### Bug Fixes
+
+* **token-creator:** typo ([c6af795](https://github.com/WilliamChelman/sheath/commit/c6af79598bfe2768f9e43e607ef5bd648f554d8f))
+
 # [1.1.0](https://github.com/WilliamChelman/sheath/compare/v1.0.1...v1.1.0) (2025-12-21)
 
 
