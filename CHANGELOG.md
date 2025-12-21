@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/WilliamChelman/sheath/compare/v1.0.1...v1.1.0) (2025-12-21)
+
+
+### Features
+
+* **token-creator:** refactor, layout, and batch export ([aac2fd5](https://github.com/WilliamChelman/sheath/commit/aac2fd5f5b29fb2dc3b3ec8200b978103786775d))
+
 ## [1.0.1](https://github.com/WilliamChelman/sheath/compare/v1.0.0...v1.0.1) (2025-12-20)
 
 
