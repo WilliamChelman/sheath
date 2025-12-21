@@ -1,0 +1,253 @@
+/**
+ * Shared Markdown Content Styles
+ * 
+ * These styles are applied to any container with the `.markdown-content` class.
+ * Used for consistent rendering of markdown content across the application.
+ * 
+ * Note: This file is imported by tailwind.css, so @apply directives work automatically.
+ */
+
+/* =============================================================================
+   Stat Block Tables
+   ============================================================================= */
+
+.markdown-content .stat-block-table {
+  @apply border border-base-300 rounded-lg overflow-hidden shadow-sm;
+}
+
+.markdown-content .stat-block-table tr:first-child {
+  @apply bg-gradient-to-r from-primary/15 to-secondary/15;
+}
+
+.markdown-content .stat-block-cell {
+  @apply align-middle;
+}
+
+.markdown-content .stat-cell-content {
+  @apply py-1;
+}
+
+.markdown-content .stat-value {
+  @apply font-mono;
+}
+
+.markdown-content .stat-label {
+  @apply whitespace-nowrap;
+}
+
+/* =============================================================================
+   Ability Cards
+   ============================================================================= */
+
+.markdown-content .ability-card {
+  @apply shadow-sm transition-shadow hover:shadow-md;
+}
+
+.markdown-content .ability-card-title {
+  @apply border-b border-base-300/30 pb-2;
+}
+
+.markdown-content .ability-info-table {
+  @apply bg-base-200/30 rounded;
+}
+
+/* =============================================================================
+   Power Roll Tiers
+   ============================================================================= */
+
+.markdown-content .power-roll-item {
+  @apply relative pl-4;
+}
+
+.markdown-content .power-roll-item::before {
+  content: '•';
+  @apply absolute left-0 text-base-content/40;
+}
+
+.markdown-content .power-roll-tier-1::before {
+  @apply text-error;
+}
+
+.markdown-content .power-roll-tier-2::before {
+  @apply text-warning;
+}
+
+.markdown-content .power-roll-tier-3::before {
+  @apply text-success;
+}
+
+/* Enhance strong elements in ability cards for tier results */
+.markdown-content .ability-card strong {
+  @apply text-base-content font-semibold;
+}
+
+/* Keywords line styling */
+.markdown-content .keywords-line strong {
+  @apply font-medium;
+}
+
+/* Effect text styling */
+.markdown-content .ability-effect strong:first-child {
+  @apply text-primary;
+}
+
+/* =============================================================================
+   Compendium Content Container Styles
+   ============================================================================= */
+
+/* Content wrapper for processed HTML */
+.markdown-content {
+  @apply text-base-content;
+}
+
+/* Headings within markdown content */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  @apply text-base-content font-bold tracking-tight;
+}
+
+.markdown-content h1 {
+  @apply text-3xl mt-6 mb-3;
+}
+.markdown-content h2 {
+  @apply text-2xl mt-5 mb-3;
+}
+.markdown-content h3 {
+  @apply text-xl mt-4 mb-2;
+}
+.markdown-content h4 {
+  @apply text-lg mt-4 mb-2;
+}
+.markdown-content h5,
+.markdown-content h6 {
+  @apply text-base mt-3 mb-2;
+}
+
+/* Paragraphs */
+.markdown-content p {
+  @apply text-base-content/80 leading-relaxed my-2;
+}
+
+/* Emphasis and strong */
+.markdown-content em {
+  @apply italic text-base-content/70;
+}
+
+.markdown-content strong {
+  @apply font-semibold text-base-content;
+}
+
+/* Links */
+.markdown-content a {
+  @apply text-primary hover:text-primary/80 underline underline-offset-2;
+}
+
+/* Wikilinks */
+.markdown-content a.wikilink {
+  @apply text-secondary hover:text-secondary/80 underline underline-offset-2 decoration-secondary/50;
+}
+
+.markdown-content a.wikilink-broken {
+  @apply text-error/70 line-through decoration-error/50 no-underline;
+}
+
+.markdown-content .md-embed-header {
+  @apply text-sm font-semibold text-base-content/60 mb-2 pb-1 border-b border-base-300;
+}
+
+.markdown-content .md-embed-broken {
+  @apply border border-error/30 rounded p-2;
+}
+
+.markdown-content .md-embed-broken-content {
+  @apply text-error/70 text-sm italic p-2 border border-error/30 rounded;
+}
+
+.markdown-content .md-embed-circular {
+  @apply text-warning text-sm italic p-2 border border-warning/30 rounded;
+}
+
+/* Generic blockquotes (not ability cards) */
+.markdown-content blockquote:not(.ability-card) {
+  @apply border-l-4 border-base-300 pl-4 py-2 my-4 bg-base-200/30 rounded-r-lg italic text-base-content/70;
+}
+
+/* Generic tables (not stat blocks or ability tables) */
+.markdown-content table:not(.stat-block-table):not(.ability-info-table) {
+  @apply w-full my-4 border-collapse;
+}
+
+.markdown-content table:not(.stat-block-table):not(.ability-info-table) th {
+  @apply bg-base-200 text-base-content font-semibold px-3 py-2 text-left border border-base-300;
+}
+
+.markdown-content table:not(.stat-block-table):not(.ability-info-table) td {
+  @apply px-3 py-2 text-base-content/80 border border-base-300;
+}
+
+.markdown-content
+  table:not(.stat-block-table):not(.ability-info-table)
+  tr:nth-child(even) {
+  @apply bg-base-200/30;
+}
+
+/* Lists */
+.markdown-content ul:not(.power-roll-list) {
+  @apply list-disc pl-6 my-3 space-y-1 text-base-content/80;
+}
+
+.markdown-content ol:not(.power-roll-list) {
+  @apply list-decimal pl-6 my-3 space-y-1 text-base-content/80;
+}
+
+.markdown-content li {
+  @apply leading-relaxed;
+}
+
+/* Nested lists */
+.markdown-content li ul,
+.markdown-content li ol {
+  @apply mt-1 mb-0;
+}
+
+/* Code elements */
+.markdown-content code {
+  @apply bg-base-300 px-1.5 py-0.5 rounded text-sm font-mono text-base-content;
+}
+
+.markdown-content pre {
+  @apply bg-base-300 p-4 rounded-lg overflow-x-auto my-4 border border-base-300;
+}
+
+.markdown-content pre code {
+  @apply bg-transparent p-0;
+}
+
+/* Horizontal rules */
+.markdown-content hr {
+  @apply my-8 border-t border-base-300/50;
+}
+
+/* Images */
+.markdown-content img {
+  @apply rounded-lg shadow-sm max-w-full h-auto my-4;
+}
+
+/* Headings with IDs (for TOC linking) */
+.markdown-content h2[id],
+.markdown-content h3[id],
+.markdown-content h4[id],
+.markdown-content h5[id],
+.markdown-content h6[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Smooth scroll behavior for TOC navigation */
+.markdown-content {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}

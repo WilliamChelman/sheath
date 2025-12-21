@@ -1,7 +1,7 @@
 import { I18nService, type SupportedLocale } from '@/i18n';
 import { Component, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroGlobeAlt } from '@ng-icons/heroicons/outline';
+import { phosphorGlobeSimple } from '@ng-icons/phosphor-icons/regular';
 import { ButtonDirective } from '@/ui/button';
 import {
   DropdownContainerDirective,
@@ -21,7 +21,7 @@ import { languageSwitcherBundle } from './language-switcher.i18n';
     MenuItemDirective,
     ButtonDirective,
   ],
-  viewProviders: [provideIcons({ heroGlobeAlt })],
+  viewProviders: [provideIcons({ phosphorGlobeSimple })],
   template: `
     @if (availableLocales().length > 1) {
       <div appDropdownContainer align="end">
@@ -31,7 +31,7 @@ import { languageSwitcherBundle } from './language-switcher.i18n';
           appButton="ghost"
           appButtonShape="circle"
         >
-          <ng-icon name="heroGlobeAlt" class="text-xl" />
+          <ng-icon name="phosphorGlobeSimple" class="text-xl" />
         </button>
         <ng-template #languageMenu>
           <app-menu-panel width="10rem">

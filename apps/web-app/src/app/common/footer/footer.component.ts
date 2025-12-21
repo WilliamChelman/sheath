@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { simpleGithub } from '@ng-icons/simple-icons';
+import { phosphorGithubLogo } from '@ng-icons/phosphor-icons/regular';
 import { I18nService } from '@/i18n';
 import { ConfigService } from '../../services/config.service';
 import { footerBundle } from './footer.i18n';
 
 @Component({
   imports: [RouterLink, NgIcon],
-  viewProviders: [provideIcons({ simpleGithub })],
+  viewProviders: [provideIcons({ phosphorGithubLogo })],
   selector: 'app-footer',
   template: `
     <footer class="bg-base-200 text-base-content p-10 border-t border-base-300">
@@ -34,10 +34,10 @@ import { footerBundle } from './footer.i18n';
             <a
               class="hover:text-primary transition-colors inline-flex items-center justify-center"
               href="https://github.com/WilliamChelman/sheath"
-              aria-label="GitHub"
+              [attr.aria-label]="t('social.github')"
             >
-              <span class="sr-only">GitHub</span>
-              <ng-icon name="simpleGithub" class="text-2xl" />
+              <span class="sr-only">{{ t('social.github') }}</span>
+              <ng-icon name="phosphorGithubLogo" class="text-2xl" />
             </a>
           </div>
         </nav>

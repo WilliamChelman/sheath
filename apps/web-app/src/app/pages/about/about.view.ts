@@ -1,7 +1,7 @@
 import { I18nService } from '@/i18n';
-import { Component, inject } from '@angular/core';
 import { CardComponent } from '@/ui/card';
-import { PageTitleDirective } from '../../common/page-title/page-title.directive';
+import { PageTitleDirective } from '@/ui/page-title';
+import { Component, inject } from '@angular/core';
 import { aboutBundle } from './about.i18n';
 
 @Component({
@@ -101,41 +101,15 @@ import { aboutBundle } from './about.i18n';
               <tr>
                 <td>
                   <a
-                    href="https://heroicons.com/"
+                    href="https://phosphoricons.com/"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="link link-primary"
                   >
-                    {{ t('heroiconsName') }}
+                    {{ t('phosphoriconsName') }}
                   </a>
                 </td>
-                <td>{{ t('heroiconsLicense') }}</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://simpleicons.org/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="link link-primary"
-                  >
-                    {{ t('simpleiconsName') }}
-                  </a>
-                </td>
-                <td>{{ t('simpleiconsLicense') }}</td>
-              </tr>
-              <tr>
-                <td>
-                  <a
-                    href="https://game-icons.net/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="link link-primary"
-                  >
-                    {{ t('gameiconsName') }}
-                  </a>
-                </td>
-                <td>{{ t('gameiconsLicense') }}</td>
+                <td>{{ t('phosphoriconsLicense') }}</td>
               </tr>
               <tr>
                 <td>

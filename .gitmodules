@@ -1,3 +1,6 @@
 [submodule "external/data-md"]
 	path = external/data-md
 	url = https://github.com/SteelCompendium/data-md.git
+[submodule "external/draw-steel"]
+	path = external/draw-steel
+	url = https://github.com/MetaMorphic-Digital/draw-steel

@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { I18nService } from '@/i18n';
-import { CardComponent } from '@/ui/card';
 import { BadgeComponent } from '@/ui/badge';
 import { ButtonDirective } from '@/ui/button';
-import { PageTitleDirective } from '../../common/page-title/page-title.directive';
+import { CardComponent } from '@/ui/card';
+import { PageTitleDirective } from '@/ui/page-title';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { notFoundBundle } from './not-found.i18n';
 
 @Component({

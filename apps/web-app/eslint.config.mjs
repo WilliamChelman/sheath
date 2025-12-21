@@ -15,6 +15,7 @@ export default [
           allow: [
             '^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$',
             '^@/ui(/.*)?$',
+            '^@/entity(/.*)?$',
           ],
           depConstraints: [
             {

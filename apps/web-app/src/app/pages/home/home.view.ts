@@ -1,9 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { I18nService } from '@/i18n';
-import { PageTitleDirective } from '../../common/page-title/page-title.directive';
 import { BadgeComponent } from '@/ui/badge';
 import { ButtonDirective } from '@/ui/button';
+import { PageTitleDirective } from '@/ui/page-title';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { homeBundle } from './home.i18n';
 
 @Component({

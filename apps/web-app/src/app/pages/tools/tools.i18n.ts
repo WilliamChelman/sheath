@@ -16,6 +16,7 @@ export const toolsBundle = defineI18nBundle({
       comingSoon: {
         badge: { message: '' },
         title: { message: '' },
+        placeholder: { message: '' },
       },
     },
     tools: {
@@ -24,22 +25,6 @@ export const toolsBundle = defineI18nBundle({
         description: { message: '' },
       },
       compendium: {
-        title: { message: '' },
-        description: { message: '' },
-      },
-      compendiumV2: {
-        title: { message: '' },
-        description: { message: '' },
-      },
-      customBoard: {
-        title: { message: '' },
-        description: { message: '' },
-      },
-      encounterBuilder: {
-        title: { message: '' },
-        description: { message: '' },
-      },
-      otherTools: {
         title: { message: '' },
         description: { message: '' },
       },
@@ -63,8 +48,9 @@ export const toolsBundle = defineI18nBundle({
           title: 'Core Tools',
         },
         comingSoon: {
-          badge: 'Coming Soon',
-          title: 'Future Tools',
+          badge: 'Ideas',
+          title: 'Ideas for the Future',
+          placeholder: 'To be determined...',
         },
       },
       tools: {
@@ -77,24 +63,6 @@ export const toolsBundle = defineI18nBundle({
           title: 'Compendium',
           description:
             'Quick lookup for conditions, abilities, and core rules.',
-        },
-        compendiumV2: {
-          title: 'Compendium V2',
-          description:
-            'A new and improved version of the compendium, with the possibility to import/edit any compendium entry.',
-        },
-        customBoard: {
-          title: 'Custom Board',
-          description:
-            'Create a custom board for your TTRPG sessions, with cheat sheets, notes, interactive widgets, and more.',
-        },
-        encounterBuilder: {
-          title: 'Encounter Builder',
-          description: 'Design balanced encounters using threat budgets.',
-        },
-        otherTools: {
-          title: 'More Tools',
-          description: 'Additional tools based on community feedback.',
         },
       },
       toolCount:

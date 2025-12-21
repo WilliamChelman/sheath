@@ -1,7 +1,11 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "!{projectRoot}/external/**/*",
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
@@ -38,18 +42,27 @@
       "linter": "eslint",
       "style": "css",
       "unitTestRunner": "vitest"
+    },
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "vitest"
+    },
+    "@nx/angular:component": {
+      "style": "css"
     }
   },
   "nxCloudId": "6943bcda8e43512d5d0525e5",
   "plugins": [
     {
       "plugin": "@nx/eslint/plugin",
+      "exclude": ["external/**/*"],
       "options": {
         "targetName": "eslint:lint"
       }
     },
     {
       "plugin": "@nx/vite/plugin",
+      "exclude": ["external/**/*"],
       "options": {
         "buildTargetName": "build",
         "testTargetName": "vite:test",
