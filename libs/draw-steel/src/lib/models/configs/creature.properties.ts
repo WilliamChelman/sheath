@@ -31,6 +31,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'The creature level',
     datatype: 'number',
     isSortable: true,
+    aliases: ['lvl'],
   },
   {
     id: 'sheath.ds.ev',
@@ -38,12 +39,14 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Encounter Value',
     datatype: 'string',
     isSortable: true,
+    aliases: ['encounter'],
   },
   {
     id: 'sheath.ds.size',
     name: 'Size',
     description: 'The creature size (e.g., 1S, 1M, 2)',
     datatype: 'string',
+    aliases: ['sz'],
   },
   {
     id: 'sheath.ds.speed',
@@ -51,6 +54,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Movement speed in squares',
     datatype: 'number',
     isFacet: false,
+    aliases: ['spd'],
   },
   {
     id: 'sheath.ds.stamina',
@@ -58,6 +62,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Health/stamina points',
     datatype: 'string',
     isFacet: false,
+    aliases: ['hp', 'health'],
   },
   {
     id: 'sheath.ds.stability',
@@ -65,6 +70,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Resistance to forced movement',
     datatype: 'number',
     isFacet: false,
+    aliases: ['stab'],
   },
   {
     id: 'sheath.ds.freeStrike',
@@ -72,6 +78,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Free strike damage value',
     datatype: 'number',
     isFacet: false,
+    aliases: ['fs', 'freestrike'],
   },
   {
     id: 'sheath.ds.might',
@@ -79,6 +86,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Might characteristic',
     datatype: 'number',
     isFacet: false,
+    aliases: ['mgt'],
   },
   {
     id: 'sheath.ds.agility',
@@ -86,6 +94,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Agility characteristic',
     datatype: 'number',
     isFacet: false,
+    aliases: ['agi'],
   },
   {
     id: 'sheath.ds.reason',
@@ -93,6 +102,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Reason characteristic',
     datatype: 'number',
     isFacet: false,
+    aliases: ['rea'],
   },
   {
     id: 'sheath.ds.intuition',
@@ -100,6 +110,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Intuition characteristic',
     datatype: 'number',
     isFacet: false,
+    aliases: ['int'],
   },
   {
     id: 'sheath.ds.presence',
@@ -107,6 +118,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Presence characteristic',
     datatype: 'number',
     isFacet: false,
+    aliases: ['pre'],
   },
   {
     id: 'sheath.ds.ancestry',
@@ -114,6 +126,7 @@ export const creaturePropertyConfigs: EntityClassPropertyConfig[] = [
     description: 'Creature ancestry/keywords (e.g., Humanoid, Beast)',
     datatype: 'string',
     isMulti: true,
+    aliases: ['anc'],
   },
   {
     id: 'sheath.ds.role',

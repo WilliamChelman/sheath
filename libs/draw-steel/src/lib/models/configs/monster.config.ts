@@ -32,5 +32,6 @@ export const monsterPropertyConfigs: EntityClassPropertyConfig[] = [
     description:
       'Monster organization type (e.g., minion, standard, elite, solo)',
     datatype: 'string',
+    aliases: ['org'],
   },
 ];

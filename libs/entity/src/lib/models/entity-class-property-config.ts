@@ -9,6 +9,7 @@ export interface EntityClassPropertyConfig {
   isMulti?: boolean;
   isFacet?: boolean;
   isSortable?: boolean;
+  aliases?: string[];
 }
 
 export type EntityPropertyDataType = 'string' | 'number' | 'boolean';

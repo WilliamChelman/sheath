@@ -2,6 +2,7 @@ export * from './entity.service';
 export * from './indexed-db-entity.service';
 export * from './entity-search.service';
 export * from './entity-search-cache.service';
+export * from './entity-search-query-parser';
 export * from './domain.service';
 export * from './editor-mode.service';
 export * from './entity-html-processor.service';

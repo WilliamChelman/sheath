@@ -17,6 +17,10 @@ import { Entity } from '../models/entity';
 import { EntityClassPropertyConfig } from '../models/entity-class-property-config';
 import { DomainService } from './domain.service';
 import { EntitySearchCacheService } from './entity-search-cache.service';
+import {
+  EntitySearchQueryParser,
+  ParsedSearchQuery,
+} from './entity-search-query-parser';
 import { EntityService } from './entity.service';
 
 export interface NumberRangeFilter {
@@ -67,6 +71,7 @@ export class EntitySearchService implements OnDestroy {
     string,
     EntityClassPropertyConfig[]
   >;
+  private queryParser: EntitySearchQueryParser | null = null;
 
   readonly entities$: Observable<Entity[]> = this.entityService.entities$;
   readonly entitiesMap$: Observable<Map<string, Entity>> =
@@ -108,58 +113,76 @@ export class EntitySearchService implements OnDestroy {
     );
   }
 
+  parseQuery(query: string): ParsedSearchQuery {
+    if (!this.queryParser) {
+      this.queryParser = new EntitySearchQueryParser(
+        this.domainService.allPropertyConfigs,
+      );
+    }
+    return this.queryParser.parse(query);
+  }
+
   searchPaginated(
     criteria: EntitySearchCriteria,
     page = 1,
     pageSize = 50,
   ): Observable<PaginatedSearchResult> {
+    // Parse smart search syntax from text field
+    const effectiveCriteria = this.applySmartSearch(criteria);
+
     return this.entityService.entities$.pipe(
       take(1),
       map((entities) => {
         let results: EntitySearchResult[];
 
-        if (criteria.text && this.index && this._isIndexReady$.getValue()) {
-          results = this.fullTextSearch(criteria.text, entities);
+        if (
+          effectiveCriteria.text &&
+          this.index &&
+          this._isIndexReady$.getValue()
+        ) {
+          results = this.fullTextSearch(effectiveCriteria.text, entities);
         } else {
           results = entities.map((entity) => ({ entity }));
         }
 
-        if (criteria.type) {
-          results = results.filter((r) => r.entity.type === criteria.type);
-        }
-
-        if (
-          criteria.properties &&
-          Object.keys(criteria.properties).length > 0
-        ) {
-          results = this.filterResultsByProperties(
-            results,
-            criteria.properties,
-            criteria.type,
+        if (effectiveCriteria.type) {
+          results = results.filter(
+            (r) => r.entity.type === effectiveCriteria.type,
           );
         }
 
         if (
-          criteria.numberFilters &&
-          Object.keys(criteria.numberFilters).length > 0
+          effectiveCriteria.properties &&
+          Object.keys(effectiveCriteria.properties).length > 0
+        ) {
+          results = this.filterResultsByProperties(
+            results,
+            effectiveCriteria.properties,
+            effectiveCriteria.type,
+          );
+        }
+
+        if (
+          effectiveCriteria.numberFilters &&
+          Object.keys(effectiveCriteria.numberFilters).length > 0
         ) {
           results = this.filterResultsByNumberFilters(
             results,
-            criteria.numberFilters,
+            effectiveCriteria.numberFilters,
           );
         }
 
         // Apply sorting
-        let sortBy = criteria.sortBy ?? 'name';
-        if (criteria.text && !criteria.sortBy) {
+        let sortBy = effectiveCriteria.sortBy ?? 'name';
+        if (effectiveCriteria.text && !effectiveCriteria.sortBy) {
           sortBy = 'score';
         }
-        const sortDirection = criteria.sortDirection ?? 'asc';
+        const sortDirection = effectiveCriteria.sortDirection ?? 'asc';
         results = this.sortResults(
           results,
           sortBy,
           sortDirection,
-          criteria.type,
+          effectiveCriteria.type,
         );
 
         const total = results.length;
@@ -193,6 +216,36 @@ export class EntitySearchService implements OnDestroy {
         );
       }),
     );
+  }
+
+  private applySmartSearch(criteria: EntitySearchCriteria): EntitySearchCriteria {
+    if (!criteria.text) {
+      return criteria;
+    }
+
+    const parsed = this.parseQuery(criteria.text);
+
+    // If nothing was parsed from the query, return original criteria
+    if (
+      !parsed.text &&
+      Object.keys(parsed.properties).length === 0 &&
+      Object.keys(parsed.numberFilters).length === 0
+    ) {
+      return criteria;
+    }
+
+    return {
+      ...criteria,
+      text: parsed.text || undefined,
+      properties: {
+        ...criteria.properties,
+        ...parsed.properties,
+      },
+      numberFilters: {
+        ...criteria.numberFilters,
+        ...parsed.numberFilters,
+      },
+    };
   }
 
   private buildIndex(entities: Entity[]): Observable<void> {
