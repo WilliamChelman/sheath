@@ -1,6 +1,7 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { I18nService } from '@/i18n';
-import { compendiumBundle } from '../../compendium.i18n';
+import { compendiumDetailBundle } from '../../compendium-detail.i18n';
+import { markdownEditorBundle } from './markdown-editor.i18n';
 import { TocEntry } from '../../models/toc-entry';
 
 @Component({
@@ -15,7 +16,7 @@ import { TocEntry } from '../../models/toc-entry';
 
       @if (entries().length === 0) {
         <p class="text-sm text-base-content/40 italic">
-          Add headings to see outline...
+          {{ tEditor('noHeadings') }}
         </p>
       } @else {
         <nav class="space-y-1">
@@ -50,7 +51,8 @@ import { TocEntry } from '../../models/toc-entry';
 })
 export class EditorTocComponent {
   private readonly i18n = inject(I18nService);
-  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+  protected readonly t = this.i18n.useBundleT(compendiumDetailBundle);
+  protected readonly tEditor = this.i18n.useBundleT(markdownEditorBundle);
 
   content = input('');
   navigate = output<string>();

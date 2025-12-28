@@ -10,7 +10,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { compendiumBundle } from '../compendium.i18n';
+import { entityCreateBundle } from './entity-create.i18n';
 
 export interface EntityTypeOption {
   id: string;
@@ -28,12 +28,12 @@ export interface EntityCreateData {
   template: `
     <dialog #dialog class="modal">
       <div class="modal-box max-w-md">
-        <h3 class="font-bold text-lg mb-6">{{ t('create.title') }}</h3>
+        <h3 class="font-bold text-lg mb-6">{{ t('title') }}</h3>
 
         <!-- Entity Type -->
         <div class="form-control mb-4">
           <label class="label" for="entityType">
-            <span class="label-text">{{ t('create.typeLabel') }}</span>
+            <span class="label-text">{{ t('typeLabel') }}</span>
           </label>
           <select
             id="entityType"
@@ -41,7 +41,7 @@ export interface EntityCreateData {
             [ngModel]="selectedType()"
             (ngModelChange)="selectedType.set($event)"
           >
-            <option value="" disabled>{{ t('create.selectType') }}</option>
+            <option value="" disabled>{{ t('selectType') }}</option>
             @for (type of entityTypes(); track type.id) {
               <option [value]="type.id">{{ type.name }}</option>
             }
@@ -51,13 +51,13 @@ export interface EntityCreateData {
         <!-- Entity Name -->
         <div class="form-control mb-4">
           <label class="label" for="entityName">
-            <span class="label-text">{{ t('create.nameLabel') }}</span>
+            <span class="label-text">{{ t('nameLabel') }}</span>
           </label>
           <input
             id="entityName"
             type="text"
             class="input input-bordered w-full"
-            [placeholder]="t('create.namePlaceholder')"
+            [placeholder]="t('namePlaceholder')"
             [ngModel]="entityName()"
             (ngModelChange)="entityName.set($event)"
           />
@@ -66,14 +66,14 @@ export interface EntityCreateData {
         <!-- Actions -->
         <div class="modal-action">
           <button class="btn btn-ghost" (click)="cancel()">
-            {{ t('create.cancelButton') }}
+            {{ t('cancelButton') }}
           </button>
           <button
             class="btn btn-primary"
             [disabled]="!isValid()"
             (click)="create()"
           >
-            {{ t('create.createButton') }}
+            {{ t('createButton') }}
           </button>
         </div>
       </div>
@@ -89,7 +89,7 @@ export class EntityCreateModalComponent {
   private readonly dialogRef =
     viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
 
-  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+  protected readonly t = this.i18n.useBundleT(entityCreateBundle);
 
   entityTypes = input.required<EntityTypeOption[]>();
   created = output<EntityCreateData>();

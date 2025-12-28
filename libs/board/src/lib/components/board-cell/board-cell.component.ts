@@ -27,7 +27,7 @@ import {
   phosphorTrashSimple,
 } from '@ng-icons/phosphor-icons/regular';
 import { of, switchMap } from 'rxjs';
-import { boardBundle } from '../../board.i18n';
+import { boardCellBundle } from './board-cell.i18n';
 import { BoardCell } from '../../models/board.model';
 
 @Component({
@@ -193,7 +193,7 @@ export class BoardCellComponent {
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly i18n = inject(I18nService);
-  protected readonly t = this.i18n.useBundleT(boardBundle);
+  protected readonly t = this.i18n.useBundleT(boardCellBundle);
 
   // Use signal-based viewChild queries - they're reactive and update when elements appear
   private readonly cellContentContainer = viewChild<ElementRef<HTMLElement>>(

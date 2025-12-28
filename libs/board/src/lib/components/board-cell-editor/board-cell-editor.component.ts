@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { I18nService } from '@/i18n';
-import { boardBundle } from '../../board.i18n';
+import { boardEditorBundle } from '../../board-editor.i18n';
 import { BoardCell } from '../../models/board.model';
 import { BoardCellComponent } from '../board-cell/board-cell.component';
 
@@ -78,7 +78,7 @@ import { BoardCellComponent } from '../board-cell/board-cell.component';
 })
 export class BoardCellEditorComponent {
   private readonly i18n = inject(I18nService);
-  protected readonly t = this.i18n.useBundleT(boardBundle);
+  protected readonly t = this.i18n.useBundleT(boardEditorBundle);
 
   private readonly dialogRef = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
 

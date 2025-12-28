@@ -234,6 +234,33 @@ Use Tailwind text size classes: `text-sm`, `text-xl`, `text-3xl`, etc.
 - Bundles must have **unique namespace values** across the app
 - `en` is required in `locales`; other locales are optional
 
+### Bundle Granularity
+
+**Prefer component-level bundles** when translations are not reused:
+
+- **Default**: Each component/view gets its own `.i18n.ts` file
+- **Consolidate only when**: The same key is genuinely reused across multiple components in the same feature
+- **Never share across features**: Duplicate similar text rather than creating cross-feature dependencies
+
+**Example - Prefer This:**
+
+```
+user-profile/
+├── user-profile.view.ts
+├── user-profile.i18n.ts      # Only keys for this view
+├── user-avatar.component.ts
+└── user-avatar.i18n.ts       # Only keys for this component
+```
+
+**Over This:**
+
+```
+user-profile/
+├── user-profile.view.ts
+├── user-avatar.component.ts
+└── user-profile.i18n.ts      # All keys for the feature
+```
+
 ### Defining a Bundle
 
 Create `*.i18n.ts` next to the component/view:
@@ -290,6 +317,8 @@ title = this.ts('title');
 - Do not hardcode UI strings in templates
 - Do not reuse namespaces across bundles
 - Do not deep-import i18n internals; only use `@/i18n` public API
+- Do not create feature-level bundles when component-level bundles suffice
+- Do not share bundles between unrelated components just because they have similar text
 
 ---
 

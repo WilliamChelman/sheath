@@ -28,6 +28,7 @@ import {
 } from './models/token.model';
 import { TokenExportService } from './services/token-export.service';
 import { tokenCreatorBundle } from './token-creator.i18n';
+import { tokenAppearanceControlsBundle } from './components/token-appearance-controls.i18n';
 import { TOKEN_CREATOR_TOUR_CONFIG } from './tour/token-creator-tour.config';
 
 type PersistedTokenConfig = Pick<
@@ -228,6 +229,7 @@ export class TokenCreatorView {
   private tourService = inject(TourService);
   private i18n = inject(I18nService);
   protected t = this.i18n.useBundleT(tokenCreatorBundle);
+  private tAppearance = this.i18n.useBundleT(tokenAppearanceControlsBundle);
 
   tokenConfig = signal<TokenConfig>(DEFAULT_TOKEN_CONFIG);
   exportRequest = signal<{ format: 'svg' | 'png' | 'jpg' | 'webp' } | null>(
@@ -245,7 +247,7 @@ export class TokenCreatorView {
     // Ensure this recomputes on locale changes.
     this.i18n.locale();
     const size = this.tokenConfig().size;
-    return this.t(`options.sizes.${size}` as const);
+    return this.tAppearance(`options.sizes.${size}` as const);
   });
 
   // Batch mode: detect comma-separated or newline-separated values in the name field

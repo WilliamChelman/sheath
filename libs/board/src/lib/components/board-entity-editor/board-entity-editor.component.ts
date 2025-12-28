@@ -3,7 +3,7 @@ import { I18nService } from '@/i18n';
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { phosphorCheck, phosphorX } from '@ng-icons/phosphor-icons/regular';
-import { boardBundle } from '../../board.i18n';
+import { boardEditorBundle } from '../../board-editor.i18n';
 import { BoardData } from '../../models/board.model';
 import { BoardService } from '../../services/board.service';
 import { BoardEditorComponent } from '../board-editor/board-editor.component';
@@ -62,7 +62,7 @@ export class BoardEntityEditorComponent {
   private readonly boardService = inject(BoardService);
   private readonly i18n = inject(I18nService);
 
-  protected readonly t = this.i18n.useBundleT(boardBundle);
+  protected readonly t = this.i18n.useBundleT(boardEditorBundle);
 
   /** Entity object containing board data in the content field */
   entity = input.required<Entity>();

@@ -91,7 +91,7 @@ import {
                 (click)="openCreateModal()"
               >
                 <ng-icon name="phosphorPlus" class="text-lg" />
-                {{ t('create.button') }}
+                {{ t('createButton') }}
               </button>
             }
           </div>

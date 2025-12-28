@@ -14,6 +14,14 @@ alwaysApply: true
 - **`en` is required** in `locales`; other locales are optional (e.g. `fr`).
 - Prefer **bundle-scoped translators** (`useBundleT` / `useBundleTSignal`) over raw string keys.
 
+### Bundle granularity
+
+**Prefer component-level bundles** when translations are not reused:
+
+- **Default**: Each component/view gets its own `.i18n.ts` file with only its translations.
+- **Consolidate only when**: The same key is genuinely reused by multiple components in the same feature.
+- **Never share across features**: Duplicate similar text rather than creating cross-feature dependencies.
+
 ### Defining a bundle (`*.i18n.ts`)
 
 Create a bundle next to the component/view file:
@@ -100,5 +108,7 @@ If you’re unsure where to add it, search for existing `defineI18nBundle(...)` 
 - **Do not hardcode UI strings** directly in templates/components (use bundles).
 - **Do not reuse namespaces** across bundles (runtime error).
 - **Do not deep-import** i18n internals; only use `@/i18n` public API.
+- **Do not create feature-level bundles** when component-level bundles suffice.
+- **Do not share bundles** between unrelated components just because they have similar text.
 
 

@@ -1,7 +1,12 @@
 import { defineI18nBundle } from '@/i18n';
 
-export const boardBundle = defineI18nBundle({
-  namespace: 'board',
+/**
+ * Board Editor i18n bundle.
+ *
+ * Covers board editing, cell editing, and entity editor operations.
+ */
+export const boardEditorBundle = defineI18nBundle({
+  namespace: 'boardEditor',
   schema: {
     editBoard: { message: '' },
     addColumn: { message: '' },
@@ -19,11 +24,6 @@ export const boardBundle = defineI18nBundle({
     preview: { message: '' },
     save: { message: '' },
     cancel: { message: '' },
-    emptyCell: { message: '' },
-    expandRowSpan: { message: '' },
-    shrinkRowSpan: { message: '' },
-    expandColSpan: { message: '' },
-    shrinkColSpan: { message: '' },
   } as const,
   locales: {
     en: {
@@ -43,11 +43,6 @@ export const boardBundle = defineI18nBundle({
       preview: 'Preview',
       save: 'Save',
       cancel: 'Cancel',
-      emptyCell: 'Empty cell',
-      expandRowSpan: 'Expand row span',
-      shrinkRowSpan: 'Shrink row span',
-      expandColSpan: 'Expand column span',
-      shrinkColSpan: 'Shrink column span',
     },
   },
 });

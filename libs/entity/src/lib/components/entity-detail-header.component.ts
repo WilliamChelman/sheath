@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { phosphorPencilSimple, phosphorTrashSimple } from '@ng-icons/phosphor-icons/regular';
-import { compendiumBundle } from '../compendium.i18n';
+import { compendiumDetailBundle } from '../compendium-detail.i18n';
 import { Entity } from '../models/entity';
 import { DomainService } from '../services/domain.service';
 import { FeatureFlagsService } from '../services/feature-flags.service';
@@ -71,7 +71,7 @@ export class EntityDetailHeaderComponent {
   private readonly i18n = inject(I18nService);
   private readonly domainService = inject(DomainService);
   private readonly featureFlags = inject(FeatureFlagsService);
-  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+  protected readonly t = this.i18n.useBundleT(compendiumDetailBundle);
 
   protected readonly canEdit = this.featureFlags.canEditEntity;
   protected readonly canDelete = this.featureFlags.canDeleteEntity;

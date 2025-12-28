@@ -9,7 +9,7 @@ import {
   phosphorTextB,
 } from '@ng-icons/phosphor-icons/regular';
 import { I18nService } from '@/i18n';
-import { compendiumBundle } from '../../compendium.i18n';
+import { markdownEditorBundle } from './markdown-editor.i18n';
 import type { SelectionInfo } from './codemirror-editor.component';
 
 export type FormatType =
@@ -120,7 +120,7 @@ export type FormatType =
 })
 export class FloatingToolbarComponent {
   private readonly i18n = inject(I18nService);
-  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+  protected readonly t = this.i18n.useBundleT(markdownEditorBundle);
 
   selection = input<SelectionInfo | null>(null);
   format = output<FormatType>();

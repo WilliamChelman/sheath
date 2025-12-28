@@ -10,7 +10,7 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { phosphorPlus, phosphorTag, phosphorX } from '@ng-icons/phosphor-icons/regular';
 import { I18nService } from '@/i18n';
-import { compendiumBundle } from '../../compendium.i18n';
+import { compendiumDetailBundle } from '../../compendium-detail.i18n';
 
 @Component({
   selector: 'app-inline-metadata',
@@ -105,7 +105,7 @@ import { compendiumBundle } from '../../compendium.i18n';
 })
 export class InlineMetadataComponent {
   private readonly i18n = inject(I18nService);
-  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+  protected readonly t = this.i18n.useBundleT(compendiumDetailBundle);
 
   entityType = input.required<string>();
   name = model.required<string>();

@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, input, model } from '@angular/core';
 import { I18nService } from '@/i18n';
-import { tokenCreatorBundle } from '../token-creator.i18n';
+import { tokenContentControlsBundle } from './token-content-controls.i18n';
 import {
   ButtonGroupComponent,
   TextareaComponent,
@@ -27,68 +27,68 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
     <app-card bodyClass="gap-4">
       <!-- Header with title and reset button -->
       <div class="flex items-center justify-between">
-        <h3 class="card-title text-sm">{{ t('controls.title') }}</h3>
+        <h3 class="card-title text-sm">{{ t('title') }}</h3>
         <button
           appButton
           appButtonSize="xs"
           appButtonOutline
           (click)="resetToDefaults()"
-          [title]="t('controls.reset.title')"
+          [title]="t('reset.title')"
         >
-          {{ t('controls.reset.label') }}
+          {{ t('reset.label') }}
         </button>
       </div>
 
       <!-- Name Input -->
       <app-textarea
         data-tour="token-name-input"
-        [label]="t('controls.name.label')"
+        [label]="t('name.label')"
         [value]="config().name"
         (valueChange)="updateConfig({ name: $event })"
-        [placeholder]="t('controls.name.placeholder')"
+        [placeholder]="t('name.placeholder')"
         [helperText]="
-          isBatchMode() ? t('controls.name.batchHint') : t('controls.name.hint')
+          isBatchMode() ? t('name.batchHint') : t('name.hint')
         "
         [rows]="2"
       />
 
       <!-- Initials Input -->
       <app-text-input
-        [label]="t('controls.initials.label')"
+        [label]="t('initials.label')"
         [helperText]="
           isBatchMode()
-            ? t('controls.initials.batchHelperText')
-            : t('controls.initials.helperText')
+            ? t('initials.batchHelperText')
+            : t('initials.helperText')
         "
         [value]="config().initials"
         (valueChange)="updateConfig({ initials: $event })"
         [maxLength]="3"
-        [placeholder]="t('controls.initials.placeholder')"
+        [placeholder]="t('initials.placeholder')"
         [disabled]="isBatchMode()"
       />
 
       <!-- Toggle Options -->
       <app-toggle
-        [label]="t('controls.toggles.showInitials')"
+        [label]="t('toggles.showInitials')"
         [checked]="config().showInitials"
         (checkedChange)="updateConfig({ showInitials: $event })"
       />
 
       <app-toggle
-        [label]="t('controls.toggles.showName')"
+        [label]="t('toggles.showName')"
         [checked]="config().showName"
         (checkedChange)="updateConfig({ showName: $event })"
       />
 
       <app-toggle
-        [label]="t('controls.toggles.showMinionIcon')"
+        [label]="t('toggles.showMinionIcon')"
         [checked]="config().showMinionIcon"
         (checkedChange)="updateConfig({ showMinionIcon: $event })"
       />
 
       @if (config().showMinionIcon) {
         <app-button-group
-          [label]="t('controls.minionIconPosition.label')"
+          [label]="t('minionIconPosition.label')"
           [options]="minionIconPositions()"
           [value]="config().minionIconPosition"
           (valueChange)="updateMinionIconPosition($event)"
@@ -98,7 +98,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 
       @if (config().showName) {
         <app-button-group
-          [label]="t('controls.namePosition.label')"
+          [label]="t('namePosition.label')"
           [options]="namePositions()"
           [value]="config().namePosition"
           (valueChange)="updateNamePosition($event)"
@@ -110,7 +110,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 })
 export class TokenContentControlsComponent {
   private i18n = inject(I18nService);
-  protected t = this.i18n.useBundleT(tokenCreatorBundle);
+  protected t = this.i18n.useBundleT(tokenContentControlsBundle);
 
   config = model<TokenConfig>(DEFAULT_TOKEN_CONFIG);
   isBatchMode = input(false);

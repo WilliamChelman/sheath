@@ -15,7 +15,7 @@ import {
   TextInputComponent,
   ToggleComponent,
 } from '@/ui/forms';
-import { compendiumBundle } from '../../compendium.i18n';
+import { compendiumDetailBundle } from '../../compendium-detail.i18n';
 
 export type FieldType = 'string' | 'number' | 'boolean' | 'multi-string';
 
@@ -105,7 +105,7 @@ export interface PropertyField {
 })
 export class PropertiesPanelComponent {
   private readonly i18n = inject(I18nService);
-  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+  protected readonly t = this.i18n.useBundleT(compendiumDetailBundle);
 
   fields = input.required<PropertyField[]>();
   expanded = input(true);

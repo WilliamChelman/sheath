@@ -1,6 +1,6 @@
 import { Component, effect, inject, input, model, signal } from '@angular/core';
 import { I18nService } from '@/i18n';
-import { tokenCreatorBundle } from '../token-creator.i18n';
+import { tokenExportControlsBundle } from './token-export-controls.i18n';
 import { SelectComponent, type SelectOption } from '@/ui/forms';
 import { CardComponent } from '@/ui/card';
 import { ButtonDirective } from '@/ui/button';
@@ -20,10 +20,10 @@ const TOKEN_CREATOR_EXPORT_FORMAT_STORAGE_KEY =
   imports: [SelectComponent, CardComponent, ButtonDirective],
   template: `
     <app-card bodyClass="gap-4">
-      <h3 class="card-title text-sm">{{ t('export.title') }}</h3>
+      <h3 class="card-title text-sm">{{ t('title') }}</h3>
 
       <app-select
-        [label]="t('export.format.label')"
+        [label]="t('format.label')"
         [options]="exportFormatOptions"
         [(value)]="exportFormat"
         size="sm"
@@ -51,7 +51,7 @@ const TOKEN_CREATOR_EXPORT_FORMAT_STORAGE_KEY =
           appButtonSize="sm"
           (click)="onExport()"
         >
-          {{ t('export.download', { format: exportFormat().toUpperCase() }) }}
+          {{ t('download', { format: exportFormat().toUpperCase() }) }}
         </button>
       }
     </app-card>
@@ -59,7 +59,7 @@ const TOKEN_CREATOR_EXPORT_FORMAT_STORAGE_KEY =
 })
 export class TokenExportControlsComponent {
   private i18n = inject(I18nService);
-  protected t = this.i18n.useBundleT(tokenCreatorBundle);
+  protected t = this.i18n.useBundleT(tokenExportControlsBundle);
 
   config = model<TokenConfig>(DEFAULT_TOKEN_CONFIG);
   exportFormat = signal<ExportFormat>('png');

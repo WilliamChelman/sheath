@@ -13,7 +13,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { I18nService } from '@/i18n';
-import { compendiumBundle } from '../../compendium.i18n';
+import { markdownEditorBundle } from './markdown-editor.i18n';
 import { Entity } from '../../models/entity';
 import { TocEntry } from '../../models/toc-entry';
 import { ContentHighlighterService } from '../../services/content-highlighter.service';
@@ -30,7 +30,7 @@ import {
         <div #contentContainer class="markdown-content"></div>
       } @else if (showPlaceholder()) {
         <div class="text-base-content/40 italic">
-          {{ t('editor.previewPlaceholder') }}
+          {{ t('previewPlaceholder') }}
         </div>
       }
     </div>
@@ -62,7 +62,7 @@ export class MarkdownPreviewComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly highlighter = inject(ContentHighlighterService);
   private readonly i18n = inject(I18nService);
-  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+  protected readonly t = this.i18n.useBundleT(markdownEditorBundle);
 
   // Use signal-based viewChild query - reactive and updates when element appears
   private readonly contentContainer =

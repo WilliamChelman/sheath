@@ -1,6 +1,6 @@
 import { Component, inject, model, output } from '@angular/core';
 import { I18nService } from '@/i18n';
-import { tokenCreatorBundle } from '../token-creator.i18n';
+import { tokenBackgroundControlsBundle } from './token-background-controls.i18n';
 import {
   FileInputComponent,
   RangeInputComponent,
@@ -24,11 +24,11 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
   ],
   template: `
     <app-card bodyClass="gap-4">
-      <h3 class="card-title text-sm">{{ t('backgroundImage.title') }}</h3>
+      <h3 class="card-title text-sm">{{ t('title') }}</h3>
 
       <app-file-input
         id="token-bg-upload"
-        [label]="t('backgroundImage.upload.label')"
+        [label]="t('upload.label')"
         accept="image/*"
         size="sm"
         (fileSelected)="onBackgroundImageSelected($event)"
@@ -39,7 +39,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
           <!-- Opacity Slider -->
           <app-range-input
             id="token-bg-opacity"
-            [label]="t('backgroundImage.opacity.label')"
+            [label]="t('opacity.label')"
             [min]="0"
             [max]="1"
             [step]="0.05"
@@ -57,9 +57,9 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
               appButtonOutline
               class="flex-1"
               (click)="resetImagePosition()"
-              [title]="t('backgroundImage.actions.resetTitle')"
+              [title]="t('actions.resetTitle')"
             >
-              {{ t('backgroundImage.actions.reset') }}
+              {{ t('actions.reset') }}
             </button>
             <button
               appButton="error"
@@ -67,14 +67,14 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
               appButtonOutline
               class="flex-1"
               (click)="removeImage()"
-              [title]="t('backgroundImage.actions.removeTitle')"
+              [title]="t('actions.removeTitle')"
             >
-              {{ t('backgroundImage.actions.remove') }}
+              {{ t('actions.remove') }}
             </button>
           </div>
 
           <p class="text-xs text-base-content/50">
-            {{ t('backgroundImage.hint') }}
+            {{ t('hint') }}
           </p>
         </div>
       }
@@ -83,7 +83,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 })
 export class TokenBackgroundControlsComponent {
   private i18n = inject(I18nService);
-  protected t = this.i18n.useBundleT(tokenCreatorBundle);
+  protected t = this.i18n.useBundleT(tokenBackgroundControlsBundle);
 
   config = model<TokenConfig>(DEFAULT_TOKEN_CONFIG);
   backgroundImageChange = output<BackgroundImage>();

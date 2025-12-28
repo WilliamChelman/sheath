@@ -1,6 +1,6 @@
 import { Component, computed, inject, model } from '@angular/core';
 import { I18nService } from '@/i18n';
-import { tokenCreatorBundle } from '../token-creator.i18n';
+import { tokenAppearanceControlsBundle } from './token-appearance-controls.i18n';
 import {
   ButtonGroupComponent,
   ColorPickerComponent,
@@ -23,22 +23,22 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
   imports: [ColorPickerComponent, ButtonGroupComponent, CardComponent],
   template: `
     <app-card bodyClass="gap-4">
-      <h3 class="card-title text-sm">{{ t('appearance.title') }}</h3>
+      <h3 class="card-title text-sm">{{ t('title') }}</h3>
 
       <!-- Colors -->
       <div class="grid grid-cols-3 gap-2">
         <app-color-picker
-          [label]="t('controls.colors.background')"
+          [label]="t('colors.background')"
           [value]="config().backgroundColor"
           (valueChange)="updateConfig({ backgroundColor: $event })"
         />
         <app-color-picker
-          [label]="t('controls.colors.border')"
+          [label]="t('colors.border')"
           [value]="config().borderColor"
           (valueChange)="updateConfig({ borderColor: $event })"
         />
         <app-color-picker
-          [label]="t('controls.colors.text')"
+          [label]="t('colors.text')"
           [value]="config().textColor"
           (valueChange)="updateConfig({ textColor: $event })"
         />
@@ -46,7 +46,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 
       <!-- Size Selection -->
       <app-button-group
-        [label]="t('controls.size.label')"
+        [label]="t('size.label')"
         [options]="sizes()"
         [value]="config().size"
         (valueChange)="updateConfig({ size: $event })"
@@ -54,7 +54,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 
       <!-- Border Width -->
       <app-button-group
-        [label]="t('controls.borderWidth.label')"
+        [label]="t('borderWidth.label')"
         [options]="borderWidths()"
         [value]="config().borderWidth"
         (valueChange)="updateConfig({ borderWidth: $event })"
@@ -63,7 +63,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 
       <!-- Shadow Intensity -->
       <app-button-group
-        [label]="t('controls.shadowIntensity.label')"
+        [label]="t('shadowIntensity.label')"
         [options]="shadowIntensities()"
         [value]="config().shadowIntensity"
         (valueChange)="updateConfig({ shadowIntensity: $event })"
@@ -71,7 +71,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 
       <!-- Border Style -->
       <app-button-group
-        [label]="t('controls.borderStyle.label')"
+        [label]="t('borderStyle.label')"
         [options]="borderStyles()"
         [value]="config().borderStyle"
         (valueChange)="updateConfig({ borderStyle: $event })"
@@ -80,12 +80,12 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 
       <!-- Text Settings Section -->
       <div class="divider text-xs text-base-content/50 my-1">
-        {{ t('controls.textSettings.label') }}
+        {{ t('textSettings.label') }}
       </div>
 
       <!-- Initials Size -->
       <app-button-group
-        [label]="t('controls.initialsSize.label')"
+        [label]="t('initialsSize.label')"
         [options]="textSizes()"
         [value]="config().initialsSize"
         (valueChange)="updateConfig({ initialsSize: $event })"
@@ -93,7 +93,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 
       <!-- Name Size -->
       <app-button-group
-        [label]="t('controls.nameSize.label')"
+        [label]="t('nameSize.label')"
         [options]="textSizes()"
         [value]="config().nameSize"
         (valueChange)="updateConfig({ nameSize: $event })"
@@ -101,7 +101,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 
       <!-- Text Shadow Intensity -->
       <app-button-group
-        [label]="t('controls.textShadowIntensity.label')"
+        [label]="t('textShadowIntensity.label')"
         [options]="textShadowIntensities()"
         [value]="config().textShadowIntensity"
         (valueChange)="updateConfig({ textShadowIntensity: $event })"
@@ -111,7 +111,7 @@ import { DEFAULT_TOKEN_CONFIG } from '../models/token.model';
 })
 export class TokenAppearanceControlsComponent {
   private i18n = inject(I18nService);
-  protected t = this.i18n.useBundleT(tokenCreatorBundle);
+  protected t = this.i18n.useBundleT(tokenAppearanceControlsBundle);
 
   config = model<TokenConfig>(DEFAULT_TOKEN_CONFIG);
 

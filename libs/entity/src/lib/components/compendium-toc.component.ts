@@ -22,7 +22,7 @@ import {
 } from '@ng-icons/phosphor-icons/regular';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { I18nService } from '@/i18n';
-import { compendiumBundle } from '../compendium.i18n';
+import { compendiumDetailBundle } from '../compendium-detail.i18n';
 import type { TocEntry } from '../models/toc-entry';
 
 @Component({
@@ -196,7 +196,7 @@ export class CompendiumTocComponent implements OnInit, OnDestroy {
   private readonly elementRef = inject(ElementRef);
   private readonly i18n = inject(I18nService);
 
-  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+  protected readonly t = this.i18n.useBundleT(compendiumDetailBundle);
 
   /** TOC entries to display */
   readonly entries = input.required<TocEntry[]>();

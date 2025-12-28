@@ -23,7 +23,8 @@ import {
   phosphorGridFour,
   phosphorTable,
 } from '@ng-icons/phosphor-icons/regular';
-import { compendiumBundle } from '../../compendium.i18n';
+import { compendiumDetailBundle } from '../../compendium-detail.i18n';
+import { markdownEditorBundle } from './markdown-editor.i18n';
 import { EditorModeService } from '../../services/editor-mode.service';
 import {
   CodeMirrorEditorComponent,
@@ -75,7 +76,7 @@ type FieldType = 'string' | 'number' | 'boolean' | 'multi-string';
               class="join-item btn btn-sm"
               [class.btn-active]="editorModeService.mode() === 'live-preview'"
               (click)="editorModeService.setMode('live-preview')"
-              [title]="t('editor.livePreview')"
+              [title]="t('livePreview')"
             >
               <ng-icon name="phosphorGridFour" class="text-lg" />
             </button>
@@ -84,7 +85,7 @@ type FieldType = 'string' | 'number' | 'boolean' | 'multi-string';
               class="join-item btn btn-sm"
               [class.btn-active]="editorModeService.mode() === 'split-view'"
               (click)="editorModeService.setMode('split-view')"
-              [title]="t('editor.splitView')"
+              [title]="t('splitView')"
             >
               <ng-icon name="phosphorTable" class="text-lg" />
             </button>
@@ -96,7 +97,7 @@ type FieldType = 'string' | 'number' | 'boolean' | 'multi-string';
             class="btn btn-sm btn-ghost"
             [class.btn-active]="editorModeService.tocVisible()"
             (click)="editorModeService.toggleToc()"
-            [title]="t('editor.toggleToc')"
+            [title]="t('toggleToc')"
           >
             <ng-icon name="phosphorListBullets" class="text-lg" />
           </button>
@@ -110,7 +111,7 @@ type FieldType = 'string' | 'number' | 'boolean' | 'multi-string';
             [disabled]="isSaving()"
             (click)="onCancel()"
           >
-            {{ t('edit.cancelButton') }}
+            {{ tDetail('edit.cancelButton') }}
           </button>
           <button
             type="button"
@@ -121,7 +122,7 @@ type FieldType = 'string' | 'number' | 'boolean' | 'multi-string';
             @if (isSaving()) {
               <span class="loading loading-spinner loading-xs"></span>
             }
-            {{ t('edit.saveButton') }}
+            {{ tDetail('edit.saveButton') }}
           </button>
         </div>
       </header>
@@ -168,7 +169,7 @@ type FieldType = 'string' | 'number' | 'boolean' | 'multi-string';
                   #editorRef
                   [(value)]="formContent"
                   [livePreview]="false"
-                  [placeholder]="t('editor.placeholder')"
+                  [placeholder]="t('placeholder')"
                   (selectionChange)="onSelectionChange($event)"
                 />
               </div>
@@ -182,7 +183,7 @@ type FieldType = 'string' | 'number' | 'boolean' | 'multi-string';
                   #editorRef
                   [(value)]="formContent"
                   [livePreview]="true"
-                  [placeholder]="t('editor.placeholder')"
+                  [placeholder]="t('placeholder')"
                   (selectionChange)="onSelectionChange($event)"
                 />
               </div>
@@ -222,7 +223,8 @@ export class MarkdownEditorComponent implements OnInit {
   private readonly domainService = inject(DomainService);
   private readonly i18n = inject(I18nService);
 
-  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+  protected readonly t = this.i18n.useBundleT(markdownEditorBundle);
+  protected readonly tDetail = this.i18n.useBundleT(compendiumDetailBundle);
 
   entity = input.required<Entity>();
   isSaving = input(false);

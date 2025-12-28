@@ -18,7 +18,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { phosphorArrowLeft } from '@ng-icons/phosphor-icons/regular';
 import { map } from 'rxjs';
-import { compendiumBundle } from './compendium.i18n';
+import { compendiumDetailBundle } from './compendium-detail.i18n';
 import { CompendiumEmptyStateComponent } from './components/compendium-empty-state.component';
 import { CompendiumTocComponent } from './components/compendium-toc.component';
 import { EntityDetailHeaderComponent } from './components/entity-detail-header.component';
@@ -227,7 +227,7 @@ export class CompendiumDetailView {
   private readonly rendererService = inject(EntityRendererService);
   private readonly featureFlags = inject(FeatureFlagsService);
 
-  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+  protected readonly t = this.i18n.useBundleT(compendiumDetailBundle);
   protected readonly isLoading = signal(false);
   protected readonly isSaving = signal(false);
   protected readonly isDeleting = signal(false);
