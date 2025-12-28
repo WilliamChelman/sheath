@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/WilliamChelman/sheath/compare/v1.3.1...v1.3.2) (2025-12-28)
+
+
+### Bug Fixes
+
+* data asset generation path, part 2 ([82a59d2](https://github.com/WilliamChelman/sheath/commit/82a59d209c07dfe8f0203bbd65940ec49189d9f8))
+
 ## [1.3.1](https://github.com/WilliamChelman/sheath/compare/v1.3.0...v1.3.1) (2025-12-28)
 
 
