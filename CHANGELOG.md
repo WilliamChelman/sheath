@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/WilliamChelman/sheath/compare/v1.3.4...v1.4.0) (2025-12-28)
+
+
+### Bug Fixes
+
+* clear button on the search bar ([2791184](https://github.com/WilliamChelman/sheath/commit/279118422c4d2f0cc84313998dd093ef6b7022bd))
+
+
+### Features
+
+* smart text search ([8fd0032](https://github.com/WilliamChelman/sheath/commit/8fd0032353f472ea56a51505d92bb35c9e134a58))
+
 ## [1.3.4](https://github.com/WilliamChelman/sheath/compare/v1.3.3...v1.3.4) (2025-12-28)
 
 
