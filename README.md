@@ -2,6 +2,8 @@
 
 A companion web app for [DRAW STEEL](https://mcdmproductions.com/), MCDM's tabletop RPG.
 
+**[Try it live](https://williamchelman.github.io/sheath)**
+
 ## Features
 
 - **Compendium** - Browse and search game rules, ancestries, classes, abilities, and more

@@ -109,8 +109,8 @@ function convertKeysToSheath(obj) {
 
 const repoRoot = path.resolve(process.cwd());
 const inputDir = path.join(repoRoot, 'external', 'data-md');
-const target = process.env.TARGET ?? 'dist/data';
-const outputDir = path.join(repoRoot, target, 'data-md');
+const target = process.env.TARGET ?? 'dist';
+const outputDir = path.join(repoRoot, target, 'data/data-md');
 
 const ignoredFiles = [
   'README.md',
