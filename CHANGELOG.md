@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/WilliamChelman/sheath/compare/v1.3.2...v1.3.3) (2025-12-28)
+
+
+### Bug Fixes
+
+* data asset build fix, part 3 ([fff5e7a](https://github.com/WilliamChelman/sheath/commit/fff5e7aa6c00bb2ac552c68e1850f0ff2bbed8cf))
+
 ## [1.3.2](https://github.com/WilliamChelman/sheath/compare/v1.3.1...v1.3.2) (2025-12-28)
 
 
