@@ -11,8 +11,6 @@ import {
 } from 'node:fs/promises';
 import path from 'node:path';
 
-const target = process.env.TARGET ?? 'dist/data';
-
 /**
  * @template T
  * @param {string} raw
@@ -111,6 +109,7 @@ function convertKeysToSheath(obj) {
 
 const repoRoot = path.resolve(process.cwd());
 const inputDir = path.join(repoRoot, 'external', 'data-md');
+const target = process.env.TARGET ?? 'dist/data';
 const outputDir = path.join(repoRoot, target, 'data-md');
 
 const ignoredFiles = [
@@ -342,7 +341,7 @@ async function main() {
 
   // Clean up existing output
   const zipPath = `${outputDir}.zip`;
-  const jsonPath = path.join(path.dirname(outputDir), 'data-md.json');
+  const jsonPath = `${outputDir}.json`;
   await rm(outputDir, { recursive: true, force: true });
   await rm(zipPath, { force: true });
   await rm(jsonPath, { force: true });
