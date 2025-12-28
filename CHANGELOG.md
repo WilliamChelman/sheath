@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/WilliamChelman/sheath/compare/v1.2.1...v1.3.0) (2025-12-28)
+
+
+### Features
+
+* compendium v2 ([2735f5d](https://github.com/WilliamChelman/sheath/commit/2735f5d87412f47ad28d81a7725c6333502f31b3))
+
 ## [1.2.1](https://github.com/WilliamChelman/sheath/compare/v1.2.0...v1.2.1) (2025-12-21)
 
 
