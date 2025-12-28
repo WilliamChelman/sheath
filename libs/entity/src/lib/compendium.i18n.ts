@@ -4,15 +4,33 @@ export const compendiumBundle = defineI18nBundle({
   namespace: 'compendium',
   schema: {
     title: { message: '' },
+    subtitle: { message: '' },
     noEntities: { message: '' },
     noEntitiesDescription: { message: '' },
+    noEntitiesWithFilters: { message: '' },
+    noEntitiesWithFiltersDescription: { message: '' },
     entityCount: { message: '', params: {} as { count: number } },
     searchPlaceholder: { message: '' },
     allTypes: { message: '' },
     loading: { message: '' },
     indexing: { message: '' },
     filters: { message: '' },
+    filtersCount: { message: '', params: {} as { count: number } },
     clearFilters: { message: '' },
+    clearAllFilters: { message: '' },
+    applyFilters: { message: '' },
+    showFilters: { message: '' },
+    // Pagination aria labels
+    pagination: {
+      previousPage: { message: '' },
+      nextPage: { message: '' },
+      goToPage: { message: '', params: {} as { page: number } },
+    },
+    // Mobile filters aria labels
+    mobileFilters: {
+      closePanel: { message: '' },
+      closeBackdrop: { message: '' },
+    },
     // Sort
     sort: {
       label: { message: '' },
@@ -95,16 +113,35 @@ export const compendiumBundle = defineI18nBundle({
   locales: {
     en: {
       title: 'Compendium',
+      subtitle: 'Browse and discover your collection',
       noEntities: 'No entities found',
       noEntitiesDescription:
         'Select a directory containing markdown files to get started',
+      noEntitiesWithFilters: 'No matching entities',
+      noEntitiesWithFiltersDescription:
+        'Try adjusting your search or filters to find what you\'re looking for',
       entityCount: '{count} entities',
       searchPlaceholder: 'Search entities...',
       allTypes: 'All Types',
       loading: 'Loading entities...',
       indexing: 'Building search index...',
       filters: 'Filters',
-      clearFilters: 'Clear filters',
+      filtersCount: '{count} active',
+      clearFilters: 'Clear',
+      clearAllFilters: 'Clear all filters',
+      applyFilters: 'Apply filters',
+      showFilters: 'Filters',
+      // Pagination aria labels
+      pagination: {
+        previousPage: 'Go to previous page',
+        nextPage: 'Go to next page',
+        goToPage: 'Go to page {page}',
+      },
+      // Mobile filters aria labels
+      mobileFilters: {
+        closePanel: 'Close filters panel',
+        closeBackdrop: 'Close filters',
+      },
       // Sort
       sort: {
         label: 'Sort by',

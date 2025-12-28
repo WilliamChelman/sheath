@@ -1,12 +1,15 @@
+import { I18nService } from '@/i18n';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   output,
 } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { phosphorCaretLeft, phosphorCaretRight } from '@ng-icons/phosphor-icons/regular';
+import { compendiumBundle } from '../compendium.i18n';
 
 @Component({
   selector: 'app-compendium-pagination',
@@ -14,43 +17,62 @@ import { phosphorCaretLeft, phosphorCaretRight } from '@ng-icons/phosphor-icons/
   viewProviders: [provideIcons({ phosphorCaretLeft, phosphorCaretRight })],
   template: `
     @if (totalPages() > 1) {
-      <div class="flex justify-center items-center gap-2 mt-8">
+      <nav
+        class="flex justify-center items-center gap-1 sm:gap-2 mt-8 py-4"
+        role="navigation"
+        aria-label="Pagination"
+      >
+        <!-- Previous button -->
         <button
-          class="btn btn-sm btn-ghost"
+          class="btn btn-circle btn-sm sm:btn-md btn-ghost"
           [disabled]="currentPage() === 1"
           (click)="goToPage(currentPage() - 1)"
+          [attr.aria-label]="t('pagination.previousPage')"
         >
-          <ng-icon name="phosphorCaretLeft" />
+          <ng-icon name="phosphorCaretLeft" class="text-lg" />
         </button>
 
-        @for (page of visiblePages(); track page) {
-          @if (page === -1) {
-            <span class="px-2 text-base-content/40">...</span>
-          } @else {
-            <button
-              class="btn btn-sm"
-              [class.btn-primary]="page === currentPage()"
-              [class.btn-ghost]="page !== currentPage()"
-              (click)="goToPage(page)"
-            >
-              {{ page }}
-            </button>
+        <!-- Page numbers -->
+        <div class="flex items-center gap-1">
+          @for (page of visiblePages(); track $index) {
+            @if (page === -1) {
+              <span class="px-2 text-base-content/40 select-none" aria-hidden="true">...</span>
+            } @else {
+              <button
+                class="btn btn-sm sm:btn-md min-w-[2.5rem] sm:min-w-[3rem] transition-all duration-200"
+                [class.btn-primary]="page === currentPage()"
+                [class.shadow-md]="page === currentPage()"
+                [class.btn-ghost]="page !== currentPage()"
+                [class.hover:btn-primary]="page !== currentPage()"
+                [class.hover:btn-outline]="page !== currentPage()"
+                (click)="goToPage(page)"
+                [attr.aria-label]="t('pagination.goToPage', { page })"
+                [attr.aria-current]="page === currentPage() ? 'page' : null"
+              >
+                {{ page }}
+              </button>
+            }
           }
-        }
+        </div>
 
+        <!-- Next button -->
         <button
-          class="btn btn-sm btn-ghost"
+          class="btn btn-circle btn-sm sm:btn-md btn-ghost"
           [disabled]="currentPage() === totalPages()"
           (click)="goToPage(currentPage() + 1)"
+          [attr.aria-label]="t('pagination.nextPage')"
         >
-          <ng-icon name="phosphorCaretRight" />
+          <ng-icon name="phosphorCaretRight" class="text-lg" />
         </button>
-      </div>
+      </nav>
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompendiumPaginationComponent {
+  private readonly i18n = inject(I18nService);
+  protected readonly t = this.i18n.useBundleT(compendiumBundle);
+
   readonly currentPage = input.required<number>();
   readonly totalPages = input.required<number>();
 

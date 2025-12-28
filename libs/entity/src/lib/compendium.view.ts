@@ -14,7 +14,11 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { phosphorPlus, phosphorX } from '@ng-icons/phosphor-icons/regular';
+import {
+  phosphorPlus,
+  phosphorX,
+  phosphorFunnel,
+} from '@ng-icons/phosphor-icons/regular';
 import { skip, Subscription, switchMap } from 'rxjs';
 import { compendiumBundle } from './compendium.i18n';
 import { CompendiumEmptyStateComponent } from './components/compendium-empty-state.component';
@@ -24,8 +28,10 @@ import {
   FacetSelections,
   NumberRangeSelection,
 } from './components/compendium-facets.component';
+import { CompendiumMobileFiltersComponent } from './components/compendium-mobile-filters.component';
 import { CompendiumPaginationComponent } from './components/compendium-pagination.component';
 import { CompendiumSearchBarComponent } from './components/compendium-search-bar.component';
+import { CompendiumSkeletonCardComponent } from './components/compendium-skeleton-card.component';
 import {
   CompendiumSortWidgetComponent,
   SortOption,
@@ -53,83 +59,132 @@ import {
     CompendiumSortWidgetComponent,
     CompendiumEmptyStateComponent,
     CompendiumFacetsComponent,
+    CompendiumMobileFiltersComponent,
+    CompendiumSkeletonCardComponent,
     EntityCreateModalComponent,
     PageTitleDirective,
   ],
-  viewProviders: [provideIcons({ phosphorPlus, phosphorX })],
+  viewProviders: [provideIcons({ phosphorPlus, phosphorX, phosphorFunnel })],
   template: `
     <div
       class="min-h-screen bg-linear-to-br from-base-300 via-base-100 to-base-200"
     >
       <div class="container mx-auto px-4 py-8 max-w-7xl">
         <!-- Header -->
-        <div class="text-center mb-8">
-          <h1 appPageTitle class="text-4xl font-bold text-base-content mb-2">
-            {{ t('title') }}
-          </h1>
+        <header class="mb-8">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1
+                appPageTitle
+                class="text-3xl sm:text-4xl font-bold text-base-content"
+              >
+                {{ t('title') }}
+              </h1>
+              <p class="text-base-content/60 mt-1">
+                {{ t('subtitle') }}
+              </p>
+            </div>
 
-          @if (featureFlags.canCreateEntity()) {
-            <button class="btn btn-primary gap-2" (click)="openCreateModal()">
-              <ng-icon name="phosphorPlus" class="text-lg" />
-              {{ t('create.button') }}
-            </button>
-          }
-        </div>
+            @if (featureFlags.canCreateEntity()) {
+              <button
+                class="btn btn-primary gap-2 shadow-lg hover:shadow-xl transition-shadow self-start sm:self-auto"
+                (click)="openCreateModal()"
+              >
+                <ng-icon name="phosphorPlus" class="text-lg" />
+                {{ t('create.button') }}
+              </button>
+            }
+          </div>
+        </header>
 
-        <!-- Loading State -->
+        <!-- Loading State with Skeleton Cards -->
         @if (isLoading()) {
-          <div class="flex flex-col items-center justify-center py-16">
-            <span
-              class="loading loading-spinner loading-lg text-primary"
-            ></span>
-            <p class="mt-4 text-base-content/60">{{ t('loading') }}</p>
+          <div class="space-y-6">
+            <!-- Skeleton search bar -->
+            <div class="card bg-base-100 shadow-sm p-4">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <div class="skeleton h-12 flex-1"></div>
+                <div class="skeleton h-12 w-32"></div>
+              </div>
+            </div>
+
+            <!-- Skeleton grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              @for (i of skeletonCards; track i) {
+                <app-compendium-skeleton-card [delay]="i * 50" />
+              }
+            </div>
           </div>
         }
 
         <!-- Content -->
         @if (!isLoading()) {
-          <!-- Search & Filter Bar -->
-          <div class="flex flex-col sm:flex-row gap-4 mb-6">
-            <div class="flex-1 min-w-0">
-              <app-compendium-search-bar
-                [searchPlaceholder]="t('searchPlaceholder')"
-                [allTypesLabel]="t('allTypes')"
-                [entityTypes]="entityTypesWithNames()"
-                [(searchQuery)]="searchQuery"
-                [(selectedType)]="selectedType"
-              />
+          <!-- Search & Filter Bar Card -->
+          <div class="card bg-base-100 shadow-sm mb-6">
+            <div class="card-body p-4">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex-1 min-w-0">
+                  <app-compendium-search-bar
+                    [searchPlaceholder]="t('searchPlaceholder')"
+                    [allTypesLabel]="t('allTypes')"
+                    [entityTypes]="entityTypesWithNames()"
+                    [(searchQuery)]="searchQuery"
+                    [(selectedType)]="selectedType"
+                  />
+                </div>
+                <div class="flex gap-2">
+                  <!-- Mobile Filter Button -->
+                  @if (selectedType() && selectedTypePropertyConfigs().length > 0) {
+                    <div class="lg:hidden">
+                      <app-compendium-mobile-filters
+                        [propertyConfigs]="selectedTypePropertyConfigs()"
+                        [entities]="entitiesOfSelectedType()"
+                        [(selections)]="facetSelections"
+                        (clearFilters)="clearFacetSelections()"
+                      />
+                    </div>
+                  }
+                  <app-compendium-sort-widget
+                    [availableSortOptions]="availableSortOptions()"
+                    [(selectedSort)]="sortOption"
+                  />
+                </div>
+              </div>
             </div>
-            <app-compendium-sort-widget
-              [availableSortOptions]="availableSortOptions()"
-              [(selectedSort)]="sortOption"
-            />
           </div>
 
           <!-- Main Content with Optional Facets Sidebar -->
           <div class="flex gap-6">
-            <!-- Facets Sidebar (shown when type is selected) -->
+            <!-- Facets Sidebar (shown when type is selected, hidden on mobile) -->
             @if (selectedType() && selectedTypePropertyConfigs().length > 0) {
               <aside class="w-64 shrink-0 hidden lg:block">
                 <div class="sticky top-4">
-                  <div class="flex items-center justify-between mb-3">
-                    <h3 class="font-medium text-base-content">
-                      {{ t('filters') }}
-                    </h3>
-                    @if (hasActiveFilters()) {
-                      <button
-                        class="btn btn-ghost btn-xs gap-1"
-                        (click)="clearFacetSelections()"
-                      >
-                        <ng-icon name="phosphorX" class="text-sm" />
-                        {{ t('clearFilters') }}
-                      </button>
-                    }
+                  <div
+                    class="card bg-base-100/80 backdrop-blur-sm shadow-sm border border-base-200"
+                  >
+                    <div class="card-body p-4">
+                      <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-semibold text-base-content flex items-center gap-2">
+                          <ng-icon name="phosphorFunnel" class="text-lg text-primary" />
+                          {{ t('filters') }}
+                        </h3>
+                        @if (hasActiveFilters()) {
+                          <button
+                            class="btn btn-ghost btn-xs gap-1 text-error hover:bg-error/10"
+                            (click)="clearFacetSelections()"
+                          >
+                            <ng-icon name="phosphorX" class="text-sm" />
+                            {{ t('clearFilters') }}
+                          </button>
+                        }
+                      </div>
+                      <app-compendium-facets
+                        [propertyConfigs]="selectedTypePropertyConfigs()"
+                        [entities]="entitiesOfSelectedType()"
+                        [(selections)]="facetSelections"
+                      />
+                    </div>
                   </div>
-                  <app-compendium-facets
-                    [propertyConfigs]="selectedTypePropertyConfigs()"
-                    [entities]="entitiesOfSelectedType()"
-                    [(selections)]="facetSelections"
-                  />
                 </div>
               </aside>
             }
@@ -137,43 +192,43 @@ import {
             <!-- Main Content Area -->
             <div class="flex-1 min-w-0">
               <!-- Entity Count & Index Status -->
-              <div class="flex items-center gap-4 mb-4">
-                <p class="text-sm text-base-content/60">
-                  {{ t('entityCount', { count: paginatedResult().total }) }}
-                </p>
-                @if (isIndexing()) {
-                  <span
-                    class="text-xs text-base-content/40 flex items-center gap-1"
-                  >
-                    <span class="loading loading-spinner loading-xs"></span>
-                    {{ t('indexing') }}
-                  </span>
-                }
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                  <p class="text-sm text-base-content/60 font-medium">
+                    {{ t('entityCount', { count: paginatedResult().total }) }}
+                  </p>
+                  @if (isIndexing()) {
+                    <span
+                      class="text-xs text-base-content/40 flex items-center gap-1.5 bg-base-200 px-2 py-1 rounded-full"
+                    >
+                      <span class="loading loading-spinner loading-xs"></span>
+                      {{ t('indexing') }}
+                    </span>
+                  }
+                </div>
                 @if (hasActiveFilters()) {
-                  <button
-                    class="btn btn-ghost btn-xs gap-1 lg:hidden"
-                    (click)="clearFacetSelections()"
-                  >
-                    <ng-icon name="phX" class="text-sm" />
-                    {{ t('clearFilters') }}
-                  </button>
+                  <span class="badge badge-primary badge-outline badge-sm">
+                    {{ activeFilterCount() }} {{ t('filtersCount', { count: activeFilterCount() }) }}
+                  </span>
                 }
               </div>
 
               <!-- Entity List -->
               @if (paginatedResult().results.length > 0) {
                 <div
-                  class="grid grid-cols-1 md:grid-cols-2 gap-4"
+                  class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch"
                   [class.lg:grid-cols-3]="!selectedType()"
                 >
                   @for (
                     result of paginatedResult().results;
-                    track result.entity.id
+                    track result.entity.id;
+                    let i = $index
                   ) {
                     <app-compendium-entity-card
                       [entity]="result.entity"
                       [typeName]="getTypeName(result.entity.type)"
                       [searchQuery]="searchQuery()"
+                      [animationDelay]="i * 30"
                     />
                   }
                 </div>
@@ -185,11 +240,23 @@ import {
                   (pageChange)="goToPage($event)"
                 />
               } @else {
-                <app-compendium-empty-state
-                  icon="phosphorFileText"
-                  [title]="t('noEntities')"
-                  [description]="t('noEntitiesDescription')"
-                />
+                <!-- Empty State - Different message based on whether filters are active -->
+                @if (hasActiveFilters() || searchQuery().trim()) {
+                  <app-compendium-empty-state
+                    icon="phosphorMagnifyingGlass"
+                    [title]="t('noEntitiesWithFilters')"
+                    [description]="t('noEntitiesWithFiltersDescription')"
+                    [showClearFilters]="hasActiveFilters()"
+                    [clearFiltersLabel]="t('clearAllFilters')"
+                    (clearFiltersClick)="clearFacetSelections()"
+                  />
+                } @else {
+                  <app-compendium-empty-state
+                    icon="phosphorFileText"
+                    [title]="t('noEntities')"
+                    [description]="t('noEntitiesDescription')"
+                  />
+                }
               }
             </div>
           </div>
@@ -314,6 +381,26 @@ export class CompendiumView implements OnInit, OnDestroy {
       Object.keys(sel.strings).length > 0 || Object.keys(sel.numbers).length > 0
     );
   });
+
+  protected readonly activeFilterCount = computed(() => {
+    const sel = this.facetSelections();
+    let count = Object.keys(sel.strings).reduce(
+      (acc, key) => acc + (sel.strings[key]?.length ?? 0),
+      0
+    );
+    count += Object.keys(sel.numbers).reduce((acc, key) => {
+      const numSel = sel.numbers[key];
+      if (!numSel) return acc;
+      let c = 0;
+      if (numSel.min !== undefined) c++;
+      if (numSel.max !== undefined) c++;
+      c += numSel.exact?.length ?? 0;
+      return acc + c;
+    }, 0);
+    return count;
+  });
+
+  protected readonly skeletonCards = Array.from({ length: 6 }, (_, i) => i);
 
   protected readonly sortOption = signal<string>('name:asc');
 
