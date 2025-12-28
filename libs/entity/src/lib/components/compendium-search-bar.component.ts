@@ -6,12 +6,15 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { phosphorMagnifyingGlass } from '@ng-icons/phosphor-icons/regular';
+import {
+  phosphorMagnifyingGlass,
+  phosphorX,
+} from '@ng-icons/phosphor-icons/regular';
 
 @Component({
   selector: 'app-compendium-search-bar',
   imports: [NgIcon, FormsModule],
-  viewProviders: [provideIcons({ phosphorMagnifyingGlass })],
+  viewProviders: [provideIcons({ phosphorMagnifyingGlass, phosphorX })],
   template: `
     <div class="flex flex-col sm:flex-row gap-4 flex-1">
       <!-- Search -->
@@ -23,6 +26,15 @@ import { phosphorMagnifyingGlass } from '@ng-icons/phosphor-icons/regular';
           [placeholder]="searchPlaceholder()"
           [(ngModel)]="searchQuery"
         />
+        @if (searchQuery()) {
+          <button
+            type="button"
+            class="btn btn-ghost btn-xs btn-circle"
+            (click)="clearSearch()"
+          >
+            <ng-icon name="phosphorX" />
+          </button>
+        }
       </label>
 
       <!-- Type Filter -->
@@ -46,4 +58,8 @@ export class CompendiumSearchBarComponent {
 
   readonly searchQuery = model('');
   readonly selectedType = model('');
+
+  protected clearSearch(): void {
+    this.searchQuery.set('');
+  }
 }
