@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/WilliamChelman/sheath/compare/v1.3.3...v1.3.4) (2025-12-28)
+
+
+### Bug Fixes
+
+* better ui on entity search page ([b5f6cd2](https://github.com/WilliamChelman/sheath/commit/b5f6cd2a35a55a273777dccb22944f1d6ed8a16f))
+
 ## [1.3.3](https://github.com/WilliamChelman/sheath/compare/v1.3.2...v1.3.3) (2025-12-28)
 
 
