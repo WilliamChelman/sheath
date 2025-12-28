@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/WilliamChelman/sheath/compare/v1.3.0...v1.3.1) (2025-12-28)
+
+
+### Bug Fixes
+
+* correct path for asset generation ([7bd5017](https://github.com/WilliamChelman/sheath/commit/7bd5017dba48cf5c295b33def453ef1e126162b3))
+
 # [1.3.0](https://github.com/WilliamChelman/sheath/compare/v1.2.1...v1.3.0) (2025-12-28)
 
 
