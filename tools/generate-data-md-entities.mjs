@@ -11,6 +11,8 @@ import {
 } from 'node:fs/promises';
 import path from 'node:path';
 
+const target = process.env.TARGET ?? 'dist/data';
+
 /**
  * @template T
  * @param {string} raw
@@ -109,7 +111,7 @@ function convertKeysToSheath(obj) {
 
 const repoRoot = path.resolve(process.cwd());
 const inputDir = path.join(repoRoot, 'external', 'data-md');
-const outputDir = path.join(repoRoot, 'dist', 'data', 'data-md');
+const outputDir = path.join(repoRoot, target, 'data-md');
 
 const ignoredFiles = [
   'README.md',
