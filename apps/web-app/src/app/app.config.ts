@@ -1,4 +1,5 @@
 import { provideBoardConfig, provideBoardEntityRenderer } from '@/board';
+import { provideCustomErrorHandler } from '@/common/error-handler';
 import { provideDrawSteelConfig } from '@/draw-steel';
 import {
   EntityService,
@@ -19,9 +20,9 @@ import {
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { appRoutes } from './app.routes';
-import { ConfigService } from './services/config.service';
-import { provideNotFound } from './pages/not-found/provide-not-found';
 import { EntityInitializerService } from './pages/compendium/services/entity-initializer.service';
+import { provideNotFound } from './pages/not-found/provide-not-found';
+import { ConfigService } from './services/config.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
+    provideCustomErrorHandler(),
     provideRouter(
       appRoutes,
       withInMemoryScrolling({

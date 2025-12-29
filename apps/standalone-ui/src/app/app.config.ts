@@ -1,4 +1,5 @@
 import { provideBoardConfig, provideBoardEntityRenderer } from '@/board';
+import { provideCustomErrorHandler } from '@/common/error-handler';
 import { provideDrawSteelConfig } from '@/draw-steel';
 import { EntityService, provideEntityConfig } from '@/entity';
 import { I18nService } from '@/i18n';
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
+    provideCustomErrorHandler(),
     provideRouter(
       appRoutes,
       withInMemoryScrolling({
@@ -47,7 +49,9 @@ export const appConfig: ApplicationConfig = {
     provideEntityConfig({
       canActivate: [
         async () => {
-          const entityInitializerService = inject(FolderEntityInitializerService);
+          const entityInitializerService = inject(
+            FolderEntityInitializerService,
+          );
           return entityInitializerService.init();
         },
       ],
