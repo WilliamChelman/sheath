@@ -6,6 +6,7 @@ import {
   provideEntityConfig,
 } from '@/entity';
 import { I18nService } from '@/i18n';
+import { provideTokenCreator } from '@/token-creator';
 import { provideHttpClient } from '@angular/common/http';
 import {
   ApplicationConfig,
@@ -16,6 +17,7 @@ import {
 } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { appRoutes } from './app.routes';
+import { provideNotFound } from './pages/not-found/provide-not-found';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -44,5 +46,7 @@ export const appConfig: ApplicationConfig = {
     provideBoardEntityRenderer(),
     provideDrawSteelConfig(),
     provideEntityConfig(),
+    provideTokenCreator(),
+    provideNotFound(),
   ],
 };

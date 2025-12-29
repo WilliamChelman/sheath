@@ -21,8 +21,8 @@
       "@/draw-steel": ["libs/draw-steel/src/index.ts"],
       "@/entity": ["libs/entity/src/index.ts"],
       "@/i18n": ["libs/i18n/src/index.ts"],
-      "@/ui/*": ["libs/ui/src/*"],
-      "@/web-pages/*": ["apps/web-app/src/app/pages/*"]
+      "@/token-creator": ["libs/token-creator/src/index.ts"],
+      "@/ui/*": ["libs/ui/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

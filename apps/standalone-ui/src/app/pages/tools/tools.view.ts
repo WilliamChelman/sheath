@@ -93,7 +93,7 @@ export class ToolsView {
       icon: '\uD83C\uDFA8',
       titleKey: 'tools.tokenCreator.title',
       descriptionKey: 'tools.tokenCreator.description',
-      link: '/tools/token-creator',
+      link: '/token-creator',
     },
     {
       icon: '\uD83D\uDCD6',

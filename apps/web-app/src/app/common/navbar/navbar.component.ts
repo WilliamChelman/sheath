@@ -158,7 +158,7 @@ export class NavbarComponent {
       labelKey: 'links.tools',
       children: [
         { path: '/compendium', labelKey: 'links.compendium' },
-        { path: '/tools/token-creator', labelKey: 'links.tokenCreator' },
+        { path: '/token-creator', labelKey: 'links.tokenCreator' },
         { path: '/tools', labelKey: 'links.allTools' },
       ],
     },

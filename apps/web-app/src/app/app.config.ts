@@ -6,6 +6,7 @@ import {
   provideEntityConfig,
 } from '@/entity';
 import { I18nService } from '@/i18n';
+import { provideTokenCreator } from '@/token-creator';
 import { provideHttpClient } from '@angular/common/http';
 import {
   ApplicationConfig,
@@ -19,6 +20,7 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { appRoutes } from './app.routes';
 import { ConfigService } from './services/config.service';
+import { provideNotFound } from './pages/not-found/provide-not-found';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -56,5 +58,8 @@ export const appConfig: ApplicationConfig = {
     provideBoardEntityRenderer(),
     provideDrawSteelConfig(),
     provideEntityConfig(),
+    provideTokenCreator(),
+    // need to always be last since it is matching **
+    provideNotFound(),
   ],
 };

@@ -1,15 +1,15 @@
 import { FlattenKeys, I18nService } from '@/i18n';
-import { Component, computed, effect, inject, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  phosphorHouse,
   phosphorBook,
-  phosphorPaintBrush,
-  phosphorToolbox,
-  phosphorInfo,
   phosphorCaretDoubleLeft,
   phosphorCaretDoubleRight,
+  phosphorHouse,
+  phosphorInfo,
+  phosphorPaintBrush,
+  phosphorToolbox,
 } from '@ng-icons/phosphor-icons/regular';
 import { sidebarBundle } from './sidebar.i18n';
 
@@ -24,7 +24,7 @@ const NAV_LINKS: readonly NavLink[] = [
   { path: '/', labelKey: 'links.home', icon: 'phosphorHouse', exact: true },
   { path: '/compendium', labelKey: 'links.compendium', icon: 'phosphorBook' },
   {
-    path: '/tools/token-creator',
+    path: '/token-creator',
     labelKey: 'links.tokenCreator',
     icon: 'phosphorPaintBrush',
   },
@@ -74,7 +74,11 @@ const NAV_LINKS: readonly NavLink[] = [
           (click)="toggle.emit()"
         >
           <ng-icon
-            [name]="collapsed() ? 'phosphorCaretDoubleRight' : 'phosphorCaretDoubleLeft'"
+            [name]="
+              collapsed()
+                ? 'phosphorCaretDoubleRight'
+                : 'phosphorCaretDoubleLeft'
+            "
             class="text-lg"
           />
         </button>

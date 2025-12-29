@@ -118,7 +118,7 @@ export class ToolsView {
       icon: '🎨',
       titleKey: 'tools.tokenCreator.title',
       descriptionKey: 'tools.tokenCreator.description',
-      link: '/tools/token-creator',
+      link: '/token-creator',
     },
     {
       icon: '📖',
@@ -127,5 +127,4 @@ export class ToolsView {
       link: '/compendium',
     },
   ];
-
 }

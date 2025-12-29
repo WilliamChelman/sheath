@@ -57,7 +57,7 @@ import { homeBundle } from './home.i18n';
           </a>
 
           <a
-            routerLink="/tools/token-creator"
+            routerLink="/token-creator"
             class="card bg-base-200 hover:bg-base-300 transition-colors cursor-pointer"
           >
             <div class="card-body">
