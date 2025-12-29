@@ -16,11 +16,4 @@ export const appRoutes: Route[] = [
     loadComponent: () =>
       import('./pages/tools/tools.view').then((m) => m.ToolsView),
   },
-  {
-    path: 'compendium',
-    loadChildren: () =>
-      import('./pages/compendium/compendium.routes').then(
-        (m) => m.compendiumV2Routes,
-      ),
-  },
 ];

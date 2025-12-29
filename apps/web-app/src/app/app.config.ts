@@ -21,6 +21,7 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { appRoutes } from './app.routes';
 import { ConfigService } from './services/config.service';
 import { provideNotFound } from './pages/not-found/provide-not-found';
+import { EntityInitializerService } from './pages/compendium/services/entity-initializer.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -57,7 +58,15 @@ export const appConfig: ApplicationConfig = {
     provideBoardConfig(),
     provideBoardEntityRenderer(),
     provideDrawSteelConfig(),
-    provideEntityConfig(),
+    provideEntityConfig({
+      canActivate: [
+        async () => {
+          const entityInitializerService = inject(EntityInitializerService);
+          await entityInitializerService.init();
+          return true;
+        },
+      ],
+    }),
     provideTokenCreator(),
     // need to always be last since it is matching **
     provideNotFound(),

@@ -18,6 +18,7 @@ import {
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideNotFound } from './pages/not-found/provide-not-found';
+import { EntityInitializerService } from './pages/compendium/services/entity-initializer.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -45,7 +46,15 @@ export const appConfig: ApplicationConfig = {
     provideBoardConfig(),
     provideBoardEntityRenderer(),
     provideDrawSteelConfig(),
-    provideEntityConfig(),
+    provideEntityConfig({
+      canActivate: [
+        async () => {
+          const entityInitializerService = inject(EntityInitializerService);
+          await entityInitializerService.init();
+          return true;
+        },
+      ],
+    }),
     provideTokenCreator(),
     provideNotFound(),
   ],
