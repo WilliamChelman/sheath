@@ -1,10 +1,6 @@
 import { provideBoardConfig, provideBoardEntityRenderer } from '@/board';
 import { provideDrawSteelConfig } from '@/draw-steel';
-import {
-  EntityService,
-  IndexedDbEntityService,
-  provideEntityConfig,
-} from '@/entity';
+import { EntityService, provideEntityConfig } from '@/entity';
 import { I18nService } from '@/i18n';
 import { provideTokenCreator } from '@/token-creator';
 import { provideHttpClient } from '@angular/common/http';
@@ -17,8 +13,9 @@ import {
 } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { appRoutes } from './app.routes';
-import { EntityInitializerService } from './pages/compendium/services/entity-initializer.service';
 import { provideNotFound } from './pages/not-found/provide-not-found';
+import { FolderEntityInitializerService } from './services/folder-entity-initializer.service';
+import { FolderEntityService } from './services/folder-entity.service';
 import { TauriFileDownloader } from './services/tauri-file-downloader';
 
 export const appConfig: ApplicationConfig = {
@@ -42,7 +39,7 @@ export const appConfig: ApplicationConfig = {
     }),
     {
       provide: EntityService,
-      useExisting: IndexedDbEntityService,
+      useExisting: FolderEntityService,
     },
     provideBoardConfig(),
     provideBoardEntityRenderer(),
@@ -50,9 +47,8 @@ export const appConfig: ApplicationConfig = {
     provideEntityConfig({
       canActivate: [
         async () => {
-          const entityInitializerService = inject(EntityInitializerService);
-          await entityInitializerService.init();
-          return true;
+          const entityInitializerService = inject(FolderEntityInitializerService);
+          return entityInitializerService.init();
         },
       ],
     }),

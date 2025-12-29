@@ -2,6 +2,13 @@ import { Route } from '@angular/router';
 
 export const appRoutes: Route[] = [
   {
+    path: 'select-folder',
+    loadComponent: () =>
+      import('./pages/folder-selection/folder-selection.view').then(
+        (m) => m.FolderSelectionView,
+      ),
+  },
+  {
     path: '',
     loadComponent: () =>
       import('./pages/home/home.view').then((m) => m.HomeView),

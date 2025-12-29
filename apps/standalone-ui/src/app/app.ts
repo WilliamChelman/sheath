@@ -2,6 +2,7 @@ import { ToastContainerComponent } from '@/ui/toast';
 import { TourOverlayComponent } from '@/ui/tour';
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { FolderSettingsComponent } from './common/folder-settings/folder-settings.component';
 import { LanguageSwitcherComponent } from './common/language-switcher/language-switcher.component';
 import { SidebarComponent } from './common/sidebar/sidebar.component';
 import { ThemeSwitchComponent } from './common/theme-switch/theme-switch.component';
@@ -33,11 +34,13 @@ function persistCollapsedState(collapsed: boolean): void {
     ThemeSwitchComponent,
     LanguageSwitcherComponent,
     ToastContainerComponent,
+    FolderSettingsComponent,
   ],
   selector: 'app-root',
   template: `
     <div class="flex h-screen bg-base-100 overflow-hidden">
       <app-sidebar [collapsed]="sidebarCollapsed()" (toggle)="toggleSidebar()">
+        <app-folder-settings [collapsed]="sidebarCollapsed()" />
         <div
           class="flex items-center gap-1"
           [class.justify-center]="sidebarCollapsed()"
