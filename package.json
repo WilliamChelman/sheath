@@ -5,7 +5,7 @@
   "scripts": {
     "start:web-app": "npx nx serve web-app",
     "start:standalone": "cd apps/standalone && cargo tauri dev",
-    "start:standalone-ui": "npx nx serve standalone-ui",
+    "start:standalone-ui": "npx nx serve standalone-ui --port=4201",
     "build:webapp": "npx nx build web-app --configuration=production",
     "build:standalone": "cd apps/standalone && cargo tauri build",
     "build:standalone-ui": "npx nx build standalone-ui --configuration=production",
@@ -36,6 +36,8 @@
     "@ng-icons/heroicons": "^32.0.0",
     "@ng-icons/phosphor-icons": "^32.0.0",
     "@tailwindcss/postcss": "^4.1.18",
+    "@tauri-apps/plugin-dialog": "^2.4.2",
+    "@tauri-apps/plugin-fs": "^2.4.4",
     "@types/mark.js": "^8.11.12",
     "dexie": "^4.2.1",
     "flexsearch": "^0.8.212",

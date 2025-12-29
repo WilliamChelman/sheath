@@ -17,8 +17,9 @@ import {
 } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { appRoutes } from './app.routes';
-import { provideNotFound } from './pages/not-found/provide-not-found';
 import { EntityInitializerService } from './pages/compendium/services/entity-initializer.service';
+import { provideNotFound } from './pages/not-found/provide-not-found';
+import { TauriFileDownloader } from './services/tauri-file-downloader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -55,7 +56,7 @@ export const appConfig: ApplicationConfig = {
         },
       ],
     }),
-    provideTokenCreator(),
+    provideTokenCreator({ fileDownloader: TauriFileDownloader }),
     provideNotFound(),
   ],
 };

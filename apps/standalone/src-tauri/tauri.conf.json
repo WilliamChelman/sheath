@@ -5,7 +5,7 @@
   "identifier": "be.chelm.sheath.standalone",
   "build": {
     "frontendDist": "../../../dist/apps/standalone-ui/browser",
-    "devUrl": "http://localhost:4200"
+    "devUrl": "http://localhost:4201"
   },
   "app": {
     "windows": [

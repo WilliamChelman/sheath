@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   BatchToken,
   EXPORT_FORMATS,
@@ -6,9 +6,11 @@ import {
   TOKEN_SIZE_PX,
   TokenConfig,
 } from '../models/token.model';
+import { FileDownloader } from './file-downloader';
 
 @Injectable({ providedIn: 'root' })
 export class TokenExportService {
+  private readonly fileDownloader = inject(FileDownloader);
   async exportToken(
     svgElement: SVGSVGElement,
     config: TokenConfig,
@@ -65,7 +67,7 @@ export class TokenExportService {
     // Generate and download ZIP
     const zipBlob = await zip.generateAsync({ type: 'blob' });
     const timestamp = new Date().toISOString().slice(0, 10);
-    this.triggerDownload(zipBlob, `tokens-${timestamp}.zip`);
+    await this.fileDownloader.download(zipBlob, `tokens-${timestamp}.zip`);
   }
 
   private async getBlob(
@@ -137,11 +139,14 @@ export class TokenExportService {
     return `token-${sanitizedName || 'token'}.${format}`;
   }
 
-  private downloadSvg(svgElement: SVGSVGElement, filename: string): void {
+  private async downloadSvg(
+    svgElement: SVGSVGElement,
+    filename: string,
+  ): Promise<void> {
     const serializer = new XMLSerializer();
     const svgString = serializer.serializeToString(svgElement);
     const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-    this.triggerDownload(blob, filename);
+    await this.fileDownloader.download(blob, filename);
   }
 
   private async downloadRaster(
@@ -178,15 +183,21 @@ export class TokenExportService {
       EXPORT_FORMATS.find((f) => f.value === format)?.mimeType || 'image/png';
     const quality = format === 'jpg' ? 0.92 : undefined;
 
-    canvas.toBlob(
-      (blob) => {
-        if (blob) {
-          this.triggerDownload(blob, filename);
-        }
-      },
-      mimeType,
-      quality,
-    );
+    const blob = await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error('Failed to create blob'));
+          }
+        },
+        mimeType,
+        quality,
+      );
+    });
+
+    await this.fileDownloader.download(blob, filename);
   }
 
   private prepareSvgForExport(svgElement: SVGSVGElement, size: number): string {
@@ -206,16 +217,5 @@ export class TokenExportService {
       img.onerror = reject;
       img.src = src;
     });
-  }
-
-  private triggerDownload(blob: Blob, filename: string): void {
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
   }
 }
