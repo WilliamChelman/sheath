@@ -1,13 +1,13 @@
+import { TourOverlayComponent } from '@/ui/tour';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [RouterOutlet, TourOverlayComponent],
   selector: 'app-root',
-  templateUrl: './app.html',
-  styleUrl: './app.css',
+  template: `
+    <router-outlet />
+    <app-tour-overlay />
+  `,
 })
-export class App {
-  protected title = 'standalone-ui';
-}
+export class App {}

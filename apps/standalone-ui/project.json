@@ -12,15 +12,24 @@
       "options": {
         "outputPath": "dist/apps/standalone-ui",
         "browser": "apps/standalone-ui/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [],
         "tsConfig": "apps/standalone-ui/tsconfig.app.json",
         "assets": [
           {
             "glob": "**/*",
             "input": "apps/standalone-ui/public"
+          },
+          {
+            "glob": "data-md.json",
+            "input": "dist/data",
+            "output": "/data/"
           }
         ],
-        "styles": ["apps/standalone-ui/src/styles.css"]
+        "styles": [
+          "libs/ui/src/tailwind.css",
+          "libs/ui/src/markdown.css",
+          "apps/standalone-ui/src/styles.css"
+        ]
       },
       "configurations": {
         "production": {
@@ -28,12 +37,12 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "2mb"
             },
             {
               "type": "anyComponentStyle",
               "maximumWarning": "4kb",
-              "maximumError": "8kb"
+              "maximumError": "24kb"
             }
           ],
           "outputHashing": "all"
@@ -67,6 +76,13 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../coverage/apps/standalone-ui"
+      }
     },
     "serve-static": {
       "continuous": true,

@@ -32,7 +32,11 @@
             "output": "/data/"
           }
         ],
-        "styles": ["apps/web-app/src/styles.css", "libs/ui/src/tailwind.css"]
+        "styles": [
+          "apps/web-app/src/styles.css",
+          "libs/ui/src/tailwind.css",
+          "libs/ui/src/markdown.css"
+        ]
       },
       "configurations": {
         "production": {

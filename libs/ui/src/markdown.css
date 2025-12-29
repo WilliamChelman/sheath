@@ -10,6 +10,7 @@
 /* =============================================================================
    Stat Block Tables
    ============================================================================= */
+@reference './tailwind.css';
 
 .markdown-content .stat-block-table {
   @apply border border-base-300 rounded-lg overflow-hidden shadow-sm;

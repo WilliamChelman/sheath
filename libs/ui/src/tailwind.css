@@ -1,8 +1,5 @@
 @import 'tailwindcss';
 @plugin "daisyui";
-/* @source "../../../libs"; */
-
-@import './markdown.css';
 
 @theme {
   --color-primary: oklch(0.65 0.241 354.308);
