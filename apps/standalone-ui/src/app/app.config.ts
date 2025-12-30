@@ -18,6 +18,7 @@ import { provideNotFound } from './pages/not-found/provide-not-found';
 import { FolderEntityInitializerService } from './services/folder-entity-initializer.service';
 import { FolderEntityService } from './services/folder-entity.service';
 import { TauriFileDownloader } from './services/tauri-file-downloader';
+import { provideWindowManager } from './services/window-manager.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -57,6 +58,7 @@ export const appConfig: ApplicationConfig = {
       ],
     }),
     provideTokenCreator({ fileDownloader: TauriFileDownloader }),
+    provideWindowManager(),
     provideNotFound(),
   ],
 };
