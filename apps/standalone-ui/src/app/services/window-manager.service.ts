@@ -19,6 +19,14 @@ export class WindowManagerService {
         this.openInNewWindow(url);
       }
     });
+
+    // listen to cmd+n events on links and open in new window
+    document.addEventListener('keydown', (event) => {
+      if (event.metaKey && event.key === 'n') {
+        event.preventDefault();
+        this.openInNewWindow('/');
+      }
+    });
   }
 
   openInNewWindow(url: string): void {
