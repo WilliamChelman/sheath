@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { FolderSettingsService } from './folder-settings.service';
-import { FolderEntityService } from './folder-entity.service';
+import { FolderEntityService, FolderSettingsService } from '@/standalone-api';
 
 @Injectable({ providedIn: 'root' })
 export class FolderEntityInitializerService {

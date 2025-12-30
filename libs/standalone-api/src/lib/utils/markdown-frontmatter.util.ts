@@ -3,18 +3,6 @@ import { dump as stringifyYaml, load as parseYaml } from 'js-yaml';
 
 const FRONTMATTER_REGEX = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/;
 
-const STANDARD_ENTITY_KEYS = new Set([
-  'id',
-  'type',
-  'name',
-  'spaceId',
-  'description',
-  'image',
-  'tags',
-  'createdAt',
-  'updatedAt',
-]);
-
 export interface ParsedFrontmatter<T = Record<string, unknown>> {
   data: T;
   content: string;

@@ -15,13 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@/audio": ["libs/audio/src/index.ts"],
       "@/board": ["libs/board/src/index.ts"],
       "@/command-palette": ["libs/command-palette/src/index.ts"],
       "@/common/*": ["libs/common/src/*"],
-
       "@/draw-steel": ["libs/draw-steel/src/index.ts"],
       "@/entity": ["libs/entity/src/index.ts"],
       "@/i18n": ["libs/i18n/src/index.ts"],
+      "@/standalone-api": ["libs/standalone-api/src/index.ts"],
       "@/token-creator": ["libs/token-creator/src/index.ts"],
       "@/ui/*": ["libs/ui/src/*"]
     }

@@ -1,10 +1,10 @@
-import { Injectable, inject } from '@angular/core';
-import { Entity } from '@/entity';
 import {
+  Entity,
   EntityCreationOptions,
   EntityInput,
   EntityService,
 } from '@/entity';
+import { inject, Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   from,
@@ -12,11 +12,9 @@ import {
   Observable,
   of,
   shareReplay,
-  switchMap,
   tap,
   throwError,
 } from 'rxjs';
-import { TauriFsService } from './tauri-fs.service';
 import { FolderSettingsService } from './folder-settings.service';
 import {
   entityToFrontmatter,
@@ -25,7 +23,8 @@ import {
   parseFrontmatter,
   toKebabCase,
   toMarkdown,
-} from './markdown-frontmatter.util';
+} from '../utils/markdown-frontmatter.util';
+import { TauriFsService } from './tauri-fs.service';
 
 @Injectable({ providedIn: 'root' })
 export class FolderEntityService implements EntityService {
@@ -124,6 +123,9 @@ export class FolderEntityService implements EntityService {
     const now = new Date().toISOString();
     const inputs = Array.isArray(data) ? data : [data];
 
+    // Extract path hints before creating entities
+    const pathHints = new Map<string, string>();
+
     const entities = inputs.map((input) => {
       const id =
         input.id ??
@@ -131,8 +133,20 @@ export class FolderEntityService implements EntityService {
           input.type ?? 'sheath.core.unknown',
           input.name ?? 'unnamed',
         );
+
+      // Store path hint if provided (used for audio companion files)
+      const inputWithHint = input as EntityInput & { _pathHint?: string };
+      if (inputWithHint._pathHint) {
+        pathHints.set(id, inputWithHint._pathHint);
+      }
+
+      // Remove _pathHint from the entity data
+      const { _pathHint, ...rest } = inputWithHint as EntityInput & {
+        _pathHint?: string;
+      };
+
       return {
-        ...input,
+        ...rest,
         id,
         type: input.type ?? 'sheath.core.unknown',
         name: input.name ?? 'Unnamed',
@@ -141,7 +155,9 @@ export class FolderEntityService implements EntityService {
       } as Entity;
     });
 
-    return from(this.writeEntities(entities, options?.force ?? false)).pipe(
+    return from(
+      this.writeEntities(entities, options?.force ?? false, pathHints),
+    ).pipe(
       map(() => entities),
       tap(() => {
         const currentMap = this._entities$.getValue();
@@ -188,7 +204,9 @@ export class FolderEntityService implements EntityService {
 
     const filePath = this._filePathMap.get(id);
     if (!filePath) {
-      return throwError(() => new Error(`File path not found for entity ${id}`));
+      return throwError(
+        () => new Error(`File path not found for entity ${id}`),
+      );
     }
 
     return from(this.tauriFsService.remove(filePath)).pipe(
@@ -216,34 +234,53 @@ export class FolderEntityService implements EntityService {
   }
 
   /**
+   * Get the file path for an entity by its ID.
+   * Returns undefined if the entity is not found.
+   */
+  getFilePath(entityId: string): string | undefined {
+    return this._filePathMap.get(entityId);
+  }
+
+  /**
+   * Get the directory containing an entity's file.
+   */
+  getEntityDirectory(entityId: string): string | undefined {
+    const filePath = this._filePathMap.get(entityId);
+    if (!filePath) return undefined;
+    return this.tauriFsService.dirname(filePath);
+  }
+
+  /**
    * Write multiple entities to disk
    */
   private async writeEntities(
     entities: Entity[],
     force: boolean,
+    pathHints?: Map<string, string>,
   ): Promise<void> {
     for (const entity of entities) {
       const existingPath = this._filePathMap.get(entity.id);
       if (existingPath && !force) {
         throw new Error(`Entity with id ${entity.id} already exists`);
       }
-      await this.writeEntity(entity);
+      const pathHint = pathHints?.get(entity.id);
+      await this.writeEntity(entity, pathHint);
     }
   }
 
   /**
    * Write a single entity to disk
    */
-  private async writeEntity(entity: Entity): Promise<void> {
+  private async writeEntity(entity: Entity, pathHint?: string): Promise<void> {
     const folderPath = this.folderSettings.folderPath();
     if (!folderPath) {
       throw new Error('No folder path configured');
     }
 
-    // Get existing path or generate new one
+    // Get existing path, use path hint, or generate new one
     let filePath = this._filePathMap.get(entity.id);
     if (!filePath) {
-      filePath = this.generateFilePath(entity);
+      filePath = pathHint ?? this.generateFilePath(entity);
     }
 
     // Ensure directory exists

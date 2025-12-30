@@ -5,7 +5,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroFolderOpen, heroArrowRight } from '@ng-icons/heroicons/outline';
-import { FolderSettingsService } from '../../services/folder-settings.service';
+import { FolderSettingsService } from '@/standalone-api';
 import { folderSelectionBundle } from './folder-selection.i18n';
 
 @Component({

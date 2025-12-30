@@ -2,8 +2,11 @@ import { I18nService } from '@/i18n';
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { phosphorFolder, phosphorFolderOpen } from '@ng-icons/phosphor-icons/regular';
-import { FolderSettingsService } from '../../services/folder-settings.service';
+import {
+  phosphorFolder,
+  phosphorFolderOpen,
+} from '@ng-icons/phosphor-icons/regular';
+import { FolderSettingsService } from '@/standalone-api';
 import { FolderEntityInitializerService } from '../../services/folder-entity-initializer.service';
 import { folderSettingsBundle } from './folder-settings.i18n';
 
